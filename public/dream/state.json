@@ -1,49 +1,49 @@
 {
- "updatedAt": "2026-10-16T23:44:26.336Z",
- "closedThrough": "2026-10-16",
- "valueUsd": 9998.01,
+ "updatedAt": "2026-10-20T00:28:36.364Z",
+ "closedThrough": "2026-10-19",
+ "valueUsd": 10007.61,
  "cashUsd": 3689.89,
- "returnPct": -0.02,
- "spyReturnPct": -0.825,
- "leadPct": 0.805,
- "themeReturnPct": -0.576,
+ "returnPct": 0.076,
+ "spyReturnPct": -0.405,
+ "leadPct": 0.482,
+ "themeReturnPct": -0.457,
  "dividendsUsd": 0,
  "holdings": [
   {
    "ticker": "TOST",
    "units": 67.001674,
    "avgCostUsd": 29.85,
-   "priceUsd": 31.62,
-   "valueUsd": 2118.59,
-   "unrealizedPct": 5.93,
-   "weightPct": 21.19
+   "priceUsd": 31.45,
+   "valueUsd": 2107.2,
+   "unrealizedPct": 5.36,
+   "weightPct": 21.06
   },
   {
    "ticker": "TSM",
    "units": 4.847192,
    "avgCostUsd": 412.61,
-   "priceUsd": 412.61,
-   "valueUsd": 2000,
-   "unrealizedPct": 0,
-   "weightPct": 20
+   "priceUsd": 420.22,
+   "valueUsd": 2036.89,
+   "unrealizedPct": 1.84,
+   "weightPct": 20.35
   },
   {
    "ticker": "VST",
    "units": 9.882074,
    "avgCostUsd": 151.79,
-   "priceUsd": 152.02,
-   "valueUsd": 1502.27,
-   "unrealizedPct": 0.15,
-   "weightPct": 15.03
+   "priceUsd": 149.7,
+   "valueUsd": 1479.35,
+   "unrealizedPct": -1.38,
+   "weightPct": 14.78
   },
   {
    "ticker": "RKLB",
    "units": 13.51808,
    "avgCostUsd": 59.18,
-   "priceUsd": 50.84,
-   "valueUsd": 687.26,
-   "unrealizedPct": -14.09,
-   "weightPct": 6.87
+   "priceUsd": 51.36,
+   "valueUsd": 694.29,
+   "unrealizedPct": -13.21,
+   "weightPct": 6.94
   }
  ],
  "orders": [
@@ -114,6 +114,46 @@
    "slipPct": -7.14,
    "units": 4.847192,
    "cashUsd": -2003.21
+  },
+  {
+   "id": "2026-10-19-1",
+   "session": "2026-10-20",
+   "effectiveSession": "2026-10-20",
+   "postedAt": "2026-10-19T11:41:16.000Z",
+   "ticker": "RKLB",
+   "side": "sell",
+   "fraction": 1,
+   "status": "pending"
+  },
+  {
+   "id": "2026-10-19-2",
+   "session": "2026-10-20",
+   "effectiveSession": "2026-10-20",
+   "postedAt": "2026-10-19T11:41:16.000Z",
+   "ticker": "TOST",
+   "side": "sell",
+   "fraction": 0.2,
+   "status": "pending"
+  },
+  {
+   "id": "2026-10-19-3",
+   "session": "2026-10-20",
+   "effectiveSession": "2026-10-20",
+   "postedAt": "2026-10-19T11:41:16.000Z",
+   "ticker": "VST",
+   "side": "buy",
+   "usd": 250,
+   "status": "pending"
+  },
+  {
+   "id": "2026-10-19-4",
+   "session": "2026-10-23",
+   "effectiveSession": "2026-10-23",
+   "postedAt": "2026-10-19T11:41:16.000Z",
+   "ticker": "VST",
+   "side": "buy",
+   "usd": 250,
+   "status": "pending"
   }
  ],
  "missing": [],
@@ -141,6 +181,12 @@
    "valueUsd": 9998.01,
    "spyUsd": 9917.49,
    "themesUsd": 9942.38
+  },
+  {
+   "date": "2026-10-20",
+   "valueUsd": 10007.61,
+   "spyUsd": 9959.46,
+   "themesUsd": 9954.27
   }
  ],
  "priceChecks": [],
