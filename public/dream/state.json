@@ -1,40 +1,40 @@
 {
- "updatedAt": "2026-10-20T23:59:19.129Z",
- "closedThrough": "2026-10-20",
- "valueUsd": 10109.27,
+ "updatedAt": "2026-10-22T00:04:23.554Z",
+ "closedThrough": "2026-10-21",
+ "valueUsd": 10203.58,
  "cashUsd": 4563.27,
- "returnPct": 1.093,
- "spyReturnPct": -0.071,
- "leadPct": 1.164,
- "themeReturnPct": 0.13,
+ "returnPct": 2.036,
+ "spyReturnPct": 0.453,
+ "leadPct": 1.582,
+ "themeReturnPct": 1.236,
  "dividendsUsd": 0,
  "holdings": [
   {
    "ticker": "TSM",
    "units": 4.847192,
    "avgCostUsd": 412.61,
-   "priceUsd": 425.08,
-   "valueUsd": 2060.44,
-   "unrealizedPct": 3.02,
-   "weightPct": 20.38
-  },
-  {
-   "ticker": "TOST",
-   "units": 53.601339,
-   "avgCostUsd": 29.85,
-   "priceUsd": 32.65,
-   "valueUsd": 1750.08,
-   "unrealizedPct": 9.38,
-   "weightPct": 17.31
+   "priceUsd": 431.89,
+   "valueUsd": 2093.45,
+   "unrealizedPct": 4.67,
+   "weightPct": 20.52
   },
   {
    "ticker": "VST",
    "units": 11.545193,
    "avgCostUsd": 151.5782,
-   "priceUsd": 150.32,
-   "valueUsd": 1735.47,
-   "unrealizedPct": -0.83,
-   "weightPct": 17.17
+   "priceUsd": 156.14,
+   "valueUsd": 1802.67,
+   "unrealizedPct": 3.01,
+   "weightPct": 17.67
+  },
+  {
+   "ticker": "TOST",
+   "units": 53.601339,
+   "avgCostUsd": 29.85,
+   "priceUsd": 32.54,
+   "valueUsd": 1744.19,
+   "unrealizedPct": 9.01,
+   "weightPct": 17.09
   }
  ],
  "orders": [
@@ -205,6 +205,12 @@
    "valueUsd": 10109.27,
    "spyUsd": 9992.85,
    "themesUsd": 10013.03
+  },
+  {
+   "date": "2026-10-22",
+   "valueUsd": 10203.58,
+   "spyUsd": 10045.35,
+   "themesUsd": 10123.61
   }
  ],
  "priceChecks": [],
