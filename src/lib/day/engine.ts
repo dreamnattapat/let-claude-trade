@@ -80,8 +80,10 @@ export type PlanOutcome = {
   entry?: { time: string; price: number }
   stop?: number
   exit?: { time: string; price: number }
-  /** Reward:risk at entry, and the result in R (before commission). */
+  /** Reward:risk at entry after commission both ways (what the 1:2 rule checks), and before it. */
   rr?: number
+  grossRr?: number
+  /** The result in R after commission: (exit − entry − commission) ÷ (entry − stop). */
   r?: number
   /** Best and worst the trade got, in R. */
   mfeR?: number
@@ -91,6 +93,22 @@ export type PlanOutcome = {
 }
 
 const end = (b: Bar) => minutesOf(b.time) + 5
+
+/** Reward:risk after commission on the way in and out: (target − entry − fees if it wins) ÷ (entry − stop + fees if it loses). */
+export function netRr(
+  entry: number,
+  stop: number,
+  target: number,
+  commissionPct: number = RULES.commissionPct,
+): number {
+  const f = commissionPct / 100
+  return (target - entry - (entry + target) * f) / (entry - stop + (entry + stop) * f)
+}
+
+/** A result in R after commission both ways, R being the distance to the stop. */
+function netR(entry: number, exit: number, risk: number, fee: number): number {
+  return (exit - entry - (entry + exit) * fee) / risk
+}
 
 /**
  * Plays one plan through one session's regular-hours 5-minute bars.
@@ -200,7 +218,10 @@ export function playPlan(plan: DayPlan, bars: Bar[], { notBefore = 0, final = tr
       closeVsLevelPct,
     }
   const risk = entry - stop
-  const rr = (plan.target - entry) / risk
+  // Reward:risk after Dime!'s commission both ways: it shrinks the win and adds to the loss.
+  const fee = RULES.commissionPct / 100
+  const grossRr = (plan.target - entry) / risk
+  const rr = netRr(entry, stop, plan.target)
   if (!(rr >= RULES.minRr - 1e-9))
     return {
       ...base,
@@ -209,7 +230,8 @@ export function playPlan(plan: DayPlan, bars: Bar[], { notBefore = 0, final = tr
       confirmedAt,
       stop,
       rr,
-      note: `มีสัญญาณตอน ${confirmedAt} แต่ถ้าเข้าที่ ${entry.toFixed(2)} คุ้มเสี่ยงแค่ 1:${Math.max(rr, 0).toFixed(1)} จึงไม่เข้า`,
+      grossRr,
+      note: `มีสัญญาณตอน ${confirmedAt} แต่ถ้าเข้าที่ ${entry.toFixed(2)} คุ้มเสี่ยงหลังหักค่าคอมแค่ 1:${Math.max(rr, 0).toFixed(1)} (ก่อนหัก 1:${Math.max(grossRr, 0).toFixed(1)}) จึงไม่เข้า`,
       closeVsLevelPct,
     }
 
@@ -219,7 +241,7 @@ export function playPlan(plan: DayPlan, bars: Bar[], { notBefore = 0, final = tr
     const b = bars[j]
     mfe = Math.max(mfe, (b.h - entry) / risk)
     mae = Math.min(mae, (b.l - entry) / risk)
-    const trade = { touchedAt, confirmedAt, entry: { time: next.time, price: entry }, stop, rr }
+    const trade = { touchedAt, confirmedAt, entry: { time: next.time, price: entry }, stop, rr, grossRr }
     if (b.l <= stop) {
       const price = Math.min(b.o, stop) // a gap below the stop fills at the open
       return {
@@ -227,7 +249,7 @@ export function playPlan(plan: DayPlan, bars: Bar[], { notBefore = 0, final = tr
         status: 'loss',
         ...trade,
         exit: { time: b.time, price },
-        r: (price - entry) / risk,
+        r: netR(entry, price, risk, fee),
         mfeR: mfe,
         maeR: mae,
         note: `เข้า ${next.time} ชน stop ${b.time}`,
@@ -241,7 +263,7 @@ export function playPlan(plan: DayPlan, bars: Bar[], { notBefore = 0, final = tr
         status: 'win',
         ...trade,
         exit: { time: b.time, price },
-        r: (price - entry) / risk,
+        r: netR(entry, price, risk, fee),
         mfeR: mfe,
         maeR: mae,
         note: `เข้า ${next.time} ชนเป้า ${b.time}`,
@@ -254,7 +276,7 @@ export function playPlan(plan: DayPlan, bars: Bar[], { notBefore = 0, final = tr
         status: 'time-exit',
         ...trade,
         exit: { time: b.time, price: b.c },
-        r: (b.c - entry) / risk,
+        r: netR(entry, b.c, risk, fee),
         mfeR: mfe,
         maeR: mae,
         note: `เข้า ${next.time} ไม่ชนทั้งเป้าและ stop ขายตอนตลาดปิด`,
@@ -271,7 +293,7 @@ export function playPlan(plan: DayPlan, bars: Bar[], { notBefore = 0, final = tr
     entry: { time: next.time, price: entry },
     stop,
     rr,
-    ...(final ? { exit: { time: last.time, price: last.c }, r: (last.c - entry) / risk } : {}),
+    ...(final ? { exit: { time: last.time, price: last.c }, r: netR(entry, last.c, risk, fee) } : {}),
     mfeR: mfe,
     maeR: mae,
     note: final
@@ -292,7 +314,9 @@ export type DayTrade = {
   units: number
   stop: number
   r: number
+  /** After commission; and the commission paid, both ways. */
   pnlUsd: number
+  commissionUsd?: number
   /** Taken or not: skipped when the day's loss limit was already hit. */
   taken: boolean
   note?: string
@@ -336,15 +360,23 @@ export function runAccount(days: { date: string; plans: DayPlan[]; outcomes: Pla
         r: o.r!,
       }
       if (-lostSoFar >= (start * RULES.dailyLossPct) / 100) {
-        trades.push({ ...base, units: 0, pnlUsd: 0, taken: false, note: 'วันนี้ขาดทุนถึง 2% แล้ว หยุดเทรด' })
+        trades.push({
+          ...base,
+          units: 0,
+          pnlUsd: 0,
+          commissionUsd: 0,
+          taken: false,
+          note: 'วันนี้ขาดทุนถึง 2% แล้ว หยุดเทรด',
+        })
         continue
       }
       const units = Math.min(
         (start * RULES.riskPct) / 100 / (o.entry!.price - o.stop!),
         (start * RULES.maxPositionPct) / 100 / o.entry!.price,
       )
-      const pnlUsd = units * (o.exit!.price - o.entry!.price) - units * (o.entry!.price + o.exit!.price) * fee
-      const trade = { ...base, units, pnlUsd, taken: true }
+      const commissionUsd = units * (o.entry!.price + o.exit!.price) * fee
+      const pnlUsd = units * (o.exit!.price - o.entry!.price) - commissionUsd
+      const trade = { ...base, units, pnlUsd, commissionUsd, taken: true }
       closed.push(trade)
       trades.push(trade)
       cash += pnlUsd
@@ -366,5 +398,6 @@ export function dayStats(trades: DayTrade[]) {
     avgR: taken.length ? sumR / taken.length : null,
     totalR: sumR,
     pnlUsd: taken.reduce((s, t) => s + t.pnlUsd, 0),
+    commissionUsd: taken.reduce((s, t) => s + (t.commissionUsd ?? 0), 0),
   }
 }

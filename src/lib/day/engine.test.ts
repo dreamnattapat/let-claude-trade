@@ -39,16 +39,31 @@ describe('playPlan', () => {
       [100.4, 100.4, 99.6, 99.7, 1500], // 9:50 looks below
       [99.7, 100.6, 99.5, 100.5, 4000], // 9:55 closes back above, green, heavy volume: confirmation
       [100.5, 101, 100.4, 100.9, 2000], // 10:00 entry at the open 100.5
-      [100.9, 103.2, 100.8, 103, 2000], // 10:05 hits the target
-      ...flat(10, 103),
+      [100.9, 104.2, 100.8, 104, 2000], // 10:05 hits the target
+      ...flat(10, 104),
     ])
-    const out = playPlan(plan({}), bars)
+    const out = playPlan(plan({ target: 104 }), bars)
     expect(out.status).toBe('win')
     expect(out.confirmedAt).toBe('09:55')
     expect(out.entry).toEqual({ time: '10:00', price: 100.5 })
     // Stop under the lowest low at the level (99.5) less 0.1% of the level.
     expect(out.stop).toBeCloseTo(99.4)
-    expect(out.r).toBeCloseTo((103 - 100.5) / (100.5 - 99.4))
+    // In R after Dime!'s commission both ways.
+    const fee = RULES.commissionPct / 100
+    expect(out.r).toBeCloseTo((104 - 100.5 - (100.5 + 104) * fee) / (100.5 - 99.4))
+  })
+
+  it('checks 1:2 after commission: a trade that is 1:2 on paper but about 1:1.5 after fees is skipped', () => {
+    const bars = session([
+      ...flat(4, 100.5),
+      [100.4, 100.4, 99.6, 99.7, 1500],
+      [99.7, 100.6, 99.5, 100.5, 4000],
+      ...flat(20, 100.6),
+    ])
+    const out = playPlan(plan({ target: 103 }), bars)
+    expect(out.status).toBe('skipped-rr')
+    expect(out.grossRr).toBeCloseTo(2, 2)
+    expect(out.rr).toBeLessThan(2)
   })
 
   it('stays out without a confirmation bar, however close it came', () => {
@@ -78,12 +93,14 @@ describe('playPlan', () => {
       ...flat(4, 100.5),
       [100.4, 100.4, 99.6, 99.7, 1500],
       [99.7, 100.6, 99.5, 100.5, 4000],
-      [100.5, 103.5, 99, 101, 2000],
+      [100.5, 104.5, 99, 101, 2000],
       ...flat(10, 101),
     ])
-    const out = playPlan(plan({}), bars)
+    const out = playPlan(plan({ target: 104 }), bars)
     expect(out.status).toBe('loss')
-    expect(out.r).toBeCloseTo(-1)
+    // A full R lost, plus the commission.
+    expect(out.r).toBeLessThan(-1)
+    expect(out.r).toBeGreaterThan(-1.35)
   })
 
   it('buys a hold: back to a level it traded above, and a strong close there', () => {

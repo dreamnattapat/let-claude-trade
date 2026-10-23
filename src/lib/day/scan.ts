@@ -6,6 +6,7 @@
  * needs a real confirmation during the day before anything is bought.
  */
 import { byDay, regularSession, type Bar } from './bars.ts'
+import { netRr } from './engine.ts'
 import { atr, ema, volumeProfile } from './levels.ts'
 import type { ScanRow } from './types.ts'
 
@@ -119,7 +120,8 @@ export function scanStock(ticker: string, daily: Bar[], intraday: Bar[], today: 
     ;[level, levelName, target, targetName] = [val, 'VAL เมื่อวาน', poc, 'POC เมื่อวาน']
   }
   const estRisk = Math.max(level * 0.003, dailyAtr * 0.1)
-  const estRr = (target - level) / estRisk
+  // After Dime!'s commission both ways, as the engine will check it.
+  const estRr = netRr(level, level - estRisk, target)
 
   const reasons: string[] = []
   const avoid: string[] = []
@@ -131,7 +133,8 @@ export function scanStock(ticker: string, daily: Bar[], intraday: Bar[], today: 
   if (trend === 'down' && setup === 'hold') avoid.push('เทรนด์รายวันขาลง ไม่ซื้อตอนย่อ')
   if (trend === 'down' && setup === 'reclaim' && location === 'below-value')
     avoid.push('เทรนด์ขาลงและเปิดต่ำกว่า value area: แรงขายคุม')
-  if (estRr < SCAN_RULES.minRr) avoid.push(`ระยะถึงเป้าสั้น คุ้มเสี่ยงราว 1:${estRr.toFixed(1)}`)
+  if (estRr < SCAN_RULES.minRr)
+    avoid.push(`ระยะถึงเป้าสั้น หักค่าคอมแล้วคุ้มเสี่ยงราว 1:${Math.max(estRr, 0).toFixed(1)}`)
 
   reasons.push(
     location === 'above-value'

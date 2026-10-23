@@ -113,6 +113,7 @@ function Portfolio({
               value={stats.avgR != null ? `${stats.avgR >= 0 ? '+' : ''}${stats.avgR.toFixed(2)}R` : '—'}
               tone={stats.avgR}
             />
+            <Stat label="ค่าคอม" value={formatMoney(stats.commissionUsd, '$')} />
           </dl>
         </div>
 
@@ -216,7 +217,9 @@ function Holding({
               </li>
             ))}
           </ul>
-          <p className="text-muted-foreground mt-1.5 text-xs">เงินสด {formatMoney(equity - invested, '$')}</p>
+          <p className="text-muted-foreground mt-1.5 text-xs">
+            เงินสด {formatMoney(equity - invested, '$')} · กำไร/ขาดทุนคิดแบบขายตอนนี้ หักค่าคอมทั้งซื้อและขาย
+          </p>
         </>
       )}
     </div>
@@ -424,7 +427,9 @@ function PlanCard({ plan, outcome, bars }: { plan: DayPlan; outcome?: PlanOutcom
           รอที่ <span className="font-semibold">{formatNumber(plan.level)}</span>{' '}
           <span className="text-muted-foreground">({plan.levelName})</span> → เป้า{' '}
           <span className="font-semibold">{formatNumber(plan.target)}</span>
-          {outcome?.rr != null && <span className="text-muted-foreground"> · 1:{outcome.rr.toFixed(1)}</span>}
+          {outcome?.rr != null && (
+            <span className="text-muted-foreground"> · 1:{outcome.rr.toFixed(1)} หลังค่าคอม</span>
+          )}
         </p>
         {outcome && <p className="text-muted-foreground text-xs">{outcome.note}</p>}
         <PlanChart bars={bars} lines={lines} />
@@ -529,7 +534,7 @@ function Rules() {
             </li>
             <li>
               <span className="text-foreground font-semibold">Execution</span> ซื้อแท่งถัดไป stop ใต้จุดต่ำสุดที่แนว
-              เข้าเมื่อคุ้ม ≥1:{RULES.minRr} ช่วง 09:45–15:00 น. (นิวยอร์ก) ขายหมดก่อนปิด
+              เข้าเมื่อคุ้ม ≥1:{RULES.minRr} หลังหักค่าคอมไปกลับ ช่วง 09:45–15:00 น. (นิวยอร์ก) ขายหมดก่อนปิด
             </li>
           </ol>
           <ul className="text-muted-foreground mt-3 list-disc space-y-1 pl-5">
