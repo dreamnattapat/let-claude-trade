@@ -39,6 +39,7 @@ export function DayPage() {
         </p>
       </header>
 
+      {data && <Account state={data.state} pending={data.desk?.date} />}
       <MarketStrip
         quotes={market.quotes}
         fearGreed={market.fearGreed ?? data?.scan?.fearGreed ?? null}
@@ -58,7 +59,6 @@ export function DayPage() {
                 bars={data.bars}
                 equity={data.state?.account.cashUsd ?? RULES.startingCashUsd}
               />
-              <Account state={data.state} pending={data.desk.date} />
               <Plans desk={data.desk} outcomes={outcomes} bars={data.bars} />
             </>
           ) : (
@@ -68,7 +68,6 @@ export function DayPage() {
               </CardContent>
             </Card>
           )}
-          {!data.desk && <Account state={data.state} />}
           {data.scan && <Scanner rows={data.scan.rows} scannedAt={data.scan.scannedAt} />}
         </>
       )}
@@ -575,7 +574,7 @@ function Stat({ label, value, hint, tone }: { label: string; value: string; hint
     <div>
       <dt className="text-muted-foreground">{label}</dt>
       <dd
-        className={`text-lg font-semibold tabular-nums ${tone == null ? '' : tone >= 0 ? 'text-delta-up' : 'text-delta-down'}`}
+        className={`text-lg font-semibold tabular-nums ${tone == null || Math.abs(tone) < 0.005 ? '' : tone > 0 ? 'text-delta-up' : 'text-delta-down'}`}
       >
         {value}
       </dd>
