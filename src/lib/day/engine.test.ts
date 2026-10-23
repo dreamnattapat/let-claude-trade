@@ -101,6 +101,18 @@ describe('playPlan', () => {
     expect(out.exit?.time).toBe('15:55')
   })
 
+  it('needs the confirmation bar at the level, not a strong bar far above it', () => {
+    const bars = session([
+      [101, 101.5, 100.9, 101.4, 1000],
+      ...flat(3, 101.2),
+      [101.2, 101.2, 100.05, 100.2, 1200], // touches 100
+      [100.2, 100.5, 100.25, 100.4, 900], // weak
+      [100.5, 101.8, 100.5, 101.7, 5000], // strong, but its low is 0.5% above the level
+      ...flat(40, 101.6),
+    ])
+    expect(playPlan(plan({ setup: 'hold', target: 104 }), bars).status).toBe('no-confirm')
+  })
+
   it('ignores bars from before the plan existed, and is still waiting mid-session', () => {
     const bars = session([
       ...flat(4, 100.5),
@@ -109,7 +121,7 @@ describe('playPlan', () => {
       ...flat(3, 100.6),
     ])
     // Written at 10:00: the 9:55 confirmation came before it.
-    expect(playPlan(plan({}), bars, { notBefore: 10 * 60 }).status).toBe('no-confirm')
+    expect(playPlan(plan({}), bars, { notBefore: 10 * 60 }).status).toBe('no-touch')
     expect(playPlan(plan({}), bars.slice(0, 5), { final: false }).status).toBe('waiting')
   })
 })

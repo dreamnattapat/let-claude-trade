@@ -26,6 +26,8 @@ export default {
       return new Response('Not found', { status: 404 })
     }
 
+    // Intraday bars move every minute: cache them for a minute only (daily data: 15 minutes).
+    const ttl = url.searchParams.get('interval')?.endsWith('m') ? 60 : CACHE_SECONDS
     const upstream = new URL(YAHOO_CHART + encodeURIComponent(symbol))
     for (const name of ALLOWED_PARAMS) {
       const value = url.searchParams.get(name)
@@ -35,13 +37,13 @@ export default {
     const response = await fetch(upstream, {
       headers: { 'User-Agent': 'Mozilla/5.0' },
       // Cloudflare's edge cache: repeat lookups don't hit Yahoo again.
-      cf: { cacheTtl: CACHE_SECONDS, cacheEverything: true },
+      cf: { cacheTtl: ttl, cacheEverything: true },
     } as RequestInit)
     return new Response(response.body, {
       status: response.status,
       headers: {
         'Content-Type': 'application/json',
-        'Cache-Control': `public, max-age=${CACHE_SECONDS}`,
+        'Cache-Control': `public, max-age=${ttl}`,
       },
     })
   },

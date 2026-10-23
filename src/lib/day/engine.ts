@@ -110,15 +110,17 @@ export function playPlan(plan: DayPlan, bars: Bar[], { notBefore = 0, final = tr
 
   for (let i = 0; i < bars.length && !confirm; i++) {
     const b = bars[i]
+    // Bars from before the plan existed can show the trend, but not the touch it's waiting for.
+    const live = end(b) >= notBefore + 5
     if (plan.setup === 'reclaim') {
-      if (b.l < L * (1 - RULES.below)) {
+      if (live && b.l < L * (1 - RULES.below)) {
         if (!swept) touchedAt = b.time
         swept = true
       }
       if (swept) lowAtLevel = Math.min(lowAtLevel, b.l)
     } else {
       if (!touchedAt && b.c > L * (1 + RULES.above)) wasAbove = true
-      if (wasAbove && !touchedAt && b.l <= L * (1 + RULES.touch)) touchedAt = b.time
+      if (live && wasAbove && !touchedAt && b.l <= L * (1 + RULES.touch)) touchedAt = b.time
       if (touchedAt) {
         lowAtLevel = Math.min(lowAtLevel, b.l)
         if (b.c < L * (1 - RULES.broken)) {
@@ -137,7 +139,9 @@ export function playPlan(plan: DayPlan, bars: Bar[], { notBefore = 0, final = tr
     const prior = bars.slice(Math.max(0, i - 12), i)
     const avg = prior.length >= 3 ? prior.reduce((s, x) => s + x.v, 0) / prior.length : Infinity
     const range = b.h - b.l
-    const strong = b.c > L && b.c > b.o && range > 0 && (b.c - b.l) / range >= 0.5
+    // The confirmation bar has to trade at the level itself, not just be a strong bar somewhere above it.
+    const atLevel = b.l <= L * (1 + RULES.touch)
+    const strong = atLevel && b.c > L && b.c > b.o && range > 0 && (b.c - b.l) / range >= 0.5
     if (strong && b.v >= RULES.volume[plan.setup] * avg) confirm = { i, bar: b }
   }
 
