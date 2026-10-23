@@ -1,4 +1,4 @@
-# เดสก์เทรด (Trade Desk)
+# แล็บเทรด (Trade Lab)
 
 A paper-money lab for two investing experiments, run by AI and scored against real market data:
 

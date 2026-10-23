@@ -29,7 +29,7 @@ export function DayPage() {
       <SiteHeader active="day" />
       <header className="space-y-2">
         <p className="text-brand text-sm font-semibold">เดย์เทรด · เงินสมมติ</p>
-        <h1 className="font-display text-3xl font-medium sm:text-4xl">เดสก์เทรดรายวัน</h1>
+        <h1 className="font-display text-3xl font-medium sm:text-4xl">เดย์เทรดรายวัน</h1>
         <p className="text-muted-foreground max-w-2xl leading-relaxed">
           ทุกวันก่อนตลาดสหรัฐฯ เปิด AI อ่านตลาดและข่าว คัดหุ้นที่เข้า setup แล้ววางแผนตาม Environment · Location ·
           Confirmation · Execution ระหว่างวันระบบเฝ้ากราฟ 5 นาทีจริง ถ้าไม่เกิดสัญญาณยืนยันก็ไม่เข้า ไม่มี pattern =
@@ -55,7 +55,7 @@ export function DayPage() {
           ) : (
             <Card>
               <CardContent className="text-muted-foreground text-sm">
-                ยังไม่มีแผนเทรด AI เดสก์จะเขียนแผนของแต่ละวันราว 20:05 น. (เวลาไทย) ก่อนตลาดสหรัฐฯ เปิด
+                ยังไม่มีแผนเทรด AI จะเขียนแผนของแต่ละวันราว 20:05 น. (เวลาไทย) ก่อนตลาดสหรัฐฯ เปิด
               </CardContent>
             </Card>
           )}
@@ -498,7 +498,7 @@ function Rules() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>กติกาของเดสก์</CardTitle>
+        <CardTitle>กติกาของเดย์เทรด</CardTitle>
       </CardHeader>
       <CardContent className="text-muted-foreground space-y-3 text-sm leading-relaxed">
         <ol className="list-decimal space-y-1.5 pl-5">
