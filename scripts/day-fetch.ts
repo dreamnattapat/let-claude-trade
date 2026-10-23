@@ -10,9 +10,9 @@ const HEADERS = {
 
 async function chart(symbol: string, query: ChartQuery): Promise<ChartJson> {
   const response = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${chartQuery(symbol, query)}`, {
-    headers: HEADERS,
+    headers: YAHOO_HEADERS,
   })
-  if (!response.ok) throw new Error(`${symbol}: HTTP ${response.status}`)
+  if (!response.ok) throw new Error(`HTTP ${response.status}`)
   return (await response.json()) as ChartJson
 }
 
