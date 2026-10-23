@@ -1,6 +1,7 @@
 import { AlertTriangle, ChevronDown, ExternalLink, Newspaper } from 'lucide-react'
 import { useMemo } from 'react'
 
+import { FearGreedGauge } from '@/components/day/FearGreedGauge'
 import { PlanChart } from '@/components/day/PlanChart'
 import { SiteHeader } from '@/components/SiteHeader'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -84,18 +85,9 @@ function MarketStrip({
           <p className="text-muted-foreground text-xs">Fear &amp; Greed (CNN)</p>
           {fearGreed ? (
             <>
-              <p className="font-display text-4xl font-medium tabular-nums">{Math.round(fearGreed.score)}</p>
-              <p className="text-sm font-semibold">{fearGreedLabel(fearGreed.score)}</p>
-              <div
-                className="relative h-2 rounded-full bg-gradient-to-r from-[#d03b3b] via-[#c9c4b8] to-[#006300]"
-                aria-hidden
-              >
-                <span
-                  className="bg-foreground absolute -top-1 h-4 w-1 rounded-full"
-                  style={{ left: `calc(${Math.min(100, Math.max(0, fearGreed.score))}% - 2px)` }}
-                />
-              </div>
-              <p className="text-muted-foreground text-xs">
+              <FearGreedGauge score={fearGreed.score} />
+              <p className="-mt-1 text-center text-sm font-semibold">{fearGreedLabel(fearGreed.score)}</p>
+              <p className="text-muted-foreground text-center text-xs">
                 {fearGreed.previousClose != null && `เมื่อวาน ${Math.round(fearGreed.previousClose)}`}
                 {fearGreed.previousWeek != null && ` · สัปดาห์ก่อน ${Math.round(fearGreed.previousWeek)}`}
               </p>
