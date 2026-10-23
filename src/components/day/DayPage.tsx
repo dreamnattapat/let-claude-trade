@@ -52,6 +52,12 @@ export function DayPage() {
           {data.desk ? (
             <>
               <Environment desk={data.desk} />
+              <Positions
+                desk={data.desk}
+                outcomes={outcomes}
+                bars={data.bars}
+                equity={data.state?.account.cashUsd ?? RULES.startingCashUsd}
+              />
               <Plans desk={data.desk} outcomes={outcomes} bars={data.bars} />
             </>
           ) : (
@@ -205,6 +211,98 @@ const STATUS_TONE: Record<PlanStatus, string> = {
   win: 'bg-delta-up/10 text-delta-up',
   loss: 'bg-delta-down/10 text-delta-down',
   'time-exit': 'bg-brand-soft text-brand',
+}
+
+/** What the paper account holds right now: today's trades that are in, at the latest 5-minute close. */
+function Positions({
+  desk,
+  outcomes,
+  bars,
+  equity,
+}: {
+  desk: DayDesk
+  outcomes: Map<string, PlanOutcome>
+  bars: Map<string, Bar[]>
+  equity: number
+}) {
+  const fee = RULES.commissionPct / 100
+  const open = desk.plans
+    .map((p) => ({ plan: p, o: outcomes.get(p.id) }))
+    .filter((x): x is { plan: DayPlan; o: PlanOutcome } => x.o?.status === 'open' && !!x.o.entry && x.o.stop != null)
+    .map(({ plan, o }) => {
+      const entry = o.entry!.price
+      const units = Math.min(
+        (equity * RULES.riskPct) / 100 / (entry - o.stop!),
+        (equity * RULES.maxPositionPct) / 100 / entry,
+      )
+      const price = bars.get(plan.ticker)?.at(-1)?.c ?? entry
+      return {
+        plan,
+        o,
+        entry,
+        units,
+        price,
+        pnl: units * (price - entry) - units * entry * fee,
+        r: (price - entry) / (entry - o.stop!),
+      }
+    })
+  const invested = open.reduce((s, p) => s + p.units * p.entry, 0)
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>ถืออยู่ตอนนี้</CardTitle>
+        <CardDescription>
+          เดย์เทรดไม่ถือข้ามคืน: นอกเวลาตลาดพอร์ตเป็นเงินสดทั้งหมด {formatMoney(equity, '$')} ราคาจากแท่ง 5 นาทีล่าสุด
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        {open.length === 0 ? (
+          <p className="text-muted-foreground text-sm">ยังไม่มีหุ้นในมือ ถือเงินสด 100%</p>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>หุ้น</TableHead>
+                <TableHead className="text-right">จำนวน</TableHead>
+                <TableHead className="text-right">เข้า</TableHead>
+                <TableHead className="text-right">ตอนนี้</TableHead>
+                <TableHead className="text-right">stop / เป้า</TableHead>
+                <TableHead className="text-right">กำไร/ขาดทุน</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {open.map((p) => (
+                <TableRow key={p.plan.id}>
+                  <TableCell className="font-semibold">{p.plan.ticker}</TableCell>
+                  <TableCell className="text-right tabular-nums">{formatNumber(p.units, 2)}</TableCell>
+                  <TableCell className="text-right tabular-nums">
+                    {formatNumber(p.entry)} <span className="text-muted-foreground text-xs">{p.o.entry!.time}</span>
+                  </TableCell>
+                  <TableCell className="text-right tabular-nums">{formatNumber(p.price)}</TableCell>
+                  <TableCell className="text-right tabular-nums">
+                    {formatNumber(p.o.stop)} / {formatNumber(p.plan.target)}
+                  </TableCell>
+                  <TableCell className={`text-right tabular-nums ${p.pnl >= 0 ? 'text-delta-up' : 'text-delta-down'}`}>
+                    {formatSignedMoney(p.pnl, '$')}
+                    <div className="text-xs">
+                      {p.r >= 0 ? '+' : ''}
+                      {p.r.toFixed(2)}R
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+        {open.length > 0 && (
+          <p className="text-muted-foreground mt-3 text-xs">
+            ลงในหุ้น {formatMoney(invested, '$')} · เงินสด {formatMoney(equity - invested, '$')} ·
+            กำไร/ขาดทุนหักค่าคอมขาซื้อแล้ว
+          </p>
+        )}
+      </CardContent>
+    </Card>
+  )
 }
 
 function Plans({
