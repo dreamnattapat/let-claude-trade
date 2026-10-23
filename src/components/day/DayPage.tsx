@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 
 import { FearGreedGauge } from '@/components/day/FearGreedGauge'
 import { PlanChart } from '@/components/day/PlanChart'
+import { PnlCalendar } from '@/components/day/PnlCalendar'
 import { SiteHeader } from '@/components/SiteHeader'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -429,6 +430,7 @@ function Account({ state }: { state: DayState | null }) {
             tone={stats.avgR}
           />
         </dl>
+        <PnlCalendar state={state} />
         {state.account.trades.length > 0 && (
           <Table>
             <TableHeader>
