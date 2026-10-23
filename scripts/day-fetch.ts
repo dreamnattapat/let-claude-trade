@@ -4,6 +4,8 @@
  */
 import { chartQuery, parseBars, parseQuote, type Bar, type ChartJson, type ChartQuery } from '../src/lib/day/bars.ts'
 
+// Yahoo answers a bare "Mozilla/5.0" (as the Lynch script sends) but rate-limits full browser strings without its cookies.
+const YAHOO_HEADERS = { 'User-Agent': 'Mozilla/5.0' }
 const HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/126 Safari/537.36',
 }
