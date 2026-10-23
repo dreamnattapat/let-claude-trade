@@ -11,7 +11,7 @@ const WEEKDAYS = ['จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.']
 const iso = (d: Date) => d.toISOString().slice(0, 10)
 
 /** A trading calendar: each weekday's P&L and trade count, a month at a time. */
-export function PnlCalendar({ state }: { state: DayState }) {
+export function PnlCalendar({ state, pending }: { state: DayState; pending?: string }) {
   const days = useMemo(() => {
     const map = new Map<string, { pnl: number; trades: number; planned: boolean; verdict?: string }>()
     for (const d of state.days) map.set(d.date, { pnl: 0, trades: 0, planned: true, verdict: d.verdict })
@@ -23,6 +23,7 @@ export function PnlCalendar({ state }: { state: DayState }) {
     }
     return map
   }, [state])
+  const waiting = pending && !days.has(pending) ? pending : null
   const latest = state.days.at(-1)?.date ?? iso(new Date())
   const [month, setMonth] = useState(() => latest.slice(0, 7))
   const [y, m] = month.split('-').map(Number)
@@ -103,14 +104,17 @@ export function PnlCalendar({ state }: { state: DayState }) {
                 </>
               ) : (
                 <span className="text-muted-foreground text-[10px] sm:text-xs">
-                  {d ? (d.verdict === 'no-trade' ? 'ไม่เทรด' : 'ไม่เข้า') : '—'}
+                  {d ? (d.verdict === 'no-trade' ? 'ไม่เทรด' : 'ไม่เข้า') : date === waiting ? 'รอผล' : '—'}
                 </span>
               )}
             </div>
           )
         })}
       </div>
-      <p className="text-muted-foreground text-xs">"ไม่เข้า" คือวันที่มีแผนแต่ไม่เกิดสัญญาณ ซึ่งนับว่าทำตามกฎ</p>
+      <p className="text-muted-foreground text-xs">
+        "ไม่เข้า" คือวันที่มีแผนแต่ไม่เกิดสัญญาณ ซึ่งนับว่าทำตามกฎ · "รอผล" คือวันที่ยังไม่ปิด ระบบให้คะแนนราว 04:40 น.
+        (ไทย)
+      </p>
     </section>
   )
 }

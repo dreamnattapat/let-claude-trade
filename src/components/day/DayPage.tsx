@@ -68,7 +68,7 @@ export function DayPage() {
             </Card>
           )}
           {data.scan && <Scanner rows={data.scan.rows} scannedAt={data.scan.scannedAt} />}
-          <Account state={data.state} />
+          <Account state={data.state} pending={data.desk?.date} />
         </>
       )}
       <Rules />
@@ -487,18 +487,14 @@ function Scanner({ rows, scannedAt }: { rows: ScanRow[]; scannedAt: string }) {
   )
 }
 
-function Account({ state }: { state: DayState | null }) {
-  if (!state || !state.days.length)
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>พอร์ตเดย์เทรด (เงินสมมติ ${formatNumber(RULES.startingCashUsd, 0)})</CardTitle>
-          <CardDescription>
-            ยังไม่มีวันที่ให้คะแนนแล้ว ระบบให้คะแนนทุกแผนหลังตลาดปิด ราว 04:30 น. เวลาไทย
-          </CardDescription>
-        </CardHeader>
-      </Card>
-    )
+function Account({ state, pending }: { state: DayState | null; pending?: string }) {
+  // Before the first grade there's no state.json yet: an empty account, so the calendar still shows.
+  state ??= {
+    updatedAt: '',
+    days: [],
+    account: { cashUsd: RULES.startingCashUsd, trades: [], points: [] },
+    stats: dayStats([]),
+  }
   const stats = dayStats(state.account.trades)
   const counted = state.days.flatMap((d) => d.outcomes)
   const stayedOut = counted.filter((o) =>
@@ -509,8 +505,9 @@ function Account({ state }: { state: DayState | null }) {
       <CardHeader>
         <CardTitle>พอร์ตเดย์เทรด</CardTitle>
         <CardDescription>
-          เงินสมมติเริ่ม ${formatNumber(RULES.startingCashUsd, 0)} เสี่ยง {RULES.riskPct}% ต่อเทรด หยุดเมื่อขาดทุนถึง{' '}
-          {RULES.dailyLossPct}% ของวัน รวมค่าคอมมิชชัน Dime! ทั้งซื้อและขาย
+          เงินสมมติเริ่ม ${formatNumber(RULES.startingCashUsd, 0)} แล้วปล่อยรันต่อเนื่อง ไม่รีเซ็ตทุกวัน:
+          กำไรขาดทุนสะสมเข้าพอร์ต และขนาดเทรดคิดจากมูลค่าพอร์ต ณ ต้นวันนั้น เสี่ยง {RULES.riskPct}% ต่อเทรด
+          หยุดเมื่อขาดทุนถึง {RULES.dailyLossPct}% ของวัน รวมค่าคอมมิชชัน Dime! ทั้งซื้อและขาย
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -528,7 +525,7 @@ function Account({ state }: { state: DayState | null }) {
             tone={stats.avgR}
           />
         </dl>
-        <PnlCalendar state={state} />
+        <PnlCalendar state={state} pending={pending} />
         {state.account.trades.length > 0 && (
           <Table>
             <TableHeader>
