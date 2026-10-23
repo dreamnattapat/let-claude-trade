@@ -58,6 +58,7 @@ export function DayPage() {
                 bars={data.bars}
                 equity={data.state?.account.cashUsd ?? RULES.startingCashUsd}
               />
+              <Account state={data.state} pending={data.desk.date} />
               <Plans desk={data.desk} outcomes={outcomes} bars={data.bars} />
             </>
           ) : (
@@ -67,8 +68,8 @@ export function DayPage() {
               </CardContent>
             </Card>
           )}
+          {!data.desk && <Account state={data.state} />}
           {data.scan && <Scanner rows={data.scan.rows} scannedAt={data.scan.scannedAt} />}
-          <Account state={data.state} pending={data.desk?.date} />
         </>
       )}
       <Rules />
