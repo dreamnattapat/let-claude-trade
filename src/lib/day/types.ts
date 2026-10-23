@@ -116,6 +116,8 @@ export type DayScan = {
   market: { symbol: string; name: string; price: number; changePct: number }[]
   fearGreed: { score: number; rating: string; previousClose?: number; previousWeek?: number } | null
   rows: ScanRow[]
+  /** What couldn't be read, for debugging. */
+  errors?: string[]
 }
 
 /** public/day/state.json, written by the grade script after every US close. */

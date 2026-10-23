@@ -21,6 +21,7 @@ if (weekday === 0 || weekday === 6) {
   process.exit(0)
 }
 
+const errors: string[] = []
 const market = (
   await pool([...MARKET], 4, async (m) => {
     try {
@@ -32,7 +33,7 @@ const market = (
         changePct: Math.round((q.price / q.prevClose - 1) * 10000) / 100,
       }
     } catch (e) {
-      console.warn(`${m.symbol}: ${(e as Error).message}`)
+      errors.push(`${m.symbol}: ${(e as Error).message}`)
       return null
     }
   })
@@ -45,9 +46,11 @@ const rows = (
         bars(ticker, { interval: '1d', range: '6mo' }),
         bars(ticker, { interval: '5m', range: '5d', prePost: true }),
       ])
-      return scanStock(ticker, daily, intraday, today)
+      const row = scanStock(ticker, daily, intraday, today)
+      if (!row) errors.push(`${ticker}: not enough data (${daily.length} daily, ${intraday.length} 5-min bars)`)
+      return row
     } catch (e) {
-      console.warn(`${ticker}: ${(e as Error).message}`)
+      errors.push(`${ticker}: ${(e as Error).message}`)
       return null
     }
   })
@@ -55,7 +58,8 @@ const rows = (
 const order = { good: 0, wait: 1, avoid: 2 }
 rows.sort((a, b) => order[a.status] - order[b.status] || (b.estRr ?? 0) - (a.estRr ?? 0))
 
-const scan: DayScan = { date: today, scannedAt: new Date().toISOString(), market, fearGreed: await fearGreed(), rows }
+const scan: DayScan = { date: today, scannedAt: new Date().toISOString(), market, fearGreed: await fearGreed(), rows, ...(errors.length ? { errors } : {}) }
+for (const e of errors) console.warn(e)
 writeFileSync(`public/day/scan/${today}.json`, JSON.stringify(scan, null, 1) + '\n')
 const indexPath = 'public/day/scan/index.json'
 const index = existsSync(indexPath)
