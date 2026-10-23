@@ -91,7 +91,7 @@ export function PnlCalendar({ state, pending }: { state: DayState; pending?: str
           return (
             <div
               key={date}
-              className={`flex min-h-16 flex-col items-center justify-center rounded-xl px-1 py-2 text-center sm:min-h-20 ${tone}`}
+              className={`flex min-h-12 flex-col items-center justify-center rounded-xl px-1 py-1.5 text-center sm:min-h-16 ${tone}`}
               title={d?.verdict === 'no-trade' ? 'AI ตัดสินว่าไม่เทรดวันนี้' : undefined}
             >
               <span className="text-muted-foreground text-xs">{Number(date.slice(8))}</span>
@@ -112,7 +112,7 @@ export function PnlCalendar({ state, pending }: { state: DayState; pending?: str
         })}
       </div>
       <p className="text-muted-foreground text-xs">
-        "ไม่เข้า" คือวันที่มีแผนแต่ไม่เกิดสัญญาณ ซึ่งนับว่าทำตามกฎ · "รอผล" คือวันที่ยังไม่ปิด ระบบให้คะแนนราว 04:40 น.
+        ไม่เข้า = มีแผนแต่ไม่เกิดสัญญาณ · รอผล = ให้คะแนนราว 04:40 น.
         (ไทย)
       </p>
     </section>

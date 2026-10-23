@@ -1,13 +1,12 @@
-import { AlertTriangle, ChevronDown, ExternalLink, Newspaper } from 'lucide-react'
-import { useMemo } from 'react'
+import { AlertTriangle, ChevronDown, ExternalLink, Newspaper, Gauge } from 'lucide-react'
+import { useMemo, useState, type ReactNode } from 'react'
 
 import { FearGreedGauge } from '@/components/day/FearGreedGauge'
 import { PlanChart } from '@/components/day/PlanChart'
 import { PnlCalendar } from '@/components/day/PnlCalendar'
 import { SiteHeader } from '@/components/SiteHeader'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { useDay, useMarket, type FearGreed } from '@/hooks/useDay'
+import { Card, CardContent } from '@/components/ui/card'
+import { useDay, useMarket, type FearGreed, type Quote } from '@/hooks/useDay'
 import type { Bar } from '@/lib/day/bars'
 import { dayStats, RULES, STATUS_LABELS, type PlanOutcome, type PlanStatus } from '@/lib/day/engine'
 import { fearGreedLabel } from '@/lib/day/market'
@@ -27,194 +26,138 @@ export function DayPage() {
   }, [data])
 
   return (
-    <main className="mx-auto max-w-5xl space-y-6 px-4 pt-6 pb-12 sm:pt-10">
+    <main className="mx-auto max-w-5xl space-y-4 px-4 pt-6 pb-12 sm:pt-10">
       <SiteHeader active="day" />
-      <header className="space-y-2">
-        <p className="text-brand text-sm font-semibold">เดย์เทรด · เงินสมมติ</p>
-        <h1 className="font-display text-3xl font-medium sm:text-4xl">เดย์เทรดรายวัน</h1>
-        <p className="text-muted-foreground max-w-2xl leading-relaxed">
-          ทุกวันก่อนตลาดสหรัฐฯ เปิด AI อ่านตลาดและข่าว คัดหุ้นที่เข้า setup แล้ววางแผนตาม Environment · Location ·
-          Confirmation · Execution ระหว่างวันระบบเฝ้ากราฟ 5 นาทีจริง ถ้าไม่เกิดสัญญาณยืนยันก็ไม่เข้า ไม่มี pattern =
-          ไม่เทรด
+      <header>
+        <h1 className="font-display text-2xl font-medium sm:text-3xl">เดย์เทรด</h1>
+        <p className="text-muted-foreground text-sm">
+          เงินสมมติ · AI วางแผนก่อนเปิดตลาด · ระบบเข้าเทรดเองเมื่อเกิดสัญญาณ ·{' '}
+          <a href="#rules" className="text-brand hover:underline">
+            วิธีทำงาน
+          </a>
         </p>
       </header>
 
-      {data && <Account state={data.state} pending={data.desk?.date} />}
-      <MarketStrip
-        quotes={market.quotes}
-        fearGreed={market.fearGreed ?? data?.scan?.fearGreed ?? null}
-        loading={market.loading}
-      />
-
       {error && <p className="text-muted-foreground text-sm">โหลดข้อมูลไม่ได้ ({error})</p>}
       {!data && !error && <p className="text-muted-foreground text-sm">กำลังโหลด…</p>}
-      {data && (
+      {data && <Portfolio data={data} outcomes={outcomes} />}
+      <Market quotes={market.quotes} fearGreed={market.fearGreed ?? data?.scan?.fearGreed ?? null} />
+      {data?.desk ? (
         <>
-          {data.desk ? (
-            <>
-              <Environment desk={data.desk} />
-              <Positions
-                desk={data.desk}
-                outcomes={outcomes}
-                bars={data.bars}
-                equity={data.state?.account.cashUsd ?? RULES.startingCashUsd}
-              />
-              <Plans desk={data.desk} outcomes={outcomes} bars={data.bars} />
-            </>
-          ) : (
-            <Card>
-              <CardContent className="text-muted-foreground text-sm">
-                ยังไม่มีแผนเทรด AI จะเขียนแผนของแต่ละวันราว 20:05 น. (เวลาไทย) ก่อนตลาดสหรัฐฯ เปิด
-              </CardContent>
-            </Card>
-          )}
-          {data.scan && <Scanner rows={data.scan.rows} scannedAt={data.scan.scannedAt} />}
+          <Today desk={data.desk} />
+          <Plans desk={data.desk} outcomes={outcomes} bars={data.bars} />
         </>
+      ) : (
+        data && <p className="text-muted-foreground text-sm">ยังไม่มีแผนวันนี้ AI เขียนแผนราว 20:05 น.</p>
       )}
+      {data?.scan && <Scanner rows={data.scan.rows} scannedAt={data.scan.scannedAt} />}
       <Rules />
     </main>
   )
 }
 
-function MarketStrip({
-  quotes,
-  fearGreed,
-  loading,
-}: {
-  quotes: { symbol: string; name: string; price: number; changePct: number }[]
-  fearGreed: FearGreed | null
-  loading: boolean
-}) {
+/** A collapsible row: a label and a count, the content underneath. */
+function Fold({ title, children, open }: { title: ReactNode; children: ReactNode; open?: boolean }) {
   return (
-    <section aria-label="ภาพรวมตลาด" className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-      <Card className="col-span-2 gap-2 py-4 sm:col-span-1 sm:row-span-2">
-        <CardContent className="space-y-2 px-4">
-          <p className="text-muted-foreground text-xs">Fear &amp; Greed (CNN)</p>
-          {fearGreed ? (
-            <>
-              <FearGreedGauge score={fearGreed.score} />
-              <p className="-mt-1 text-center text-sm font-semibold">{fearGreedLabel(fearGreed.score)}</p>
-              <p className="text-muted-foreground text-center text-xs">
-                {fearGreed.previousClose != null && `เมื่อวาน ${Math.round(fearGreed.previousClose)}`}
-                {fearGreed.previousWeek != null && ` · สัปดาห์ก่อน ${Math.round(fearGreed.previousWeek)}`}
-              </p>
-            </>
-          ) : (
-            <p className="text-muted-foreground text-sm">{loading ? 'กำลังโหลด…' : 'อ่านค่าไม่ได้ตอนนี้'}</p>
-          )}
-        </CardContent>
-      </Card>
-      {quotes.map((q) => (
-        <Card key={q.symbol} className="gap-1 py-3">
-          <CardContent className="px-4">
-            <p className="text-muted-foreground text-xs">{q.name}</p>
-            <p className="font-semibold tabular-nums">{formatNumber(q.price, q.price >= 1000 ? 0 : 2)}</p>
-            <p className={`text-xs font-medium tabular-nums ${q.changePct >= 0 ? 'text-delta-up' : 'text-delta-down'}`}>
-              {formatPercent(q.changePct, { signed: true, decimals: 2 })}
-            </p>
-          </CardContent>
-        </Card>
-      ))}
-      {loading && !quotes.length && (
-        <p className="text-muted-foreground col-span-2 self-center text-sm">กำลังโหลดราคา…</p>
-      )}
-    </section>
+    <details className="group border-t py-2.5 first:border-t-0" open={open}>
+      <summary className="flex cursor-pointer list-none items-center gap-2 text-sm font-medium [&::-webkit-details-marker]:hidden">
+        <span className="flex-1">{title}</span>
+        <ChevronDown className="text-muted-foreground size-4 transition-transform group-open:rotate-180" aria-hidden />
+      </summary>
+      <div className="pt-2 text-sm">{children}</div>
+    </details>
   )
 }
 
-const VERDICT_TONE = {
-  trade: 'bg-delta-up/10 text-delta-up',
-  caution: 'bg-brand-soft text-brand',
-  'no-trade': 'bg-delta-down/10 text-delta-down',
-} as const
+const toneOf = (x: number | null | undefined) =>
+  x == null || Math.abs(x) < 0.005 ? '' : x > 0 ? 'text-delta-up' : 'text-delta-down'
 
-function Environment({ desk }: { desk: DayDesk }) {
+function Portfolio({
+  data,
+  outcomes,
+}: {
+  data: NonNullable<ReturnType<typeof useDay>['data']>
+  outcomes: Map<string, PlanOutcome>
+}) {
+  const state: DayState = data.state ?? {
+    updatedAt: '',
+    days: [],
+    account: { cashUsd: RULES.startingCashUsd, trades: [], points: [] },
+    stats: dayStats([]),
+  }
+  const stats = dayStats(state.account.trades)
+  const equity = state.account.cashUsd
+  const pnl = equity - RULES.startingCashUsd
   return (
-    <Card>
-      <CardHeader>
-        <CardDescription>
-          แผนของรอบ {formatDate(desk.date)} · เขียน{' '}
-          {new Date(desk.createdAt).toLocaleTimeString('th-TH-u-ca-gregory', { hour: '2-digit', minute: '2-digit' })} น.
-          · โมเดล {desk.model}
-        </CardDescription>
-        <CardTitle className="flex flex-wrap items-center gap-2">
-          <span className={`rounded-full px-3 py-1 text-sm ${VERDICT_TONE[desk.environment.verdict]}`}>
-            {VERDICT_LABELS[desk.environment.verdict]}
-          </span>
-          <span className="font-display text-lg font-medium">{desk.environment.headline}</span>
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="grid gap-6 text-sm leading-relaxed lg:grid-cols-3">
-        <div className="space-y-2">
-          <h3 className="font-semibold">Environment วันนี้</h3>
-          <ul className="text-muted-foreground list-disc space-y-1 pl-5">
-            {desk.environment.points.map((p, i) => (
-              <li key={i}>{p}</li>
-            ))}
-          </ul>
+    <Card className="gap-0 py-4">
+      <CardContent className="space-y-4 px-4 sm:px-6">
+        <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
+          <div>
+            <p className="text-muted-foreground text-xs">
+              พอร์ต (เริ่ม ${formatNumber(RULES.startingCashUsd, 0)} · ทบต้น)
+            </p>
+            <p className="font-display text-3xl font-medium tabular-nums">{formatMoney(equity, '$')}</p>
+            <p className={`text-sm font-semibold tabular-nums ${toneOf(pnl)}`}>
+              {formatSignedMoney(pnl, '$')} (
+              {formatPercent((pnl / RULES.startingCashUsd) * 100, { signed: true, decimals: 2 })})
+            </p>
+          </div>
+          <dl className="flex gap-5 text-sm">
+            <Stat label="เทรด" value={`${stats.trades}`} />
+            <Stat
+              label="ชนะ"
+              value={stats.winRatePct != null ? formatPercent(stats.winRatePct, { decimals: 0 }) : '—'}
+            />
+            <Stat
+              label="เฉลี่ย"
+              value={stats.avgR != null ? `${stats.avgR >= 0 ? '+' : ''}${stats.avgR.toFixed(2)}R` : '—'}
+              tone={stats.avgR}
+            />
+          </dl>
         </div>
-        <div className="space-y-2">
-          <h3 className="flex items-center gap-1.5 font-semibold">
-            <AlertTriangle className="text-delta-down size-4" aria-hidden />
-            สิ่งที่ต้องระวัง
-          </h3>
-          {desk.cautions.length ? (
-            <ul className="space-y-1.5">
-              {desk.cautions.map((c, i) => (
-                <li key={i} className="flex gap-2">
-                  {c.time && <span className="text-muted-foreground w-12 shrink-0 tabular-nums">{c.time}</span>}
-                  <span>{c.what}</span>
+
+        {data.desk && <Holding desk={data.desk} outcomes={outcomes} bars={data.bars} equity={equity} />}
+
+        <PnlCalendar state={state} pending={data.desk?.date} />
+
+        {state.account.trades.length > 0 && (
+          <Fold title={`ประวัติเทรด (${state.account.trades.filter((t) => t.taken).length})`}>
+            <ul className="divide-y">
+              {state.account.trades.toReversed().map((t) => (
+                <li key={t.planId} className="flex items-center gap-3 py-2 text-sm">
+                  <span className="text-muted-foreground w-14 shrink-0 text-xs">{formatDate(t.date).slice(0, -5)}</span>
+                  <span className="w-14 shrink-0 font-semibold">{t.ticker}</span>
+                  <span className="text-muted-foreground min-w-0 flex-1 truncate text-xs tabular-nums">
+                    {formatNumber(t.entry)} → {formatNumber(t.exit)}
+                  </span>
+                  <span className={`text-right tabular-nums ${toneOf(t.pnlUsd)}`}>
+                    {t.taken ? formatSignedMoney(t.pnlUsd, '$') : 'ข้าม'}
+                    <span className="block text-xs">
+                      {t.r >= 0 ? '+' : ''}
+                      {t.r.toFixed(2)}R
+                    </span>
+                  </span>
                 </li>
               ))}
             </ul>
-          ) : (
-            <p className="text-muted-foreground">ไม่มีเหตุการณ์ใหญ่ตามตาราง</p>
-          )}
-          <p className="text-muted-foreground text-xs">
-            เวลานิวยอร์ก (ไทยเร็วกว่า 11 ชม. ช่วงหน้าร้อนสหรัฐฯ, 12 ชม. ช่วงหน้าหนาว)
-          </p>
-        </div>
-        <div className="space-y-2">
-          <h3 className="flex items-center gap-1.5 font-semibold">
-            <Newspaper className="size-4" aria-hidden />
-            ข่าวใหญ่
-          </h3>
-          <ul className="space-y-2">
-            {desk.news.map((n, i) => (
-              <li key={i}>
-                <a
-                  href={n.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-brand inline-flex items-start gap-1 font-medium hover:underline"
-                >
-                  {n.title}
-                  <ExternalLink className="mt-1 size-3 shrink-0" aria-hidden />
-                </a>
-                <p className="text-muted-foreground text-xs">{n.note}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
+          </Fold>
+        )}
       </CardContent>
     </Card>
   )
 }
 
-const STATUS_TONE: Record<PlanStatus, string> = {
-  waiting: 'bg-muted text-muted-foreground',
-  open: 'bg-brand-soft text-brand',
-  'no-touch': 'bg-muted text-muted-foreground',
-  'no-confirm': 'bg-muted text-muted-foreground',
-  'skipped-rr': 'bg-muted text-muted-foreground',
-  'gap-stop': 'bg-muted text-muted-foreground',
-  win: 'bg-delta-up/10 text-delta-up',
-  loss: 'bg-delta-down/10 text-delta-down',
-  'time-exit': 'bg-brand-soft text-brand',
+function Stat({ label, value, tone }: { label: string; value: string; tone?: number | null }) {
+  return (
+    <div>
+      <dt className="text-muted-foreground text-xs">{label}</dt>
+      <dd className={`font-semibold tabular-nums ${toneOf(tone)}`}>{value}</dd>
+    </div>
+  )
 }
 
 /** What the paper account holds right now: today's trades that are in, at the latest 5-minute close. */
-function Positions({
+function Holding({
   desk,
   outcomes,
   bars,
@@ -248,61 +191,162 @@ function Positions({
     })
   const invested = open.reduce((s, p) => s + p.units * p.entry, 0)
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>ถืออยู่ตอนนี้</CardTitle>
-        <CardDescription>
-          เดย์เทรดไม่ถือข้ามคืน: นอกเวลาตลาดพอร์ตเป็นเงินสดทั้งหมด {formatMoney(equity, '$')} ราคาจากแท่ง 5 นาทีล่าสุด
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        {open.length === 0 ? (
-          <p className="text-muted-foreground text-sm">ยังไม่มีหุ้นในมือ ถือเงินสด 100%</p>
-        ) : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>หุ้น</TableHead>
-                <TableHead className="text-right">จำนวน</TableHead>
-                <TableHead className="text-right">เข้า</TableHead>
-                <TableHead className="text-right">ตอนนี้</TableHead>
-                <TableHead className="text-right">stop / เป้า</TableHead>
-                <TableHead className="text-right">กำไร/ขาดทุน</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {open.map((p) => (
-                <TableRow key={p.plan.id}>
-                  <TableCell className="font-semibold">{p.plan.ticker}</TableCell>
-                  <TableCell className="text-right tabular-nums">{formatNumber(p.units, 2)}</TableCell>
-                  <TableCell className="text-right tabular-nums">
-                    {formatNumber(p.entry)} <span className="text-muted-foreground text-xs">{p.o.entry!.time}</span>
-                  </TableCell>
-                  <TableCell className="text-right tabular-nums">{formatNumber(p.price)}</TableCell>
-                  <TableCell className="text-right tabular-nums">
-                    {formatNumber(p.o.stop)} / {formatNumber(p.plan.target)}
-                  </TableCell>
-                  <TableCell className={`text-right tabular-nums ${p.pnl >= 0 ? 'text-delta-up' : 'text-delta-down'}`}>
-                    {formatSignedMoney(p.pnl, '$')}
-                    <div className="text-xs">
-                      {p.r >= 0 ? '+' : ''}
-                      {p.r.toFixed(2)}R
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-        {open.length > 0 && (
-          <p className="text-muted-foreground mt-3 text-xs">
-            ลงในหุ้น {formatMoney(invested, '$')} · เงินสด {formatMoney(equity - invested, '$')} ·
-            กำไร/ขาดทุนหักค่าคอมขาซื้อแล้ว
-          </p>
-        )}
+    <div className="bg-muted/50 rounded-xl px-3 py-2.5 text-sm">
+      <p className="text-muted-foreground mb-1 text-xs">ถืออยู่ตอนนี้</p>
+      {open.length === 0 ? (
+        <p>เงินสด 100%</p>
+      ) : (
+        <>
+          <ul className="space-y-1.5">
+            {open.map((p) => (
+              <li key={p.plan.id} className="flex items-center gap-3">
+                <span className="w-14 shrink-0 font-semibold">{p.plan.ticker}</span>
+                <span className="text-muted-foreground min-w-0 flex-1 text-xs tabular-nums">
+                  {formatNumber(p.units, 2)} หุ้น · เข้า {formatNumber(p.entry)} · ตอนนี้ {formatNumber(p.price)}
+                  <br />
+                  stop {formatNumber(p.o.stop)} · เป้า {formatNumber(p.plan.target)}
+                </span>
+                <span className={`text-right tabular-nums ${toneOf(p.pnl)}`}>
+                  {formatSignedMoney(p.pnl, '$')}
+                  <span className="block text-xs">
+                    {p.r >= 0 ? '+' : ''}
+                    {p.r.toFixed(2)}R
+                  </span>
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p className="text-muted-foreground mt-1.5 text-xs">เงินสด {formatMoney(equity - invested, '$')}</p>
+        </>
+      )}
+    </div>
+  )
+}
+
+function Market({ quotes, fearGreed }: { quotes: Quote[]; fearGreed: FearGreed | null }) {
+  return (
+    <Card className="gap-0 py-4">
+      <CardContent className="grid items-center gap-4 px-4 sm:grid-cols-[13rem_1fr] sm:px-6">
+        <div className="mx-auto w-full max-w-52 text-center">
+          {fearGreed ? (
+            <>
+              <FearGreedGauge score={fearGreed.score} />
+              <p className="-mt-1 text-sm font-semibold">Fear &amp; Greed: {fearGreedLabel(fearGreed.score)}</p>
+              {fearGreed.previousClose != null && (
+                <p className="text-muted-foreground text-xs">
+                  เมื่อวาน {Math.round(fearGreed.previousClose)}
+                  {fearGreed.previousWeek != null && ` · สัปดาห์ก่อน ${Math.round(fearGreed.previousWeek)}`}
+                </p>
+              )}
+            </>
+          ) : (
+            <p className="text-muted-foreground flex items-center justify-center gap-1 text-sm">
+              <Gauge className="size-4" aria-hidden /> Fear &amp; Greed กำลังโหลด…
+            </p>
+          )}
+        </div>
+        <ul className="grid grid-cols-2 gap-x-6 gap-y-1.5 text-sm sm:grid-cols-3">
+          {quotes.map((q) => (
+            <li key={q.symbol} className="flex items-baseline justify-between gap-2">
+              <span className="text-muted-foreground truncate text-xs">
+                {q.name.replace(' (futures)', '').replace(' (ความกลัว)', '')}
+              </span>
+              <span className="text-right tabular-nums">
+                {formatNumber(q.price, q.price >= 1000 ? 0 : 2)}{' '}
+                <span className={`text-xs ${toneOf(q.changePct)}`}>
+                  {formatPercent(q.changePct, { signed: true, decimals: 1 })}
+                </span>
+              </span>
+            </li>
+          ))}
+        </ul>
       </CardContent>
     </Card>
   )
+}
+
+const VERDICT_TONE = {
+  trade: 'bg-delta-up/10 text-delta-up',
+  caution: 'bg-brand-soft text-brand',
+  'no-trade': 'bg-delta-down/10 text-delta-down',
+} as const
+
+function Today({ desk }: { desk: DayDesk }) {
+  return (
+    <Card className="gap-0 py-4">
+      <CardContent className="px-4 sm:px-6">
+        <div className="mb-2 flex flex-wrap items-center gap-2">
+          <span
+            className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${VERDICT_TONE[desk.environment.verdict]}`}
+          >
+            {VERDICT_LABELS[desk.environment.verdict]}
+          </span>
+          <span className="text-muted-foreground text-xs">{formatDate(desk.date)}</span>
+        </div>
+        <p className="mb-2 font-medium leading-snug">{desk.environment.headline}</p>
+        <Fold title={`ภาวะตลาด (${desk.environment.points.length})`}>
+          <ul className="text-muted-foreground list-disc space-y-1 pl-5">
+            {desk.environment.points.map((p, i) => (
+              <li key={i}>{p}</li>
+            ))}
+          </ul>
+        </Fold>
+        <Fold
+          title={
+            <span className="inline-flex items-center gap-1.5">
+              <AlertTriangle className="text-delta-down size-4" aria-hidden /> ระวัง ({desk.cautions.length})
+            </span>
+          }
+        >
+          <ul className="space-y-1">
+            {desk.cautions.map((c, i) => (
+              <li key={i} className="flex gap-2">
+                {c.time && <span className="text-muted-foreground w-11 shrink-0 tabular-nums">{c.time}</span>}
+                <span>{c.what}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="text-muted-foreground mt-1 text-xs">เวลานิวยอร์ก</p>
+        </Fold>
+        <Fold
+          title={
+            <span className="inline-flex items-center gap-1.5">
+              <Newspaper className="size-4" aria-hidden /> ข่าว ({desk.news.length})
+            </span>
+          }
+        >
+          <ul className="space-y-2">
+            {desk.news.map((n, i) => (
+              <li key={i}>
+                <a
+                  href={n.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-brand inline-flex gap-1 font-medium hover:underline"
+                >
+                  {n.title}
+                  <ExternalLink className="mt-1 size-3 shrink-0" aria-hidden />
+                </a>
+                <p className="text-muted-foreground text-xs">{n.note}</p>
+              </li>
+            ))}
+          </ul>
+        </Fold>
+      </CardContent>
+    </Card>
+  )
+}
+
+const STATUS_TONE: Record<PlanStatus, string> = {
+  waiting: 'bg-muted text-muted-foreground',
+  open: 'bg-brand-soft text-brand',
+  'no-touch': 'bg-muted text-muted-foreground',
+  'no-confirm': 'bg-muted text-muted-foreground',
+  'skipped-rr': 'bg-muted text-muted-foreground',
+  'gap-stop': 'bg-muted text-muted-foreground',
+  win: 'bg-delta-up/10 text-delta-up',
+  loss: 'bg-delta-down/10 text-delta-down',
+  'time-exit': 'bg-brand-soft text-brand',
 }
 
 function Plans({
@@ -316,41 +360,32 @@ function Plans({
 }) {
   return (
     <section aria-labelledby="plans" className="space-y-3">
-      <h2 id="plans" className="font-display text-xl font-medium">
-        แผนเทรดวันนี้ ({desk.plans.length}/{RULES.maxPlans})
+      <h2 id="plans" className="font-display text-lg font-medium">
+        แผนวันนี้ ({desk.plans.length})
       </h2>
       {desk.plans.length === 0 && (
-        <Card>
-          <CardContent className="text-sm leading-relaxed">
-            <p className="font-semibold">วันนี้ไม่มีแผนเทรด</p>
-            <p className="text-muted-foreground">
-              ไม่มีหุ้นที่เข้า setup และคุ้มเสี่ยงพอ การอยู่เฉยๆ ก็เป็นการตัดสินใจที่ดี
-            </p>
-          </CardContent>
-        </Card>
+        <p className="text-muted-foreground text-sm">ไม่มีหุ้นที่เข้าเงื่อนไข วันนี้อยู่เฉยๆ</p>
       )}
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-3 lg:grid-cols-2">
         {desk.plans.map((p) => (
           <PlanCard key={p.id} plan={p} outcome={outcomes.get(p.id)} bars={bars.get(p.ticker) ?? []} />
         ))}
       </div>
       {desk.passed.length > 0 && (
-        <details className="group rounded-2xl border bg-card px-4 py-3 text-sm">
-          <summary className="cursor-pointer list-none font-semibold [&::-webkit-details-marker]:hidden">
-            ตัวที่ดูแล้วไม่เอา ({desk.passed.length})
-            <ChevronDown
-              className="text-muted-foreground ml-1 inline size-4 transition-transform group-open:rotate-180"
-              aria-hidden
-            />
-          </summary>
-          <ul className="mt-2 space-y-1">
-            {desk.passed.map((x) => (
-              <li key={x.ticker}>
-                <span className="font-semibold">{x.ticker}</span> <span className="text-muted-foreground">{x.why}</span>
-              </li>
-            ))}
-          </ul>
-        </details>
+        <Card className="gap-0 py-1">
+          <CardContent className="px-4 sm:px-6">
+            <Fold title={`ดูแล้วไม่เอา (${desk.passed.length})`}>
+              <ul className="space-y-1">
+                {desk.passed.map((x) => (
+                  <li key={x.ticker}>
+                    <span className="font-semibold">{x.ticker}</span>{' '}
+                    <span className="text-muted-foreground">{x.why}</span>
+                  </li>
+                ))}
+              </ul>
+            </Fold>
+          </CardContent>
+        </Card>
       )}
     </section>
   )
@@ -359,7 +394,7 @@ function Plans({
 function PlanCard({ plan, outcome, bars }: { plan: DayPlan; outcome?: PlanOutcome; bars: Bar[] }) {
   const lines = useMemo(
     () => [
-      { price: plan.level, label: plan.levelName, color: '--brand' },
+      { price: plan.level, label: 'จุด', color: '--brand' },
       { price: plan.target, label: 'เป้า', color: '--delta-up', dashed: true },
       ...(outcome?.entry ? [{ price: outcome.entry.price, label: 'เข้า', color: '--series-you' }] : []),
       ...(outcome?.stop != null ? [{ price: outcome.stop, label: 'stop', color: '--delta-down', dashed: true }] : []),
@@ -373,46 +408,42 @@ function PlanCard({ plan, outcome, bars }: { plan: DayPlan; outcome?: PlanOutcom
     ['Execution', plan.execution],
   ] as const
   return (
-    <Card className="gap-4">
-      <CardHeader>
-        <CardTitle className="flex flex-wrap items-center gap-2">
-          <span className="text-lg">{plan.ticker}</span>
-          <span className="bg-muted rounded-full px-2 py-0.5 text-xs font-medium">{SETUP_LABELS[plan.setup]}</span>
+    <Card className="gap-0 py-4">
+      <CardContent className="space-y-2 px-4 sm:px-6">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-lg font-semibold">{plan.ticker}</span>
+          <span className="text-muted-foreground text-xs">{SETUP_LABELS[plan.setup].split(' (')[0]}</span>
           {outcome && (
-            <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_TONE[outcome.status]}`}>
+            <span className={`ml-auto rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_TONE[outcome.status]}`}>
               {STATUS_LABELS[outcome.status]}
               {outcome.r != null && ` ${outcome.r >= 0 ? '+' : ''}${outcome.r.toFixed(2)}R`}
             </span>
           )}
-        </CardTitle>
-        <CardDescription className="leading-relaxed">{plan.why}</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4 text-sm">
-        <p className="text-muted-foreground flex flex-wrap gap-x-4 gap-y-1 tabular-nums">
-          <span>
-            จุด: {plan.levelName} {formatMoney(plan.level, '$')}
-          </span>
-          <span>
-            เป้า: {plan.targetName} {formatMoney(plan.target, '$')}
-          </span>
-          {outcome?.stop != null && <span>stop {formatMoney(outcome.stop, '$')}</span>}
-          {outcome?.rr != null && <span>คุ้มเสี่ยงตอนเข้า 1:{outcome.rr.toFixed(1)}</span>}
+        </div>
+        <p className="text-sm tabular-nums">
+          รอที่ <span className="font-semibold">{formatNumber(plan.level)}</span>{' '}
+          <span className="text-muted-foreground">({plan.levelName})</span> → เป้า{' '}
+          <span className="font-semibold">{formatNumber(plan.target)}</span>
+          {outcome?.rr != null && <span className="text-muted-foreground"> · 1:{outcome.rr.toFixed(1)}</span>}
         </p>
+        {outcome && <p className="text-muted-foreground text-xs">{outcome.note}</p>}
         <PlanChart bars={bars} lines={lines} />
-        <ol className="space-y-2">
-          {steps.map(([name, text], i) => (
-            <li key={name} className="flex gap-3">
-              <span className="bg-brand text-background flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold">
-                {i + 1}
-              </span>
-              <span className="leading-relaxed">
-                <span className="font-semibold">{name}: </span>
-                {text}
-              </span>
-            </li>
-          ))}
-        </ol>
-        {outcome && <p className="bg-muted/60 rounded-xl px-3 py-2 text-xs leading-relaxed">{outcome.note}</p>}
+        <Fold title="แผน 4 ขั้น">
+          <p className="text-muted-foreground mb-2">{plan.why}</p>
+          <ol className="space-y-1.5">
+            {steps.map(([name, text], i) => (
+              <li key={name} className="flex gap-2">
+                <span className="bg-brand text-background flex size-5 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold">
+                  {i + 1}
+                </span>
+                <span>
+                  <span className="font-semibold">{name}: </span>
+                  {text}
+                </span>
+              </li>
+            ))}
+          </ol>
+        </Fold>
       </CardContent>
     </Card>
   )
@@ -423,204 +454,94 @@ const SCAN_TONE = {
   wait: 'bg-brand-soft text-brand',
   avoid: 'bg-muted text-muted-foreground',
 } as const
-const SCAN_LABEL = { good: 'เข้า setup คุ้มเสี่ยง', wait: 'เฝ้าดู', avoid: 'ไม่ควรเข้า' } as const
-const LOCATION_LABEL = { 'above-value': 'เหนือ value', 'in-value': 'ใน value', 'below-value': 'ใต้ value' } as const
+const SCAN_LABEL = { good: 'เข้าเงื่อนไข', wait: 'เฝ้าดู', avoid: 'ไม่เอา' } as const
+const LOCATION_LABEL = { 'above-value': 'เหนือ VA', 'in-value': 'ใน VA', 'below-value': 'ใต้ VA' } as const
 
 function Scanner({ rows, scannedAt }: { rows: ScanRow[]; scannedAt: string }) {
+  const [show, setShow] = useState<ScanRow['status']>('good')
   const counts = { good: 0, wait: 0, avoid: 0 }
   for (const r of rows) counts[r.status]++
+  const shown = rows.filter((r) => r.status === show)
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>คัดหุ้นก่อนตลาดเปิด</CardTitle>
-        <CardDescription>
-          สแกน {rows.length} ตัว เมื่อ{' '}
-          {new Date(scannedAt).toLocaleString('th-TH-u-ca-gregory', { dateStyle: 'medium', timeStyle: 'short' })} · เข้า
-          setup {counts.good} · เฝ้าดู {counts.wait} · ไม่ควรเข้า {counts.avoid} · เทียบกับ value area
-          (ช่วงราคาที่มีการซื้อขาย 70%) ของเมื่อวาน คุ้มเสี่ยงเป็นค่าประมาณก่อนเปิด
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>หุ้น</TableHead>
-              <TableHead className="text-right">ก่อนเปิด</TableHead>
-              <TableHead>ตำแหน่ง</TableHead>
-              <TableHead>setup · จุด → เป้า</TableHead>
-              <TableHead className="text-right">คุ้มเสี่ยง</TableHead>
-              <TableHead>ผล</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {rows.map((r) => (
-              <TableRow key={r.ticker} className="align-top">
-                <TableCell className="font-semibold">{r.ticker}</TableCell>
-                <TableCell className="text-right tabular-nums">
-                  {formatNumber(r.price)}
-                  <div className={`text-xs ${r.gapPct >= 0 ? 'text-delta-up' : 'text-delta-down'}`}>
-                    {formatPercent(r.gapPct, { signed: true, decimals: 1 })}
-                  </div>
-                </TableCell>
-                <TableCell className="text-xs">{LOCATION_LABEL[r.location]}</TableCell>
-                <TableCell className="text-xs">
-                  {r.setup && SETUP_LABELS[r.setup].split(' (')[0]}
-                  <div className="text-muted-foreground tabular-nums">
-                    {r.levelName} {formatNumber(r.level)} → {formatNumber(r.target)}
-                  </div>
-                </TableCell>
-                <TableCell className="text-right tabular-nums">
-                  {r.estRr != null ? `1:${r.estRr.toFixed(1)}` : '—'}
-                </TableCell>
-                <TableCell className="max-w-72 text-xs whitespace-normal">
-                  <span className={`rounded-full px-2 py-0.5 font-medium ${SCAN_TONE[r.status]}`}>
-                    {SCAN_LABEL[r.status]}
-                  </span>
-                  <p className="text-muted-foreground mt-1 leading-relaxed">{r.reasons[0]}</p>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
-  )
-}
-
-function Account({ state, pending }: { state: DayState | null; pending?: string }) {
-  // Before the first grade there's no state.json yet: an empty account, so the calendar still shows.
-  state ??= {
-    updatedAt: '',
-    days: [],
-    account: { cashUsd: RULES.startingCashUsd, trades: [], points: [] },
-    stats: dayStats([]),
-  }
-  const stats = dayStats(state.account.trades)
-  const counted = state.days.flatMap((d) => d.outcomes)
-  const stayedOut = counted.filter((o) =>
-    ['no-touch', 'no-confirm', 'skipped-rr', 'gap-stop'].includes(o.status),
-  ).length
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>พอร์ตเดย์เทรด</CardTitle>
-        <CardDescription>
-          เงินสมมติเริ่ม ${formatNumber(RULES.startingCashUsd, 0)} แล้วปล่อยรันต่อเนื่อง ไม่รีเซ็ตทุกวัน:
-          กำไรขาดทุนสะสมเข้าพอร์ต และขนาดเทรดคิดจากมูลค่าพอร์ต ณ ต้นวันนั้น เสี่ยง {RULES.riskPct}% ต่อเทรด
-          หยุดเมื่อขาดทุนถึง {RULES.dailyLossPct}% ของวัน รวมค่าคอมมิชชัน Dime! ทั้งซื้อและขาย
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <dl className="grid grid-cols-2 gap-4 text-sm sm:grid-cols-5">
-          <Stat label="มูลค่าพอร์ต" value={formatMoney(state.account.cashUsd, '$')} />
-          <Stat label="กำไร/ขาดทุน" value={formatSignedMoney(stats.pnlUsd, '$')} tone={stats.pnlUsd} />
-          <Stat label="จำนวนเทรด" value={`${stats.trades}`} hint={`ไม่เข้า ${stayedOut} แผน`} />
-          <Stat
-            label="อัตราชนะ"
-            value={stats.winRatePct != null ? formatPercent(stats.winRatePct, { decimals: 0 }) : '—'}
-          />
-          <Stat
-            label="เฉลี่ยต่อเทรด"
-            value={stats.avgR != null ? `${stats.avgR >= 0 ? '+' : ''}${stats.avgR.toFixed(2)}R` : '—'}
-            tone={stats.avgR}
-          />
-        </dl>
-        <PnlCalendar state={state} pending={pending} />
-        {state.account.trades.length > 0 && (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>วัน</TableHead>
-                <TableHead>หุ้น</TableHead>
-                <TableHead className="text-right">เข้า</TableHead>
-                <TableHead className="text-right">ออก</TableHead>
-                <TableHead className="text-right">R</TableHead>
-                <TableHead className="text-right">กำไร/ขาดทุน</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {state.account.trades.toReversed().map((t) => (
-                <TableRow key={t.planId}>
-                  <TableCell>{formatDate(t.date)}</TableCell>
-                  <TableCell className="font-semibold">{t.ticker}</TableCell>
-                  <TableCell className="text-right tabular-nums">
-                    {formatNumber(t.entry)} <span className="text-muted-foreground text-xs">{t.entryTime}</span>
-                  </TableCell>
-                  <TableCell className="text-right tabular-nums">
-                    {formatNumber(t.exit)} <span className="text-muted-foreground text-xs">{t.exitTime}</span>
-                  </TableCell>
-                  <TableCell className={`text-right tabular-nums ${t.r >= 0 ? 'text-delta-up' : 'text-delta-down'}`}>
-                    {t.r >= 0 ? '+' : ''}
-                    {t.r.toFixed(2)}
-                  </TableCell>
-                  <TableCell className="text-right tabular-nums">
-                    {t.taken ? formatSignedMoney(t.pnlUsd, '$') : t.note}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-        <p className="text-muted-foreground text-xs leading-relaxed">
-          ยังเร็วเกินไปที่จะสรุปจากไม่กี่เทรด ต้องมีอย่างน้อยราว 30–50 เทรดก่อนจะบอกได้ว่าวิธีคิดได้ผลหรือเป็นแค่ดวง
+    <Card className="gap-0 py-4">
+      <CardContent className="space-y-3 px-4 sm:px-6">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h2 className="font-display text-lg font-medium">คัดหุ้น</h2>
+          <p className="text-muted-foreground text-xs">
+            {rows.length} ตัว ·{' '}
+            {new Date(scannedAt).toLocaleTimeString('th-TH-u-ca-gregory', { hour: '2-digit', minute: '2-digit' })} น.
+          </p>
+        </div>
+        <div className="flex gap-1" role="tablist">
+          {(['good', 'wait', 'avoid'] as const).map((k) => (
+            <button
+              key={k}
+              type="button"
+              role="tab"
+              aria-selected={show === k}
+              onClick={() => setShow(k)}
+              className={`rounded-full px-3 py-1 text-xs font-medium ${show === k ? SCAN_TONE[k] + ' ring-1 ring-current' : 'text-muted-foreground'}`}
+            >
+              {SCAN_LABEL[k]} {counts[k]}
+            </button>
+          ))}
+        </div>
+        <ul className="divide-y">
+          {shown.map((r) => (
+            <li key={r.ticker} className="py-2 text-sm">
+              <div className="flex items-baseline gap-2">
+                <span className="w-14 shrink-0 font-semibold">{r.ticker}</span>
+                <span className="text-muted-foreground min-w-0 flex-1 truncate text-xs tabular-nums">
+                  {LOCATION_LABEL[r.location]} · {r.levelName?.replace(' เมื่อวาน', '')} {formatNumber(r.level)} →{' '}
+                  {formatNumber(r.target)}
+                </span>
+                <span className="tabular-nums">{r.estRr != null ? `1:${r.estRr.toFixed(1)}` : '—'}</span>
+              </div>
+              <p className="text-muted-foreground pl-16 text-xs">{r.reasons[0]}</p>
+            </li>
+          ))}
+        </ul>
+        <p className="text-muted-foreground text-xs">
+          VA = value area ของเมื่อวาน (ช่วงราคาที่ซื้อขาย 70%) · คุ้มเสี่ยงเป็นค่าประมาณ
         </p>
       </CardContent>
     </Card>
-  )
-}
-
-function Stat({ label, value, hint, tone }: { label: string; value: string; hint?: string; tone?: number | null }) {
-  return (
-    <div>
-      <dt className="text-muted-foreground">{label}</dt>
-      <dd
-        className={`text-lg font-semibold tabular-nums ${tone == null || Math.abs(tone) < 0.005 ? '' : tone > 0 ? 'text-delta-up' : 'text-delta-down'}`}
-      >
-        {value}
-      </dd>
-      {hint && <dd className="text-muted-foreground text-xs">{hint}</dd>}
-    </div>
   )
 }
 
 function Rules() {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>กติกาของเดย์เทรด</CardTitle>
-      </CardHeader>
-      <CardContent className="text-muted-foreground space-y-3 text-sm leading-relaxed">
-        <ol className="list-decimal space-y-1.5 pl-5">
-          <li>
-            <span className="text-foreground font-semibold">Environment:</span> ก่อนเปิดตลาดดู Fear &amp; Greed, VIX,
-            ดัชนี และข่าว/ตัวเลขที่จะออกวันนี้ ตัดสินว่าวันนี้เทรดได้ ระวัง หรือไม่เทรด
-          </li>
-          <li>
-            <span className="text-foreground font-semibold">Location:</span> เทรดเฉพาะที่ระดับราคาสำคัญ: value area
-            (VAH/VAL), POC และ high/low ของเมื่อวาน ไม่ไล่ราคากลางทาง
-          </li>
-          <li>
-            <span className="text-foreground font-semibold">Confirmation:</span> ต้องมีแท่ง 5
-            นาทีที่ระดับนั้นปิดกลับเหนือระดับ เป็นแท่งเขียว ปิดครึ่งบนของแท่ง และ volume สูงกว่าแท่งก่อนหน้าอย่างน้อย{' '}
-            {RULES.volume.hold}–{RULES.volume.reclaim} เท่า (สัญญาณว่ามีคนรับของตรงนั้น) ไม่มีแท่งนี้ = ไม่เข้า
-          </li>
-          <li>
-            <span className="text-foreground font-semibold">Execution:</span> ซื้อที่ราคาเปิดแท่งถัดไป stop
-            ใต้จุดต่ำสุดที่ระดับนั้น เข้าเฉพาะเมื่อคุ้มเสี่ยงอย่างน้อย 1:{RULES.minRr} เข้าได้ 09:45–15:00 น. (นิวยอร์ก)
-            ขายทุกตัวก่อนตลาดปิด ไม่ถือข้ามคืน
-          </li>
-        </ol>
-        <p>
-          ระบบเป็นคนตัดสินว่าเกิดสัญญาณหรือไม่ จากกราฟ 5 นาทีจริงตามกฎด้านบน AI เลือกได้แค่หุ้น ระดับ และเป้า
-          ก่อนตลาดเปิด แผนที่บันทึกหลังตลาดเปิดนับเฉพาะแท่งหลังเวลาที่บันทึก ถ้าแท่งเดียวแตะทั้ง stop และเป้า นับเป็น
-          stop
-        </p>
-        <p>
-          ข้อจำกัด: วิธีในคลิปต้นแบบใช้ข้อมูล order flow (การรับของจริงในแต่ละราคา) และ gamma ของออปชัน
-          ซึ่งเป็นข้อมูลแบบเสียเงิน ที่นี่ใช้ตัวแทนจากข้อมูลฟรี: value area คำนวณจากแท่ง 5 นาที และ “การรับของ” ดูจาก
-          volume ที่พุ่งตอนราคาเด้งกลับ จึงหยาบกว่าของจริง
-        </p>
-        <p>เงินสมมติ ไม่ใช่เงินจริง และไม่ใช่คำแนะนำการลงทุน</p>
+    <Card id="rules" className="gap-0 py-1">
+      <CardContent className="px-4 sm:px-6">
+        <Fold title="วิธีทำงานและกติกา">
+          <ol className="text-muted-foreground list-decimal space-y-1.5 pl-5">
+            <li>
+              <span className="text-foreground font-semibold">Environment</span> ก่อนเปิดตลาด AI ดู Fear &amp; Greed,
+              VIX, ดัชนี, ข่าว แล้วตัดสิน: เทรด / ระวัง / ไม่เทรด
+            </li>
+            <li>
+              <span className="text-foreground font-semibold">Location</span> รอที่ระดับราคาสำคัญของเมื่อวานเท่านั้น
+              (VAH, VAL, POC, high, low)
+            </li>
+            <li>
+              <span className="text-foreground font-semibold">Confirmation</span> แท่ง 5 นาทีที่แนวต้องปิดกลับเหนือแนว
+              เป็นแท่งเขียว ปิดครึ่งบน volume ≥{RULES.volume.hold}–{RULES.volume.reclaim} เท่า ไม่มีแท่งนี้ = ไม่เข้า
+            </li>
+            <li>
+              <span className="text-foreground font-semibold">Execution</span> ซื้อแท่งถัดไป stop ใต้จุดต่ำสุดที่แนว
+              เข้าเมื่อคุ้ม ≥1:{RULES.minRr} ช่วง 09:45–15:00 น. (นิวยอร์ก) ขายหมดก่อนปิด
+            </li>
+          </ol>
+          <ul className="text-muted-foreground mt-3 list-disc space-y-1 pl-5">
+            <li>
+              เสี่ยง {RULES.riskPct}% ต่อเทรด หยุดเมื่อขาดทุน {RULES.dailyLossPct}% ของวัน ไม่เกิน {RULES.maxPlans}{' '}
+              แผนต่อวัน พอร์ตทบต้น รวมค่าคอม Dime!
+            </li>
+            <li>ระบบตัดสินสัญญาณเองจากกราฟจริง แผนนับตั้งแต่เวลาที่บันทึก แท่งที่แตะทั้ง stop และเป้า นับเป็น stop</li>
+            <li>ใช้ข้อมูลฟรีแทน order flow และ gamma ในคลิปต้นแบบ จึงหยาบกว่าของจริง</li>
+            <li>เงินสมมติ ไม่ใช่คำแนะนำการลงทุน</li>
+          </ul>
+        </Fold>
       </CardContent>
     </Card>
   )
