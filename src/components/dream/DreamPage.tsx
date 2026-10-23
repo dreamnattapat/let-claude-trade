@@ -1,7 +1,8 @@
-import { ArrowLeft, Check, ChevronDown, ExternalLink, Trophy, X } from 'lucide-react'
+import { Check, ChevronDown, ExternalLink, Trophy, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { AgentAvatar } from '@/components/dream/AgentAvatar'
+import { SiteHeader } from '@/components/SiteHeader'
 import { DreamChart } from '@/components/dream/DreamChart'
 import { TradeBadge } from '@/components/TradeBadge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -38,11 +39,8 @@ export function DreamPage() {
   }, [latestDate])
 
   return (
-    <main className="mx-auto max-w-5xl space-y-6 px-4 pt-8 pb-12 sm:pt-12">
-      <a href="/" className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-sm">
-        <ArrowLeft className="size-4" aria-hidden />
-        ส่องพอร์ต Dime
-      </a>
+    <main className="mx-auto max-w-5xl space-y-6 px-4 pt-6 pb-12 sm:pt-10">
+      <SiteHeader active="lynch" />
       <header className="space-y-2">
         <p className="text-brand text-sm font-semibold">ความท้าทาย · สไตล์ Peter Lynch</p>
         <h1 className="font-display text-3xl font-medium sm:text-4xl">ทีม Lynch</h1>

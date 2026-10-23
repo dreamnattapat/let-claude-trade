@@ -57,11 +57,11 @@
 
 :root {
     --radius: 0.625rem;
-    /* A warm peach page behind white cards. The orange comes from the happy
-       bunny, deepened so white text on it stays readable. */
-    --background: #fff5ec;
-    --brand: #c4561a;
-    --brand-soft: #fde6d4;
+    /* A cool, quiet desk: pale grey-green page, deep teal accent (white text on
+       it stays readable). Kept apart from ส่องพอร์ต Dime's warm peach. */
+    --background: #f3f6f5;
+    --brand: #0f6b62;
+    --brand-soft: #d7ece8;
     --foreground: oklch(0.145 0 0);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
@@ -106,8 +106,8 @@
 
 .dark {
     --background: oklch(0.145 0 0);
-    --brand: #3987e5;
-    --brand-soft: #1b2a40;
+    --brand: #3cc2b0;
+    --brand-soft: #16302d;
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.205 0 0);
     --card-foreground: oklch(0.985 0 0);
@@ -156,21 +156,6 @@
     @apply bg-background text-foreground;
     }
 }
-/* Onboarding: the Gmail → device line in the "where your data goes" diagram.
-   Dots travel toward the device; reduced motion shows them still. */
-.data-flow {
-    background-image: radial-gradient(circle, var(--brand) 1.5px, transparent 2px);
-    background-size: 8px 2px;
-    background-repeat: repeat-x;
-    animation: data-flow 0.8s linear infinite;
-}
-@keyframes data-flow {
-    to { background-position-x: 8px; }
-}
-@media (prefers-reduced-motion: reduce) {
-    .data-flow { animation: none; }
-}
-
 /* Light surface tokens, for alerts and anything else that must read on white. */
 .paper {
     --foreground: oklch(0.145 0 0);

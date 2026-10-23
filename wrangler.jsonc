@@ -1,8 +1,8 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "songport-dime",
+  "name": "trade-desk",
   "compatibility_date": "2026-10-01",
-  // The price proxy (ticker symbols only); see worker/index.ts.
+  // The market data proxy (ticker symbols only); see worker/index.ts.
   "main": "worker/index.ts",
   // The built site in dist/. Requests are served from it, except /api/*,
   // which goes to the Worker.

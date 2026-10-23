@@ -1,26 +1,15 @@
 import { Badge } from '@/components/ui/badge'
-import type { TransactionType } from '@/lib/dime/parser'
 
-const TRADE_LABELS: Record<TransactionType | 'Split', string> = {
-  Buy: 'ซื้อ',
-  Sell: 'ขาย',
-  Reward: 'รางวัล',
-  'Exercise Call': 'ใช้สิทธิ Call',
-  'Exercise Put': 'ใช้สิทธิ Put',
-  Split: 'แตกหุ้น',
-}
+const TRADE_LABELS = { Buy: 'ซื้อ', Sell: 'ขาย' } as const
 
-const TONES: Partial<Record<TransactionType | 'Split', string>> = {
-  Buy: 'bg-delta-up/10 text-delta-up',
-  Sell: 'bg-delta-down/10 text-delta-down',
-}
-
-/** Buy in green, sell in red (the label carries it too); anything else plain. */
-export function TradeBadge({ kind }: { kind: TransactionType | 'Split' }) {
-  const tone = TONES[kind]
+/** Buy in green, sell in red (the label carries it too). */
+export function TradeBadge({ kind }: { kind: keyof typeof TRADE_LABELS }) {
   return (
-    <Badge variant={tone ? 'ghost' : 'outline'} className={tone}>
-      {TRADE_LABELS[kind] ?? kind}
+    <Badge
+      variant="ghost"
+      className={kind === 'Buy' ? 'bg-delta-up/10 text-delta-up' : 'bg-delta-down/10 text-delta-down'}
+    >
+      {TRADE_LABELS[kind]}
     </Badge>
   )
 }

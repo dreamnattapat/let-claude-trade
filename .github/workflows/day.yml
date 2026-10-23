@@ -1,0 +1,52 @@
+# The day desk's two jobs: the pre-open scan (the AI desk plans from it) and,
+# after the US close, grading every plan against the real 5-minute bars.
+name: Day desk
+
+on:
+  schedule:
+    # 12:30 UTC = 19:30 Bangkok, 08:30 New York in summer (07:30 in winter): pre-market.
+    - cron: '30 12 * * 1-5'
+    # 21:40 UTC = 04:40 Bangkok, after the 16:00 New York close (EDT or EST).
+    - cron: '40 21 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      job:
+        description: scan or grade
+        required: true
+        default: grade
+
+permissions:
+  contents: write
+
+concurrency:
+  group: day
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # grading reads when each plan file was committed
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Scan
+        if: github.event.schedule == '30 12 * * 1-5' || inputs.job == 'scan'
+        run: node scripts/day-scan.ts
+      - name: Grade
+        if: github.event.schedule == '40 21 * * 1-5' || inputs.job == 'grade'
+        run: node scripts/day-grade.ts
+      - name: Commit if changed
+        run: |
+          git config user.name "day-desk-bot"
+          git config user.email "day-desk-bot@users.noreply.github.com"
+          git add public/day/scan public/day/state.json 2>/dev/null || true
+          if git diff --cached --quiet; then echo "No change"; exit 0; fi
+          git commit -m "Day desk: $(date -u +%F) ${{ github.event.schedule == '30 12 * * 1-5' && 'scan' || 'grade' }}"
+          git pull --rebase origin main
+          git push origin HEAD:main
+      - name: Checks
+        run: node scripts/day-check.ts
