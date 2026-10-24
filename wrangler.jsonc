@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "trade-lab",
+  "name": "let-claude-cook",
   "compatibility_date": "2026-10-01",
   // The market data proxy (ticker symbols only); see worker/index.ts.
   "main": "worker/index.ts",
