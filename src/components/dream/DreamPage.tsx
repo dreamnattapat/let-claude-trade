@@ -44,11 +44,18 @@ export function DreamPage() {
       <SiteHeader />
       <header>
         <h1 className="font-display text-2xl font-medium sm:text-3xl">Swing Cook</h1>
-        <p className="text-muted-foreground text-sm">
-          <a href="#rules" className="text-brand hover:underline">
-            วิธีทำงาน
-          </a>
-        </p>
+        <nav aria-label="ในหน้านี้" className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-sm">
+          {[
+            ['#meeting', 'ประชุมล่าสุด'],
+            ['#lessons', 'บทเรียน'],
+            ['#trades', 'ซื้อขาย'],
+            ['#rules', 'วิธีทำงาน'],
+          ].map(([href, label]) => (
+            <a key={href} href={href} className="text-brand hover:underline">
+              {label}
+            </a>
+          ))}
+        </nav>
       </header>
 
       {error && <p className="text-muted-foreground text-sm">โหลดข้อมูลทีม Lynch ไม่ได้ ({error})</p>}
@@ -234,7 +241,7 @@ function Team({ latest }: { latest: DreamReport | null }) {
 
 function LatestMeeting({ report, fills, empty }: { report: DreamReport | null; fills: DreamFill[]; empty: boolean }) {
   return (
-    <Card className="gap-3 py-4">
+    <Card id="meeting" className="scroll-mt-4 gap-3 py-4">
       <CardHeader className="px-4 sm:px-6">
         <CardTitle>ประชุมล่าสุด</CardTitle>
         <CardDescription>
@@ -290,163 +297,211 @@ function Report({ report, fills }: { report: DreamReport; fills: DreamFill[] }) 
         <AgentAvatar agent="captain" />
         <div className="space-y-1">
           <p className="font-display text-lg leading-snug font-medium">{report.headline}</p>
-          <p className="text-muted-foreground text-sm leading-relaxed">{report.summary}</p>
+          <ClampText className="text-muted-foreground text-sm leading-relaxed">{report.summary}</ClampText>
           {report.model && <p className="text-muted-foreground text-xs">ประชุมโดยโมเดล {report.model}</p>}
         </div>
       </div>
 
-      <div className="space-y-2">
-        <h3 className="text-sm font-semibold">การตัดสินใจ</h3>
-        <ul className="divide-y rounded-2xl border">
-          {report.decisions.map((d, i) => {
-            const fill = d.orderId ? byId.get(d.orderId) : undefined
-            return (
-              <li key={`${d.ticker}-${i}`} className="space-y-1.5 px-4 py-3 text-sm">
-                <div className="flex flex-wrap items-start gap-x-3 gap-y-1">
-                  <span className="w-16 shrink-0 font-semibold">{d.ticker}</span>
-                  <DecisionBadge action={d.action} />
-                  {d.theme && (
-                    <span className="bg-muted shrink-0 rounded-full px-2 py-0.5 text-xs font-medium">
-                      {DREAM_THEMES[d.theme] ?? d.theme}
-                    </span>
-                  )}
-                  {d.category && <CategoryChip category={d.category} />}
-                  {d.lessons?.map((id) => (
-                    <span
-                      key={id}
-                      className="bg-series-dream/10 text-series-dream shrink-0 rounded-full px-2 py-0.5 text-xs"
-                    >
-                      ใช้บทเรียน {id}
-                    </span>
-                  ))}
-                  <span className="min-w-0 flex-1 basis-60 leading-relaxed">
-                    {d.about && <span className="block">{d.about}</span>}
-                    <span className="text-muted-foreground block">{d.why}</span>
-                  </span>
-                  {fill && <FillStatus fill={fill} />}
-                </div>
-                {d.targetUsd != null && d.stopUsd != null && d.priceUsd != null && <RewardRiskLine decision={d} />}
-                {priceChecks
-                  .filter((c) => c.ticker === d.ticker)
-                  .map((c) => (
-                    <p key={c.ticker} className="text-delta-down text-xs">
-                      ⚠ ราคาตอนประชุมในรายงานต่างจากราคาปิดจริง {formatMoney(c.closeUsd, '$')} (
-                      {formatDate(c.closeDate)}) อยู่ {formatPercent(c.diffPct, { signed: true, decimals: 1 })}
-                    </p>
-                  ))}
-                {d.story && (
-                  <details className="group/story">
-                    <summary className="text-brand cursor-pointer list-none text-xs font-medium [&::-webkit-details-marker]:hidden">
-                      เรื่องเล่า 2 นาที
-                      <ChevronDown
-                        className="ml-0.5 inline size-3 transition-transform group-open/story:rotate-180"
-                        aria-hidden
-                      />
-                    </summary>
-                    <div className="bg-muted/60 mt-2 space-y-2 rounded-xl px-3 py-2 text-xs leading-relaxed">
-                      <p>{d.story}</p>
-                      {d.sellIf && (
-                        <p>
-                          <span className="font-semibold">ขายเมื่อ: </span>
-                          {d.sellIf}
-                        </p>
-                      )}
-                    </div>
-                  </details>
-                )}
-                {d.bearCase && d.bearCase.length > 0 && (
-                  <details className="group/bear">
-                    <summary className="text-brand cursor-pointer list-none text-xs font-medium [&::-webkit-details-marker]:hidden">
-                      ฝ่ายค้าน: ทำไมอาจผิด
-                      <ChevronDown
-                        className="ml-0.5 inline size-3 transition-transform group-open/bear:rotate-180"
-                        aria-hidden
-                      />
-                    </summary>
-                    <div className="bg-muted/60 mt-2 space-y-2 rounded-xl px-3 py-2 text-xs leading-relaxed">
-                      <ul className="list-disc space-y-1 pl-4">
-                        {d.bearCase.map((p, j) => (
-                          <li key={j}>{p}</li>
-                        ))}
-                      </ul>
-                      {d.bearAnswer && (
-                        <p>
-                          <span className="font-semibold">กัปตันตอบ: </span>
-                          {d.bearAnswer}
-                        </p>
-                      )}
-                    </div>
-                  </details>
-                )}
-              </li>
-            )
-          })}
-        </ul>
-      </div>
+      {(() => {
+        const acted = report.decisions.filter((d) => d.action !== 'watch')
+        const watched = report.decisions.filter((d) => d.action === 'watch')
+        const row = (d: DreamDecision, i: number) => (
+          <DecisionRow
+            key={`${d.ticker}-${i}`}
+            decision={d}
+            fill={d.orderId ? byId.get(d.orderId) : undefined}
+            checks={priceChecks.filter((c) => c.ticker === d.ticker)}
+          />
+        )
+        return (
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold">
+              การตัดสินใจ <span className="text-muted-foreground font-normal">· แตะเพื่อดูเหตุผล</span>
+            </h3>
+            <ul className="divide-y rounded-2xl border">{acted.map(row)}</ul>
+            {watched.length > 0 && (
+              <Fold title={`จับตา / ยังไม่ซื้อ (${watched.length})`}>
+                <ul className="divide-y rounded-2xl border">{watched.map(row)}</ul>
+              </Fold>
+            )}
+          </div>
+        )
+      })()}
 
-      <div className="space-y-2">
-        <h3 className="text-sm font-semibold">บันทึกของแต่ละคน</h3>
-        {DREAM_AGENTS.map((agent) => {
-          const memo = report.memos.find((m) => m.agent === agent.id)
-          if (!memo) return null
-          return (
-            <details key={agent.id} className="group rounded-2xl border px-4 py-3" open={agent.id === 'story'}>
-              <summary className="flex cursor-pointer list-none items-center gap-3 [&::-webkit-details-marker]:hidden">
-                <AgentAvatar agent={agent.id} size="sm" />
-                <span className="min-w-0 flex-1">
-                  <span className="block text-sm font-semibold">
-                    {agent.name}
-                    {memo.stance && <span className="text-muted-foreground font-normal"> · {memo.stance}</span>}
-                  </span>
-                  <span className="text-muted-foreground block text-xs">{memo.title}</span>
-                  {memo.late && (
-                    <span className="bg-brand-soft text-brand mt-1 inline-block rounded-full px-2 py-0.5 text-[11px] font-medium">
-                      เขียนหลังประชุม
+      <div>
+        <Fold title={`บันทึกของแต่ละคน (${report.memos.length})`}>
+          <div className="space-y-2">
+            {DREAM_AGENTS.map((agent) => {
+              const memo = report.memos.find((m) => m.agent === agent.id)
+              if (!memo) return null
+              return (
+                <details key={agent.id} className="group rounded-2xl border px-4 py-3">
+                  <summary className="flex cursor-pointer list-none items-center gap-3 [&::-webkit-details-marker]:hidden">
+                    <AgentAvatar agent={agent.id} size="sm" />
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-sm font-semibold">
+                        {agent.name}
+                        {memo.stance && <span className="text-muted-foreground font-normal"> · {memo.stance}</span>}
+                      </span>
+                      <span className="text-muted-foreground block text-xs">{memo.title}</span>
+                      {memo.late && (
+                        <span className="bg-brand-soft text-brand mt-1 inline-block rounded-full px-2 py-0.5 text-[11px] font-medium">
+                          เขียนหลังประชุม
+                        </span>
+                      )}
                     </span>
+                    <ChevronDown
+                      className="text-muted-foreground size-4 transition-transform group-open:rotate-180"
+                      aria-hidden
+                    />
+                  </summary>
+                  {memo.late && <p className="text-muted-foreground mt-3 text-xs leading-relaxed">{memo.late}</p>}
+                  <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
+                    {memo.points.map((p, i) => (
+                      <li key={i}>{p}</li>
+                    ))}
+                  </ul>
+                  {memo.sources && memo.sources.length > 0 && (
+                    <ul className="mt-3 flex flex-wrap gap-2 text-xs">
+                      {memo.sources.map((s) => (
+                        <li key={s.url}>
+                          <a
+                            href={s.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-brand hover:bg-accent inline-flex items-center gap-1 rounded-full border px-2.5 py-1"
+                          >
+                            {s.title}
+                            <ExternalLink className="size-3" aria-hidden />
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
                   )}
-                </span>
-                <ChevronDown
-                  className="text-muted-foreground size-4 transition-transform group-open:rotate-180"
-                  aria-hidden
-                />
-              </summary>
-              {memo.late && <p className="text-muted-foreground mt-3 text-xs leading-relaxed">{memo.late}</p>}
-              <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed">
-                {memo.points.map((p, i) => (
-                  <li key={i}>{p}</li>
+                </details>
+              )
+            })}
+          </div>
+        </Fold>
+        {report.nextWatch && report.nextWatch.length > 0 && (
+          <Fold title={`จับตาก่อนประชุมครั้งหน้า (${report.nextWatch.length})`}>
+            <ul className="text-muted-foreground list-disc space-y-1 pl-5">
+              {report.nextWatch.map((w, i) => (
+                <li key={i}>{w}</li>
+              ))}
+            </ul>
+          </Fold>
+        )}
+      </div>
+    </div>
+  )
+}
+
+/** One decision: a one-line summary (ticker, action, reward:risk, fill) that opens to the reasoning. */
+function DecisionRow({
+  decision: d,
+  fill,
+  checks,
+}: {
+  decision: DreamDecision
+  fill?: DreamFill
+  checks: PriceCheck[]
+}) {
+  const ratio =
+    d.targetUsd != null && d.stopUsd != null && d.priceUsd != null
+      ? rewardRisk(d.priceUsd, d.targetUsd, d.stopUsd)
+      : null
+  const verdict = ratio != null ? rewardRiskVerdict(ratio, stopGapPct(d.priceUsd!, d.stopUsd!)) : null
+  return (
+    <li>
+      <details className="group/row">
+        <summary className="flex cursor-pointer list-none items-center gap-2 px-4 py-3 text-sm [&::-webkit-details-marker]:hidden">
+          <span className="w-14 shrink-0 font-semibold">{d.ticker}</span>
+          <DecisionBadge action={d.action} />
+          {checks.length > 0 && <span className="text-delta-down text-xs">⚠ ราคา</span>}
+          <span className="min-w-0 flex-1 truncate text-xs">
+            {fill ? <FillStatus fill={fill} /> : <span className="text-muted-foreground">{d.about ?? ''}</span>}
+          </span>
+          {ratio != null && verdict && (
+            <span className={`shrink-0 text-xs font-semibold tabular-nums ${RR_TONE[verdict.tone]}`}>
+              1:{formatNumber(ratio, 1)}
+            </span>
+          )}
+          <ChevronDown
+            className="text-muted-foreground size-4 shrink-0 transition-transform group-open/row:rotate-180"
+            aria-hidden
+          />
+        </summary>
+        <div className="space-y-2 px-4 pb-3 text-sm">
+          <div className="flex flex-wrap gap-1.5">
+            {d.theme && (
+              <span className="bg-muted rounded-full px-2 py-0.5 text-xs font-medium">
+                {DREAM_THEMES[d.theme] ?? d.theme}
+              </span>
+            )}
+            {d.category && <CategoryChip category={d.category} />}
+            {d.lessons?.map((id) => (
+              <span key={id} className="bg-series-dream/10 text-series-dream rounded-full px-2 py-0.5 text-xs">
+                ใช้บทเรียน {id}
+              </span>
+            ))}
+          </div>
+          {d.about && <p className="leading-relaxed">{d.about}</p>}
+          <p className="text-muted-foreground leading-relaxed">{d.why}</p>
+          {ratio != null && <RewardRiskLine decision={d} />}
+          {checks.map((c) => (
+            <p key={c.ticker} className="text-delta-down text-xs">
+              ⚠ ราคาตอนประชุมในรายงานต่างจากราคาปิดจริง {formatMoney(c.closeUsd, '$')} ({formatDate(c.closeDate)}) อยู่{' '}
+              {formatPercent(c.diffPct, { signed: true, decimals: 1 })}
+            </p>
+          ))}
+          {d.story && (
+            <div className="bg-muted/60 space-y-2 rounded-xl px-3 py-2 text-xs leading-relaxed">
+              <p>
+                <span className="font-semibold">เรื่องเล่า 2 นาที: </span>
+                {d.story}
+              </p>
+              {d.sellIf && (
+                <p>
+                  <span className="font-semibold">ขายเมื่อ: </span>
+                  {d.sellIf}
+                </p>
+              )}
+            </div>
+          )}
+          {d.bearCase && d.bearCase.length > 0 && (
+            <div className="bg-muted/60 space-y-2 rounded-xl px-3 py-2 text-xs leading-relaxed">
+              <p className="font-semibold">ฝ่ายค้าน: ทำไมอาจผิด</p>
+              <ul className="list-disc space-y-1 pl-4">
+                {d.bearCase.map((p, j) => (
+                  <li key={j}>{p}</li>
                 ))}
               </ul>
-              {memo.sources && memo.sources.length > 0 && (
-                <ul className="mt-3 flex flex-wrap gap-2 text-xs">
-                  {memo.sources.map((s) => (
-                    <li key={s.url}>
-                      <a
-                        href={s.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-brand hover:bg-accent inline-flex items-center gap-1 rounded-full border px-2.5 py-1"
-                      >
-                        {s.title}
-                        <ExternalLink className="size-3" aria-hidden />
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+              {d.bearAnswer && (
+                <p>
+                  <span className="font-semibold">กัปตันตอบ: </span>
+                  {d.bearAnswer}
+                </p>
               )}
-            </details>
-          )
-        })}
-      </div>
-
-      {report.nextWatch && report.nextWatch.length > 0 && (
-        <div className="bg-muted/60 space-y-1 rounded-2xl px-4 py-3 text-sm">
-          <h3 className="font-semibold">จับตาก่อนประชุมครั้งหน้า</h3>
-          <ul className="text-muted-foreground list-disc space-y-1 pl-5">
-            {report.nextWatch.map((w, i) => (
-              <li key={i}>{w}</li>
-            ))}
-          </ul>
+            </div>
+          )}
         </div>
+      </details>
+    </li>
+  )
+}
+
+/** A long paragraph cut to three lines, with a button to read the rest. */
+function ClampText({ children, className = '' }: { children: string; className?: string }) {
+  const [open, setOpen] = useState(false)
+  const long = children.length > 180
+  return (
+    <div className={className}>
+      <p className={open || !long ? '' : 'line-clamp-3'}>{children}</p>
+      {long && (
+        <button type="button" onClick={() => setOpen(!open)} className="text-brand mt-0.5 text-xs font-medium">
+          {open ? 'ย่อ' : 'อ่านต่อ'}
+        </button>
       )}
     </div>
   )
@@ -701,64 +756,67 @@ function TradeLog({ fills }: { fills: DreamFill[] }) {
   const buySlip = averageSlip(fills, 'buy')
   const sellSlip = averageSlip(fills, 'sell')
   return (
-    <Card className="gap-3 py-4">
+    <Card id="trades" className="scroll-mt-4 gap-3 py-4">
       <CardHeader className="px-4 sm:px-6">
         <CardTitle>รายการซื้อขายทั้งหมด</CardTitle>
-        <CardDescription>
-          ราคาปิดของรอบที่ซื้อขาย รวมค่าคอมมิชชัน 0.15% + VAT ส่วน "ต่างจากตอนประชุม"
-          คือราคาที่เติมเทียบกับราคาปิดล่าสุดที่ทีมเห็นตอนประชุม
-          {buySlip != null && ` ซื้อเฉลี่ย ${formatPercent(buySlip, { signed: true, decimals: 2 })}`}
-          {buySlip != null && sellSlip != null && ' · '}
-          {sellSlip != null && `ขายเฉลี่ย ${formatPercent(sellSlip, { signed: true, decimals: 2 })}`}
-          {(buySlip != null || sellSlip != null) && ' (ซื้อ: บวก = จ่ายแพงกว่าตอนประชุม, ขาย: บวก = ขายได้ดีกว่า)'}
-        </CardDescription>
+        <CardDescription>เติมที่ราคาปิดของรอบที่เลือก รวมค่าคอมมิชชัน 0.15% + VAT</CardDescription>
       </CardHeader>
       <CardContent className="px-4 sm:px-6">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>รอบ</TableHead>
-              <TableHead>ประเภท</TableHead>
-              <TableHead>หุ้น</TableHead>
-              <TableHead className="text-right">จำนวนหุ้น</TableHead>
-              <TableHead className="text-right">ราคา</TableHead>
-              <TableHead className="text-right">ต่างจากตอนประชุม</TableHead>
-              <TableHead className="text-right">เงินเข้า/ออก</TableHead>
-              <TableHead>สถานะ</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {fills.toReversed().map((f) => (
-              <TableRow key={f.id}>
-                <TableCell>{formatDate(f.fillDate ?? f.effectiveSession)}</TableCell>
-                <TableCell>
-                  <TradeBadge kind={f.side === 'buy' ? 'Buy' : 'Sell'} />
-                </TableCell>
-                <TableCell className="font-medium">{f.ticker}</TableCell>
-                <TableCell className="text-right tabular-nums">
-                  {f.units != null ? formatNumber(f.units, 4) : '—'}
-                </TableCell>
-                <TableCell className="text-right tabular-nums">
-                  {f.price != null ? formatNumber(f.price) : '—'}
-                </TableCell>
-                <TableCell className="text-right tabular-nums">
-                  {f.slipPct != null ? formatPercent(f.slipPct, { signed: true, decimals: 2 }) : '—'}
-                </TableCell>
-                <TableCell className="text-right tabular-nums">
-                  {f.cashUsd != null
-                    ? formatSignedMoney(f.cashUsd, '$')
-                    : f.usd
-                      ? `ซื้อ ${formatMoney(f.usd, '$')}`
-                      : `ขาย ${formatPercent((f.fraction ?? 0) * 100, { decimals: 0 })}`}
-                </TableCell>
-                <TableCell className="text-xs">
-                  {f.status === 'filled' ? 'สำเร็จ' : f.status === 'pending' ? 'รอราคาปิด' : `ไม่สำเร็จ: ${f.note}`}
-                  {f.late && <span className="text-delta-down block">ส่งช้า เลื่อนรอบ</span>}
-                </TableCell>
+        <Fold title={`ดูทั้งหมด (${fills.length})`}>
+          {(buySlip != null || sellSlip != null) && (
+            <p className="text-muted-foreground mb-2 text-xs leading-relaxed">
+              เทียบกับราคาปิดที่ทีมเห็นตอนประชุม:
+              {buySlip != null && ` ซื้อแพงกว่าเฉลี่ย ${formatPercent(buySlip, { signed: true, decimals: 2 })}`}
+              {buySlip != null && sellSlip != null && ' · '}
+              {sellSlip != null && `ขายได้ดีกว่าเฉลี่ย ${formatPercent(sellSlip, { signed: true, decimals: 2 })}`}
+            </p>
+          )}
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>รอบ</TableHead>
+                <TableHead>ประเภท</TableHead>
+                <TableHead>หุ้น</TableHead>
+                <TableHead className="text-right">จำนวนหุ้น</TableHead>
+                <TableHead className="text-right">ราคา</TableHead>
+                <TableHead className="text-right">ต่างจากตอนประชุม</TableHead>
+                <TableHead className="text-right">เงินเข้า/ออก</TableHead>
+                <TableHead>สถานะ</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {fills.toReversed().map((f) => (
+                <TableRow key={f.id}>
+                  <TableCell>{formatDate(f.fillDate ?? f.effectiveSession)}</TableCell>
+                  <TableCell>
+                    <TradeBadge kind={f.side === 'buy' ? 'Buy' : 'Sell'} />
+                  </TableCell>
+                  <TableCell className="font-medium">{f.ticker}</TableCell>
+                  <TableCell className="text-right tabular-nums">
+                    {f.units != null ? formatNumber(f.units, 4) : '—'}
+                  </TableCell>
+                  <TableCell className="text-right tabular-nums">
+                    {f.price != null ? formatNumber(f.price) : '—'}
+                  </TableCell>
+                  <TableCell className="text-right tabular-nums">
+                    {f.slipPct != null ? formatPercent(f.slipPct, { signed: true, decimals: 2 }) : '—'}
+                  </TableCell>
+                  <TableCell className="text-right tabular-nums">
+                    {f.cashUsd != null
+                      ? formatSignedMoney(f.cashUsd, '$')
+                      : f.usd
+                        ? `ซื้อ ${formatMoney(f.usd, '$')}`
+                        : `ขาย ${formatPercent((f.fraction ?? 0) * 100, { decimals: 0 })}`}
+                  </TableCell>
+                  <TableCell className="text-xs">
+                    {f.status === 'filled' ? 'สำเร็จ' : f.status === 'pending' ? 'รอราคาปิด' : `ไม่สำเร็จ: ${f.note}`}
+                    {f.late && <span className="text-delta-down block">ส่งช้า เลื่อนรอบ</span>}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Fold>
       </CardContent>
     </Card>
   )
@@ -773,7 +831,7 @@ function Rules() {
     )
   }, [])
   return (
-    <Card id="rules" className="gap-0 py-1">
+    <Card id="rules" className="scroll-mt-4 gap-0 py-1">
       <CardContent className="px-4 sm:px-6">
         <Fold title="วิธีทำงานและกติกา">
           <div className="space-y-4 leading-relaxed">
@@ -913,14 +971,10 @@ function Lessons() {
   const order = { rule: 0, candidate: 1, retired: 2 }
   const sorted = lessons.toSorted((a, b) => order[a.status] - order[b.status] || a.id.localeCompare(b.id))
   return (
-    <Card className="gap-3 py-4">
+    <Card id="lessons" className="scroll-mt-4 gap-3 py-4">
       <CardHeader className="px-4 sm:px-6">
         <CardTitle>บทเรียนของทีม</CardTitle>
-        <CardDescription>
-          ทุกวันเสาร์ ทีมย้อนดูการตัดสินใจที่ผ่านมา (รวมหุ้นที่ไม่ได้ซื้อ) เทียบกับ S&P 500
-          แล้วจดบทเรียนไว้ใช้ครั้งต่อไป บทเรียนใหม่เริ่มจาก &ldquo;กำลังพิสูจน์&rdquo; และกลายเป็น &ldquo;กฎ&rdquo;
-          เมื่อมีกรณีที่สองยืนยัน
-        </CardDescription>
+        <CardDescription>ทุกวันเสาร์ทีมย้อนดูการตัดสินใจ แล้วจดบทเรียนไว้ใช้ครั้งต่อไป</CardDescription>
       </CardHeader>
       <CardContent className="px-4 sm:px-6 space-y-5">
         {retro && (
@@ -928,82 +982,93 @@ function Lessons() {
             <div>
               <p className="text-muted-foreground text-xs">ทบทวนล่าสุด {formatDate(retro.date)}</p>
               <p className="font-semibold">{retro.headline}</p>
-              <p className="text-muted-foreground mt-1 leading-relaxed">{retro.summary}</p>
+              <ClampText className="text-muted-foreground mt-1 leading-relaxed">{retro.summary}</ClampText>
             </div>
             {retro.reviews.length > 0 && (
-              <ul className="space-y-1.5">
-                {retro.reviews.map((r, i) => (
-                  <li key={`${r.ticker}-${i}`} className="flex flex-wrap items-start gap-x-2 gap-y-1">
-                    <span className="w-14 shrink-0 font-semibold">{r.ticker}</span>
-                    <span
-                      className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${VERDICTS[r.verdict].className}`}
-                    >
-                      {VERDICTS[r.verdict].label}
-                    </span>
-                    {r.blindVerdict && r.blindVerdict !== r.verdict && (
+              <Fold title={`ทบทวนรายตัว (${retro.reviews.length})`}>
+                <ul className="space-y-1.5">
+                  {retro.reviews.map((r, i) => (
+                    <li key={`${r.ticker}-${i}`} className="flex flex-wrap items-start gap-x-2 gap-y-1">
+                      <span className="w-14 shrink-0 font-semibold">{r.ticker}</span>
                       <span
-                        className="text-muted-foreground shrink-0 text-xs"
-                        title="คำตัดสินแรกจากผู้ทบทวนที่ยังไม่ได้อ่านเหตุผลของทีม"
+                        className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${VERDICTS[r.verdict].className}`}
                       >
-                        (ก่อนอ่านเหตุผล: {VERDICTS[r.blindVerdict].label})
+                        {VERDICTS[r.verdict].label}
                       </span>
-                    )}
-                    {r.vsSpyPct != null && (
-                      <span className="text-muted-foreground shrink-0 text-xs tabular-nums">
-                        {formatPercent(r.vsSpyPct, { signed: true })} เทียบ S&P 500
+                      {r.blindVerdict && r.blindVerdict !== r.verdict && (
+                        <span
+                          className="text-muted-foreground shrink-0 text-xs"
+                          title="คำตัดสินแรกจากผู้ทบทวนที่ยังไม่ได้อ่านเหตุผลของทีม"
+                        >
+                          (ก่อนอ่านเหตุผล: {VERDICTS[r.blindVerdict].label})
+                        </span>
+                      )}
+                      {r.vsSpyPct != null && (
+                        <span className="text-muted-foreground shrink-0 text-xs tabular-nums">
+                          {formatPercent(r.vsSpyPct, { signed: true })} เทียบ S&P 500
+                        </span>
+                      )}
+                      <span className="text-muted-foreground min-w-0 flex-1 basis-60 text-xs leading-relaxed">
+                        {r.note}
                       </span>
-                    )}
-                    <span className="text-muted-foreground min-w-0 flex-1 basis-60 text-xs leading-relaxed">
-                      {r.note}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+                    </li>
+                  ))}
+                </ul>
+              </Fold>
             )}
           </div>
         )}
         {sorted.length === 0 ? (
           <p className="text-muted-foreground text-sm">ยังไม่มีบทเรียน</p>
         ) : (
-          <ul className="space-y-2">
-            {sorted.map((l) => (
-              <li key={l.id}>
-                <details className={`group rounded-2xl border px-4 py-3 ${l.status === 'retired' ? 'opacity-60' : ''}`}>
-                  <summary className="flex cursor-pointer list-none items-start gap-3 [&::-webkit-details-marker]:hidden">
-                    <span className="text-muted-foreground w-10 shrink-0 pt-0.5 text-xs font-semibold">{l.id}</span>
-                    <span className="min-w-0 flex-1 text-sm font-medium">{l.title}</span>
-                    <span
-                      className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${LESSON_STATUS[l.status].className}`}
-                    >
-                      {LESSON_STATUS[l.status].label}
-                    </span>
-                    <ChevronDown
-                      className="text-muted-foreground mt-0.5 size-4 shrink-0 transition-transform group-open:rotate-180"
-                      aria-hidden
-                    />
-                  </summary>
-                  <div className="mt-3 space-y-2 pl-13 text-sm leading-relaxed">
-                    <p className="text-muted-foreground">{l.detail}</p>
-                    <p className="text-muted-foreground text-xs">
-                      ใช้โดย {l.appliesTo.map((a) => DREAM_AGENTS.find((g) => g.id === a)?.name ?? a).join(', ')}
-                    </p>
-                    <ul className="space-y-1 text-xs">
-                      {l.evidence.map((e, i) => (
-                        <li key={i}>
-                          <span className="font-medium">
-                            {e.kind === 'origin' ? 'ที่มา' : e.kind === 'confirmed' ? 'ยืนยัน' : 'ค้าน'}{' '}
-                            {formatDate(e.date)}
-                            {e.ticker ? ` · ${e.ticker}` : ''}:
-                          </span>{' '}
-                          <span className="text-muted-foreground">{e.note}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </details>
-              </li>
-            ))}
-          </ul>
+          <Fold
+            title={`บทเรียนทั้งหมด (${sorted.length}) · กฎ ${sorted.filter((l) => l.status === 'rule').length} · กำลังพิสูจน์ ${sorted.filter((l) => l.status === 'candidate').length}`}
+          >
+            <p className="text-muted-foreground mb-2 text-xs">
+              บทเรียนใหม่เริ่มจาก &ldquo;กำลังพิสูจน์&rdquo; และกลายเป็น &ldquo;กฎ&rdquo; เมื่อมีกรณีที่สองยืนยัน
+            </p>
+            <ul className="space-y-2">
+              {sorted.map((l) => (
+                <li key={l.id}>
+                  <details
+                    className={`group rounded-2xl border px-4 py-3 ${l.status === 'retired' ? 'opacity-60' : ''}`}
+                  >
+                    <summary className="flex cursor-pointer list-none items-start gap-3 [&::-webkit-details-marker]:hidden">
+                      <span className="text-muted-foreground w-10 shrink-0 pt-0.5 text-xs font-semibold">{l.id}</span>
+                      <span className="min-w-0 flex-1 text-sm font-medium">{l.title}</span>
+                      <span
+                        className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${LESSON_STATUS[l.status].className}`}
+                      >
+                        {LESSON_STATUS[l.status].label}
+                      </span>
+                      <ChevronDown
+                        className="text-muted-foreground mt-0.5 size-4 shrink-0 transition-transform group-open:rotate-180"
+                        aria-hidden
+                      />
+                    </summary>
+                    <div className="mt-3 space-y-2 pl-13 text-sm leading-relaxed">
+                      <p className="text-muted-foreground">{l.detail}</p>
+                      <p className="text-muted-foreground text-xs">
+                        ใช้โดย {l.appliesTo.map((a) => DREAM_AGENTS.find((g) => g.id === a)?.name ?? a).join(', ')}
+                      </p>
+                      <ul className="space-y-1 text-xs">
+                        {l.evidence.map((e, i) => (
+                          <li key={i}>
+                            <span className="font-medium">
+                              {e.kind === 'origin' ? 'ที่มา' : e.kind === 'confirmed' ? 'ยืนยัน' : 'ค้าน'}{' '}
+                              {formatDate(e.date)}
+                              {e.ticker ? ` · ${e.ticker}` : ''}:
+                            </span>{' '}
+                            <span className="text-muted-foreground">{e.note}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </details>
+                </li>
+              ))}
+            </ul>
+          </Fold>
         )}
       </CardContent>
     </Card>

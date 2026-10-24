@@ -1,7 +1,7 @@
 # Security headers for the deployed site (Cloudflare reads this file).
 #
 # The Content-Security-Policy lets the page talk only to itself: market data
-# comes through this site's own Worker (/api/chart, /api/fng), so 'self' covers it.
+# comes through this site's own Worker (/api/chart), so 'self' covers it.
 /*
   Content-Security-Policy: default-src 'self'; script-src 'self'; connect-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'
   Referrer-Policy: no-referrer
