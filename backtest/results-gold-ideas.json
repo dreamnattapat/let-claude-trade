@@ -1,0 +1,372 @@
+{
+ "first": "2024-06-03",
+ "last": "2026-10-23",
+ "split": "2025-08-12",
+ "sessions": 572,
+ "results": [
+  {
+   "rule": "ถือทั้งวัน (เส้นฐาน)",
+   "why": "ซื้อตอนเปิด 18:00 ขายตอน 16:00 นิวยอร์กทุกวัน: เท่ากับถือทองไว้เฉยๆ ใช้เทียบ",
+   "costPct": 0.05,
+   "all": {
+    "trades": 572,
+    "winPct": 51.224,
+    "avgPct": 0.008,
+    "totalPct": -0.825,
+    "sharpe": 0.093
+   },
+   "first": {
+    "trades": 286,
+    "winPct": 50,
+    "avgPct": 0.017,
+    "totalPct": 2.953,
+    "sharpe": 0.232
+   },
+   "second": {
+    "trades": 286,
+    "winPct": 52.448,
+    "avgPct": 0,
+    "totalPct": -3.67,
+    "sharpe": -0.005
+   }
+  },
+  {
+   "rule": "ถือทั้งวัน (เส้นฐาน)",
+   "why": "ซื้อตอนเปิด 18:00 ขายตอน 16:00 นิวยอร์กทุกวัน: เท่ากับถือทองไว้เฉยๆ ใช้เทียบ",
+   "costPct": 0.02,
+   "all": {
+    "trades": 572,
+    "winPct": 53.497,
+    "avgPct": 0.068,
+    "totalPct": 39.774,
+    "sharpe": 0.782
+   },
+   "first": {
+    "trades": 286,
+    "winPct": 53.497,
+    "avgPct": 0.077,
+    "totalPct": 22.219,
+    "sharpe": 1.065
+   },
+   "second": {
+    "trades": 286,
+    "winPct": 53.497,
+    "avgPct": 0.06,
+    "totalPct": 14.363,
+    "sharpe": 0.596
+   }
+  },
+  {
+   "rule": "ถือช่วงเอเชีย-ลอนดอน",
+   "why": "ซื้อ 18:00 ขาย 08:00 นิวยอร์ก (05:00–19:00 ไทย) งานวิจัย \"night effect\" พบว่าทองให้ผลตอบแทนช่วงนอกเวลาสหรัฐฯ",
+   "costPct": 0.05,
+   "all": {
+    "trades": 572,
+    "winPct": 52.273,
+    "avgPct": 0.002,
+    "totalPct": -1.422,
+    "sharpe": 0.035
+   },
+   "first": {
+    "trades": 286,
+    "winPct": 51.049,
+    "avgPct": -0.031,
+    "totalPct": -9.375,
+    "sharpe": -0.62
+   },
+   "second": {
+    "trades": 286,
+    "winPct": 53.497,
+    "avgPct": 0.035,
+    "totalPct": 8.776,
+    "sharpe": 0.514
+   }
+  },
+  {
+   "rule": "ถือช่วงเอเชีย-ลอนดอน",
+   "why": "ซื้อ 18:00 ขาย 08:00 นิวยอร์ก (05:00–19:00 ไทย) งานวิจัย \"night effect\" พบว่าทองให้ผลตอบแทนช่วงนอกเวลาสหรัฐฯ",
+   "costPct": 0.02,
+   "all": {
+    "trades": 572,
+    "winPct": 56.119,
+    "avgPct": 0.062,
+    "totalPct": 38.93,
+    "sharpe": 1.029
+   },
+   "first": {
+    "trades": 286,
+    "winPct": 55.594,
+    "avgPct": 0.029,
+    "totalPct": 7.591,
+    "sharpe": 0.572
+   },
+   "second": {
+    "trades": 286,
+    "winPct": 56.643,
+    "avgPct": 0.095,
+    "totalPct": 29.128,
+    "sharpe": 1.386
+   }
+  },
+  {
+   "rule": "ถือช่วงนิวยอร์ก",
+   "why": "ซื้อ 08:00 ขาย 16:00 นิวยอร์ก: อีกครึ่งของวัน ใช้เทียบกับช่วงเอเชีย-ลอนดอน",
+   "costPct": 0.05,
+   "all": {
+    "trades": 572,
+    "winPct": 47.727,
+    "avgPct": -0.095,
+    "totalPct": -43.234,
+    "sharpe": -1.649
+   },
+   "first": {
+    "trades": 286,
+    "winPct": 50.699,
+    "avgPct": -0.053,
+    "totalPct": -14.665,
+    "sharpe": -1.117
+   },
+   "second": {
+    "trades": 286,
+    "winPct": 44.755,
+    "avgPct": -0.137,
+    "totalPct": -33.479,
+    "sharpe": -2.07
+   }
+  },
+  {
+   "rule": "ถือช่วงนิวยอร์ก",
+   "why": "ซื้อ 08:00 ขาย 16:00 นิวยอร์ก: อีกครึ่งของวัน ใช้เทียบกับช่วงเอเชีย-ลอนดอน",
+   "costPct": 0.02,
+   "all": {
+    "trades": 572,
+    "winPct": 50.874,
+    "avgPct": -0.035,
+    "totalPct": -19.972,
+    "sharpe": -0.605
+   },
+   "first": {
+    "trades": 286,
+    "winPct": 53.497,
+    "avgPct": 0.007,
+    "totalPct": 1.314,
+    "sharpe": 0.156
+   },
+   "second": {
+    "trades": 286,
+    "winPct": 48.252,
+    "avgPct": -0.077,
+    "totalPct": -21.01,
+    "sharpe": -1.163
+   }
+  },
+  {
+   "rule": "โมเมนตัมช่วงเช้า → ชั่วโมงท้าย",
+   "why": "Gao และคณะ (2018): ทิศทางตั้งแต่เปิดถึง 10:00 ทำนายชั่วโมงท้าย เทรดตามทิศนั้น 15:00–17:00",
+   "costPct": 0.05,
+   "all": {
+    "trades": 571,
+    "winPct": 27.145,
+    "avgPct": -0.086,
+    "totalPct": -39.041,
+    "sharpe": -4.418
+   },
+   "first": {
+    "trades": 286,
+    "winPct": 23.427,
+    "avgPct": -0.079,
+    "totalPct": -20.312,
+    "sharpe": -5.8
+   },
+   "second": {
+    "trades": 285,
+    "winPct": 30.877,
+    "avgPct": -0.093,
+    "totalPct": -23.504,
+    "sharpe": -3.886
+   }
+  },
+  {
+   "rule": "โมเมนตัมช่วงเช้า → ชั่วโมงท้าย",
+   "why": "Gao และคณะ (2018): ทิศทางตั้งแต่เปิดถึง 10:00 ทำนายชั่วโมงท้าย เทรดตามทิศนั้น 15:00–17:00",
+   "costPct": 0.02,
+   "all": {
+    "trades": 571,
+    "winPct": 42.732,
+    "avgPct": -0.026,
+    "totalPct": -14.117,
+    "sharpe": -1.342
+   },
+   "first": {
+    "trades": 286,
+    "winPct": 43.357,
+    "avgPct": -0.019,
+    "totalPct": -5.386,
+    "sharpe": -1.402
+   },
+   "second": {
+    "trades": 285,
+    "winPct": 42.105,
+    "avgPct": -0.033,
+    "totalPct": -9.228,
+    "sharpe": -1.385
+   }
+  },
+  {
+   "rule": "โมเมนตัมช่วงเช้า → ถือถึงเย็น",
+   "why": "ทิศทางตั้งแต่เปิดถึง 10:00 แล้วเทรดตามทิศนั้นจน 17:00 (time-series momentum ภายในวัน)",
+   "costPct": 0.05,
+   "all": {
+    "trades": 571,
+    "winPct": 45.884,
+    "avgPct": -0.052,
+    "totalPct": -26.614,
+    "sharpe": -1.151
+   },
+   "first": {
+    "trades": 286,
+    "winPct": 48.951,
+    "avgPct": -0.029,
+    "totalPct": -8.406,
+    "sharpe": -0.849
+   },
+   "second": {
+    "trades": 285,
+    "winPct": 42.807,
+    "avgPct": -0.074,
+    "totalPct": -19.88,
+    "sharpe": -1.39
+   }
+  },
+  {
+   "rule": "โมเมนตัมช่วงเช้า → ถือถึงเย็น",
+   "why": "ทิศทางตั้งแต่เปิดถึง 10:00 แล้วเทรดตามทิศนั้นจน 17:00 (time-series momentum ภายในวัน)",
+   "costPct": 0.02,
+   "all": {
+    "trades": 571,
+    "winPct": 49.912,
+    "avgPct": 0.008,
+    "totalPct": 3.381,
+    "sharpe": 0.186
+   },
+   "first": {
+    "trades": 286,
+    "winPct": 53.147,
+    "avgPct": 0.031,
+    "totalPct": 8.742,
+    "sharpe": 0.895
+   },
+   "second": {
+    "trades": 285,
+    "winPct": 46.667,
+    "avgPct": -0.014,
+    "totalPct": -4.93,
+    "sharpe": -0.265
+   }
+  },
+  {
+   "rule": "ทะลุกรอบเมื่อวาน (สองทาง)",
+   "why": "ช่วง 08:00–15:00 แท่งชั่วโมงปิดเหนือ high เมื่อวาน = ซื้อ, ใต้ low = ขาย stop กลางกรอบเมื่อวาน ออก 17:00 (breakout คลาสสิก)",
+   "costPct": 0.05,
+   "all": {
+    "trades": 378,
+    "winPct": 43.651,
+    "avgPct": -0.109,
+    "totalPct": -34.559,
+    "sharpe": -1.858
+   },
+   "first": {
+    "trades": 181,
+    "winPct": 45.856,
+    "avgPct": -0.088,
+    "totalPct": -14.964,
+    "sharpe": -1.782
+   },
+   "second": {
+    "trades": 197,
+    "winPct": 41.624,
+    "avgPct": -0.129,
+    "totalPct": -23.043,
+    "sharpe": -1.965
+   }
+  },
+  {
+   "rule": "ทะลุกรอบเมื่อวาน (สองทาง)",
+   "why": "ช่วง 08:00–15:00 แท่งชั่วโมงปิดเหนือ high เมื่อวาน = ซื้อ, ใต้ low = ขาย stop กลางกรอบเมื่อวาน ออก 17:00 (breakout คลาสสิก)",
+   "costPct": 0.02,
+   "all": {
+    "trades": 378,
+    "winPct": 47.619,
+    "avgPct": -0.049,
+    "totalPct": -17.883,
+    "sharpe": -0.84
+   },
+   "first": {
+    "trades": 181,
+    "winPct": 50.829,
+    "avgPct": -0.028,
+    "totalPct": -5.203,
+    "sharpe": -0.563
+   },
+   "second": {
+    "trades": 197,
+    "winPct": 44.67,
+    "avgPct": -0.069,
+    "totalPct": -13.377,
+    "sharpe": -1.055
+   }
+  },
+  {
+   "rule": "กลับตัวที่ขอบกรอบเมื่อวาน (สองทาง)",
+   "why": "ตรงข้ามกับข้อบน: แตะ high เมื่อวานแล้วปิดกลับใต้ = ขาย, แตะ low แล้วปิดกลับเหนือ = ซื้อ stop เลยจุดสุด 0.3% ออก 17:00",
+   "costPct": 0.05,
+   "all": {
+    "trades": 261,
+    "winPct": 34.483,
+    "avgPct": -0.17,
+    "totalPct": -36.255,
+    "sharpe": -2.835
+   },
+   "first": {
+    "trades": 124,
+    "winPct": 31.452,
+    "avgPct": -0.165,
+    "totalPct": -18.583,
+    "sharpe": -3.611
+   },
+   "second": {
+    "trades": 137,
+    "winPct": 37.226,
+    "avgPct": -0.176,
+    "totalPct": -21.706,
+    "sharpe": -2.522
+   }
+  },
+  {
+   "rule": "กลับตัวที่ขอบกรอบเมื่อวาน (สองทาง)",
+   "why": "ตรงข้ามกับข้อบน: แตะ high เมื่อวานแล้วปิดกลับใต้ = ขาย, แตะ low แล้วปิดกลับเหนือ = ซื้อ stop เลยจุดสุด 0.3% ออก 17:00",
+   "costPct": 0.02,
+   "all": {
+    "trades": 261,
+    "winPct": 40.23,
+    "avgPct": -0.11,
+    "totalPct": -25.432,
+    "sharpe": -1.857
+   },
+   "first": {
+    "trades": 124,
+    "winPct": 38.71,
+    "avgPct": -0.105,
+    "totalPct": -12.286,
+    "sharpe": -2.342
+   },
+   "second": {
+    "trades": 137,
+    "winPct": 41.606,
+    "avgPct": -0.116,
+    "totalPct": -14.987,
+    "sharpe": -1.673
+   }
+  }
+ ]
+}
