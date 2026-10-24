@@ -1,4 +1,4 @@
-# แล็บเทรด (Trade Lab)
+# Let Claude cook (trade-lab)
 
 A paper-money lab for two investing experiments, run by AI and scored against real market data:
 

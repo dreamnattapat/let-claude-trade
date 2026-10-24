@@ -17,6 +17,6 @@ dark.addEventListener('change', applyTheme)
 
 // /lynch is Team Lynch, the weekly experiment (/dream, its first name, still works); / is the day desk.
 const lynch = /^\/(lynch|dream)\/?$/.test(window.location.pathname)
-document.title = lynch ? 'ทีม Lynch · แล็บเทรด' : 'เดย์เทรด · แล็บเทรด'
+document.title = lynch ? 'ทีม Lynch · Let Claude cook' : 'เดย์เทรด · Let Claude cook'
 
 createRoot(document.getElementById('root')!).render(<StrictMode>{lynch ? <DreamPage /> : <DayPage />}</StrictMode>)
