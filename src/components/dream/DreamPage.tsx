@@ -43,7 +43,7 @@ export function DreamPage() {
     <main className="mx-auto max-w-5xl space-y-4 px-4 pt-6 pb-12 sm:pt-10">
       <SiteHeader />
       <header>
-        <h1 className="font-display text-2xl font-medium sm:text-3xl">Swing Cook</h1>
+        <h1 className="font-display text-2xl font-medium sm:text-3xl">Swing Trade</h1>
         <nav aria-label="ในหน้านี้" className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-sm">
           {[
             ['#meeting', 'ประชุมล่าสุด'],

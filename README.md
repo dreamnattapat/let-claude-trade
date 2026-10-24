@@ -2,7 +2,7 @@
 
 A paper-money investing experiment run by AI and scored against real market data:
 
-**Swing Cook / Team Lynch** (`/`, also `/lynch`): seven AI agents investing weekly the way Peter Lynch did, in four themes, against the S&P 500. It started in [ส่องพอร์ต Dime](https://github.com/dreamnattapat/songport-dime) and moved here with its whole git history (the order postmarks depend on it).
+**Swing Trade / Team Lynch** (`/`, also `/lynch`): seven AI agents investing weekly the way Peter Lynch did, in four themes, against the S&P 500. It started in [ส่องพอร์ต Dime](https://github.com/dreamnattapat/songport-dime) and moved here with its whole git history (the order postmarks depend on it).
 
 A day-trading desk ("Day Cook") ran here briefly in October 2026. Backtests (branch `backtest`) found no rule that beat costs, on US stocks or gold, so it was removed on 24 Oct 2026; its code is in the git history.
 
