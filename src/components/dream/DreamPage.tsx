@@ -21,6 +21,7 @@ import {
   DREAM_THEMES,
   LYNCH_CATEGORIES,
   type DreamDecision,
+  type DreamCheck,
   type DreamLesson,
   type DreamReport,
   type DreamRetro,
@@ -67,6 +68,8 @@ export function DreamPage() {
       )}
 
       <MeetingRoom latest={latest} />
+
+      {latestDate && <MidweekCheck after={latestDate} />}
 
       {data && (
         <LatestMeeting
@@ -237,6 +240,58 @@ function Holding({ state }: { state: DreamData['state'] }) {
         </li>
       </ul>
     </div>
+  )
+}
+
+const CHECK_STATUS = {
+  ok: { label: 'ปกติ', className: 'bg-delta-up/10 text-delta-up' },
+  watch: { label: 'จับตา', className: 'bg-series-dream/10 text-series-dream' },
+  trim: { label: 'ลดขนาด', className: 'bg-delta-down/10 text-delta-down' },
+  sell: { label: 'ขาย', className: 'bg-delta-down text-white' },
+} as const
+
+/** The Wednesday check since the latest meeting, if there's been one: every holding at a glance, and any sells. */
+function MidweekCheck({ after }: { after: string }) {
+  const [check, setCheck] = useState<DreamCheck | null>(null)
+  useEffect(() => {
+    fetchDreamJson<{ checks: string[] }>('/dream/checks/index.json').then(
+      (index) => {
+        const date = index.checks.at(-1)
+        if (date && date > after) fetchDreamJson<DreamCheck>(`/dream/checks/${date}.json`).then(setCheck, () => {})
+      },
+      () => {},
+    )
+  }, [after])
+  if (!check) return null
+  const flagged = check.holdings.filter((h) => h.status !== 'ok').length
+  return (
+    <Card className="gap-3 py-4">
+      <CardHeader className="px-4 sm:px-6">
+        <CardTitle>เช็กกลางสัปดาห์</CardTitle>
+        <CardDescription>{formatDate(check.date)} · ดูหุ้นที่ถือทุกตัว ขายหรือลดได้ แต่ไม่ซื้อเพิ่ม</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-3 px-4 sm:px-6">
+        <div className="text-sm">
+          <p className="font-semibold">{check.headline}</p>
+          <ClampText className="text-muted-foreground mt-1 leading-relaxed">{check.summary}</ClampText>
+        </div>
+        <Fold title={`หุ้นที่ถือ (${check.holdings.length})${flagged ? ` · ต้องดู ${flagged}` : ' · ปกติทุกตัว'}`}>
+          <ul className="space-y-1.5 text-sm">
+            {check.holdings.map((h) => (
+              <li key={h.ticker} className="flex flex-wrap items-start gap-x-2 gap-y-1">
+                <span className="w-14 shrink-0 font-semibold">{h.ticker}</span>
+                <span
+                  className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${CHECK_STATUS[h.status].className}`}
+                >
+                  {CHECK_STATUS[h.status].label}
+                </span>
+                <span className="text-muted-foreground min-w-0 flex-1 basis-60 text-xs leading-relaxed">{h.note}</span>
+              </li>
+            ))}
+          </ul>
+        </Fold>
+      </CardContent>
+    </Card>
   )
 }
 
@@ -837,9 +892,10 @@ function Rules() {
         <Fold title="วิธีทำงานและกติกา">
           <div className="space-y-4 leading-relaxed">
             <p className="text-muted-foreground">
-              ทีม AI 7 ตัว ลงทุนตามหลักของ Peter Lynch เฉพาะหุ้นเทคโนโลยี อวกาศ สุขภาพ และพลังงาน ด้วยเงินสมมติ $10,000
-              เป้าหมายเดียว: ชนะ S&P 500 ตามล่าหุ้นที่โตได้หลายเท่า (multi-bagger) ประชุมทุกวันจันทร์ก่อนตลาดสหรัฐฯ เปิด
-              และเลือกได้ว่าจะซื้อขายที่ราคาปิดของวันไหนในสัปดาห์นั้น
+              ทีม AI 7 ตัว ลงทุนตามหลักของ Peter Lynch เฉพาะหุ้นเทคโนโลยี อวกาศ สุขภาพ พลังงาน และสินค้าจำเป็น
+              ด้วยเงินสมมติ $10,000 เป้าหมายเดียว: ชนะ S&P 500 ตามล่าหุ้นที่โตได้หลายเท่า (multi-bagger)
+              ประชุมทุกวันจันทร์ก่อนตลาดสหรัฐฯ เปิด และเลือกได้ว่าจะซื้อขายที่ราคาปิดของวันไหนในสัปดาห์นั้น
+              ทุกวันพุธเช็กหุ้นที่ถือรอบสั้น ๆ ขายหรือลดได้ถ้าหลุดจุดตัดขาดทุนหรือมีข่าวร้ายแรง แต่ไม่ซื้อเพิ่ม
             </p>
             <div className="space-y-1.5">
               <h3 className="font-semibold">หลักของ Peter Lynch ที่ทีมใช้</h3>

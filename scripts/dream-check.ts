@@ -28,6 +28,7 @@ import {
   RR_OK,
   rewardRisk,
   stopGapPct,
+  type DreamCheck,
   type DreamLesson,
   type DreamReport,
   type DreamRetro,
@@ -50,6 +51,10 @@ const TICKER = /^[A-Z][A-Z0-9.]{0,9}$/
 
 const ledger = read<DreamLedger>('public/dream/ledger.json')
 const index = read<{ reports: string[] }>('public/dream/reports/index.json')
+const checkIndex = existsSync('public/dream/checks/index.json')
+  ? read<{ checks: string[] }>('public/dream/checks/index.json')
+  : { checks: [] }
+const checkDates = new Set(checkIndex?.checks ?? [])
 type StateFile = {
   closedThrough: string
   cashUsd: number
@@ -91,7 +96,10 @@ if (ledger) {
       fail(`${where}: a sell needs 0 < fraction <= 1`)
     if (o.side !== 'buy' && o.side !== 'sell') fail(`${where}: side must be buy or sell`)
     if (!o.reason?.trim()) fail(`${where}: needs a reason`)
-    if (index && !index.reports.includes(o.reportDate)) fail(`${where}: no report for ${o.reportDate}`)
+    if (checkDates.has(o.reportDate)) {
+      // The midweek check only protects the portfolio: sells and trims, no buys.
+      if (o.side !== 'sell') fail(`${where}: the midweek check can only sell or trim`)
+    } else if (index && !index.reports.includes(o.reportDate)) fail(`${where}: no report for ${o.reportDate}`)
   }
 
   // At most 6 orders a meeting (10 in the first one, which builds the portfolio).
@@ -326,6 +334,33 @@ for (const date of retros?.retros ?? []) {
     fail(`${where}: at most 2 new lessons a week`)
   for (const c of retro.lessonChanges ?? [])
     if (!lessonIds.has(c.id)) fail(`${where}: lesson ${c.id} isn't in lessons.json`)
+}
+
+// The midweek checks: every holding looked at, and only sells.
+for (const date of checkIndex?.checks ?? []) {
+  const check = read<DreamCheck>(`public/dream/checks/${date}.json`)
+  if (!check) continue
+  const where = `check ${date}`
+  if (check.date !== date) fail(`${where}: date field doesn't match the file name`)
+  if (index?.reports.includes(date)) fail(`${where}: there's a meeting that day already`)
+  if (!check.headline?.trim() || !check.summary?.trim()) fail(`${where}: needs headline and summary`)
+  if (!check.model?.trim()) fail(`${where}: needs "model"`)
+  for (const h of check.holdings ?? []) {
+    if (!['ok', 'watch', 'trim', 'sell'].includes(h.status)) fail(`${where}: ${h.ticker} status "${h.status}"`)
+    if (!h.note?.trim()) fail(`${where}: ${h.ticker} needs a note`)
+    for (const id of h.lessons ?? [])
+      if (!lessons.some((l) => l.id === id && l.status !== 'retired')) fail(`${where}: lesson ${id} isn't active`)
+  }
+  const placed = (ledger?.orders ?? []).filter((o) => o.reportDate === date).map((o) => o.id)
+  if (placed.length > 3) fail(`${where}: at most 3 orders in a midweek check`)
+  if (placed.sort().join() !== [...(check.orders ?? [])].sort().join())
+    fail(`${where}: "orders" must list exactly the ledger orders placed that day`)
+  for (const h of check.holdings ?? [])
+    if (
+      (h.status === 'trim' || h.status === 'sell') !==
+      placed.some((id) => ledger?.orders.find((o) => o.id === id)?.ticker === h.ticker)
+    )
+      fail(`${where}: ${h.ticker} is "${h.status}" but its orders don't match`)
 }
 
 if (warnings.length) {

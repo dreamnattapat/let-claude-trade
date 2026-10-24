@@ -68,13 +68,14 @@ Seven agents. **Atlas** and **Tempo** join from the meeting of **19 Oct 2026** (
 - `public/dream/reports/index.json`: `{ "reports": [dates, oldest first] }`.
 - `public/dream/lessons.json`: **the team's knowledge base**, what it has learned from its own results (shape: `DreamLesson` in `src/lib/dreamTeam.ts`). It belongs to the team, not to any AI model: whoever runs a meeting reads and applies it.
 - `dream/OWNER-NOTES.md`: **the owner's own lessons**, things they noticed in the market, waiting under "บันทึกใหม่" to join the knowledge base (see *Owner's lessons* below).
+- `public/dream/checks/<YYYY-MM-DD>.json` and `checks/index.json`: the midweek checks (shape: `DreamCheck`).
 - `public/dream/retros/<YYYY-MM-DD>.json` and `retros/index.json`: the weekly look-backs (shape: `DreamRetro`).
 - `state.json` → `outcomes`: how every decision ever made (bought, held, sold, watched or passed on) has done since its session's close, against SPY over the same days. Computed by the Action from market prices.
 
 ## How a meeting runs (weekly, Mondays before the US open)
 
 1. **Get ready.** `git pull --rebase origin main`. Today is the Bangkok date. If `public/dream/reports/<today>.json` exists, stop. If the US market is closed today (holiday), hold the meeting anyway; orders fill at the next session. Note the time now in New York: if it's already past 9:30 there, today's US session has opened and the earliest session for any order is the next one.
-2. **Read** `state.json`, `ledger.json`, the last three reports, `lessons.json` and the latest retro, and take in any new owner's notes (*Owner's lessons* below): what we own, each holding's category, story and "sell if", what we said we'd watch, and what we've learned.
+2. **Read** `state.json`, `ledger.json`, the last three reports, any midweek check since the last meeting, `lessons.json` and the latest retro, and take in any new owner's notes (*Owner's lessons* below): what we own, each holding's category, story and "sell if", what we said we'd watch, and what we've learned.
 3. **Research, in parallel.** Run Atlas, Scout, Lens and Tempo as parallel subagents if you can (give each its row of the team table, Lynch's principles, the holdings and the rules; ask for JSON in Thai with sources): Atlas sets the stance and cash level; Scout brings up to 6 new ideas with real-world evidence; Lens updates the checklist for every holding and the new ideas; Tempo reads the charts of every holding and idea and says when each order should fill. Then Story reviews every holding ("is the story intact? has a 'sell if' happened?") and the best new ideas (two-minute drills, red flags), and writes the bear case for every buy the Captain is leaning towards. Otherwise play each role in turn. Use web search for this week's information. **Give every agent the active lessons that apply to them** (status `rule` or `candidate`, by `appliesTo`).
 4. **Captain's proposal:** first the weekly reward:risk of every holding at today's price; then what to buy, add to, trim or sell, and sizes that fit the rules (no more than 5 holdings). Prefer adding to flowers over chasing new names; replace weeds.
 5. **Guard's review** of each order and the resulting portfolio (holding count, reward:risk, sizes), including every lesson with status `rule` (rules are binding, like the rules of the challenge; candidates are strong advice). Guard also spot-checks the numbers each buy rests on (the price, the EPS and P/E behind the target, the analysts' average) against their sources, and vetoes a buy whose bear case wasn't really answered. Apply Guard's changes.
@@ -85,12 +86,28 @@ Seven agents. **Atlas** and **Tempo** join from the meeting of **19 Oct 2026** (
 7. **Check.** Run `node scripts/dream-check.ts`; fix every problem until it says ok.
 8. **Publish.** Commit only files under `public/dream/` (and `dream/OWNER-NOTES.md` if you took in notes) with the message `Lynch meeting <date>`, then `git pull --rebase origin main` and `git push origin HEAD:main`. Pushing deploys the website.
 
+## Midweek check (Wednesdays before the US open, from 28 Oct 2026)
+
+A short look at what we hold, so a broken stop or bad news doesn't wait until Monday. **It can only sell or trim; it never buys**, opens a new position or adds to one. "Everything's fine" is the usual result.
+
+1. **Get ready.** `git pull --rebase origin main`. Today is the Bangkok date. If `public/dream/checks/<today>.json` or `reports/<today>.json` exists, stop. Note whether today's US session has opened (as for a meeting).
+2. **Read** `state.json` (holdings, prices), the latest report (each holding's `targetUsd`, `stopUsd`, `story`, `sellIf`), `lessons.json` and any new owner's notes (take them in as for a meeting).
+3. **Check every holding** (web search for news since the meeting; prices from `state.json`, the last close):
+   - Has the price closed at or below `stopUsd`, or come within 3% of it?
+   - Has a `sellIf` happened, or is there serious bad news (guidance cut, a big customer lost, legal or accounting trouble, the reason we bought gone)?
+   - The chart signals in the lessons (`by: "owner"` L006/L007 and any others that apply): a MACD cross down after a big run means **check the news**, not sell by itself.
+4. **Decide**, for each holding, `ok`, `watch` (something to keep an eye on, no order), `trim` or `sell`. Sell or trim only for a hit stop, a `sellIf` that happened, or serious bad news; never for a price move alone. The 4-week patience rule allows exactly these. At most 3 orders.
+5. **Write.** Append any sells to `ledger.json` (`id` = `<today>-<n>`, `reportDate` = today, `session` = the next session that hasn't opened, `fraction`, `reason`). Write `checks/<today>.json`: `date`, `headline` (one Thai line, e.g. "ปกติดี ไม่มีคำสั่ง"), `summary` (1–3 Thai sentences), `holdings` (every holding: `ticker`, `status`, `priceUsd`, `note` in Thai, `lessons` applied), `orders` (the ids placed today), `model`. Add today to `checks/index.json`.
+6. **Check and publish**: `node scripts/dream-check.ts` until ok, commit only `public/dream/` (and `dream/OWNER-NOTES.md` if you took in notes) with `Lynch check <date>`, pull --rebase, push.
+
+The next Monday meeting reads the check and its sells, and the Saturday retro reviews them like any other decision.
+
 ## Weekly retrospective (Saturdays, after Friday's close)
 
 A separate, lighter meeting whose only job is learning. No orders.
 
 1. **Get ready.** `git pull --rebase origin main`. If `public/dream/retros/<today>.json` exists, stop.
-2. **Read** `state.json` (especially `outcomes` and `points`), `lessons.json`, the reports since the last retro and the last retro, and take in any new owner's notes (*Owner's lessons* below).
+2. **Read** `state.json` (especially `outcomes` and `points`), `lessons.json`, the reports and midweek checks since the last retro and the last retro, and take in any new owner's notes (*Owner's lessons* below).
 3. **Blind first.** Before anyone reads the reports' reasoning, a reviewer who hasn't seen it (a fresh subagent if you can; otherwise do this step before opening the reports) gets only each decision's ticker, action, date, the `outcomes` numbers and this week's news, and gives a `blindVerdict` for each. Then read the reports and give the final `verdict`. When the two differ, say why in the note: that gap is where the team fools itself.
 4. **Review decisions**, all of them, including watches and rejections. For each, judge **process and outcome separately**, like a poker player:
    - Check the targets and stops too: which stops were hit, whether any target was reached early, and whether targets were set too rosily (a stock that fell through its stop within weeks of a 1:2 buy says the stop or the target was wrong).

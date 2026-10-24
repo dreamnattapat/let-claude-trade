@@ -222,6 +222,29 @@ export type DreamRetro = {
  * owner changes the rules; each change takes effect from a later meeting and
  * never rewrites past results, so the rules can't be tuned to the scoreboard.
  */
+/**
+ * The midweek check (public/dream/checks/<date>.json, Wednesdays from 28 Oct 2026): a short look at every holding
+ * between meetings, so a broken stop or bad news doesn't wait a week. It can only sell or trim, never buy.
+ */
+export type DreamCheck = {
+  date: string
+  /** One short Thai line: "ปกติดี" or what needs action. */
+  headline: string
+  /** What happened since the meeting, 1–3 Thai sentences. */
+  summary: string
+  /** Every holding: ok, watch (something to keep an eye on), trim or sell (an order was placed). */
+  holdings: {
+    ticker: string
+    status: 'ok' | 'watch' | 'trim' | 'sell'
+    priceUsd: number
+    note: string
+    lessons?: string[]
+  }[]
+  /** Ids of the sell orders placed (in ledger.json, reportDate = this date). */
+  orders: string[]
+  model: string
+}
+
 export type DreamRuleChange = {
   /** When it was decided, YYYY-MM-DD (Bangkok). */
   date: string
