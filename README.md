@@ -1,4 +1,4 @@
-# Let Claude Cook (trade-lab)
+# Let Claude Trade (trade-lab)
 
 A paper-money investing experiment run by AI and scored against real market data:
 

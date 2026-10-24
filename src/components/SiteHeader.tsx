@@ -4,7 +4,7 @@ export function SiteHeader() {
     <nav aria-label="เมนู" className="flex flex-wrap items-center justify-between gap-3">
       <a href="/" className="flex items-center gap-2 font-semibold">
         <img src="/logo.png" alt="" className="size-8" />
-        Let Claude Cook
+        Let Claude Trade
       </a>
     </nav>
   )

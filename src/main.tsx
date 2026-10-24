@@ -16,7 +16,7 @@ dark.addEventListener('change', applyTheme)
 
 // One experiment now: Team Lynch ("Swing Cook"), at / and at its old addresses /lynch and /dream.
 // (A day-trading desk ran here from 23 to 24 Oct 2026; its backtests found no edge after costs, so it was removed.)
-document.title = 'Swing Cook · Let Claude Cook'
+document.title = 'Swing Cook · Let Claude Trade'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
