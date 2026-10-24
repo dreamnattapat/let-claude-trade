@@ -93,7 +93,7 @@ function Portfolio({
         <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
           <div>
             <p className="text-muted-foreground text-xs">
-              พอร์ต (เริ่ม ${formatNumber(RULES.startingCashUsd, 0)} · ทบต้น)
+              พอร์ต
             </p>
             <p className="font-display text-3xl font-medium tabular-nums">{formatMoney(equity, '$')}</p>
             <p className={`text-sm font-semibold tabular-nums ${toneOf(pnl)}`}>
