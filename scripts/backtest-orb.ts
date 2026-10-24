@@ -21,7 +21,8 @@ const DIR = 'backtest/data'
 const data = new Map<string, { daily: Bar[]; intraday: Bar[] }>()
 for (const f of readdirSync(DIR)) {
   const s = f.replace('.json', '')
-  if (s === 'SPY' || s.includes('=F')) continue
+  const only = process.env.SYMBOLS?.split(',')
+  if (only ? !only.includes(s) : s === 'SPY' || s.includes('=F')) continue
   data.set(s, JSON.parse(readFileSync(`${DIR}/${f}`, 'utf8')))
 }
 const sessions = new Map([...data].map(([s, d]) => [s, byDay(regularSession(d.intraday))]))
@@ -51,7 +52,8 @@ for (const date of dates) {
     const or = bars[0]
     const avgVol = d.daily.filter((b) => b.date < date).slice(-14).reduce((s, b) => s + b.v, 0) / 14
     const atr = atr14(d.daily, date)
-    if (or.o <= 5 || avgVol < 1e6 || !atr || atr <= 0.5) continue
+    const futures = ticker.includes('=F') // contracts, not shares: the stock screens don't apply
+    if (!atr || (!futures && (or.o <= 5 || avgVol < 1e6 || atr <= 0.5))) continue
     const orVol = prior.reduce((s, x) => s + (days.get(x)![0]?.v ?? 0), 0) / 14
     const rv = or.v / orVol
     if (rv < 1) continue
@@ -92,6 +94,7 @@ for (const date of dates) {
 type Fee = { name: string; cost: (shares: number, price: number) => number }
 const FEES: Fee[] = [
   { name: 'Dime! 0.1605%', cost: (n, p) => n * p * 0.001605 },
+  { name: 'TFEX-like 0.05%', cost: (n, p) => n * p * 0.0005 },
   { name: 'IBKR $0.0035/share', cost: (n) => n * 0.0035 },
   { name: 'no commission', cost: () => 0 },
 ]
@@ -146,4 +149,4 @@ for (const variant of [
     results.push(r)
   }
 console.log(`${dates.length} sessions ${dates[0]} → ${dates.at(-1)}, ${data.size} stocks`)
-writeFileSync(process.env.OPTIMISTIC ? 'backtest/results-orb-optimistic.json' : 'backtest/results-orb.json', JSON.stringify({ first: dates[0], last: dates.at(-1), results }, null, 1) + '\n')
+writeFileSync(`backtest/results-orb${process.env.SYMBOLS ? '-' + process.env.SYMBOLS : ''}${process.env.OPTIMISTIC ? '-optimistic' : ''}.json`, JSON.stringify({ first: dates[0], last: dates.at(-1), results }, null, 1) + '\n')
