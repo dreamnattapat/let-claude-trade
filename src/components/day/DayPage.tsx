@@ -1,9 +1,10 @@
-import { AlertTriangle, ChevronDown, ExternalLink, Newspaper, Gauge } from 'lucide-react'
-import { useMemo, useState, type ReactNode } from 'react'
+import { AlertTriangle, ExternalLink, Newspaper, Gauge } from 'lucide-react'
+import { useMemo, useState } from 'react'
 
 import { FearGreedGauge } from '@/components/day/FearGreedGauge'
 import { PlanChart } from '@/components/day/PlanChart'
 import { PnlCalendar } from '@/components/day/PnlCalendar'
+import { Fold, Stat, toneOf } from '@/components/shared'
 import { SiteHeader } from '@/components/SiteHeader'
 import { Card, CardContent } from '@/components/ui/card'
 import { useDay, useMarket, type FearGreed, type Quote } from '@/hooks/useDay'
@@ -55,22 +56,6 @@ export function DayPage() {
   )
 }
 
-/** A collapsible row: a label and a count, the content underneath. */
-function Fold({ title, children, open }: { title: ReactNode; children: ReactNode; open?: boolean }) {
-  return (
-    <details className="group border-t py-2.5 first:border-t-0" open={open}>
-      <summary className="flex cursor-pointer list-none items-center gap-2 text-sm font-medium [&::-webkit-details-marker]:hidden">
-        <span className="flex-1">{title}</span>
-        <ChevronDown className="text-muted-foreground size-4 transition-transform group-open:rotate-180" aria-hidden />
-      </summary>
-      <div className="pt-2 text-sm">{children}</div>
-    </details>
-  )
-}
-
-const toneOf = (x: number | null | undefined) =>
-  x == null || Math.abs(x) < 0.005 ? '' : x > 0 ? 'text-delta-up' : 'text-delta-down'
-
 function Portfolio({
   data,
   outcomes,
@@ -92,13 +77,15 @@ function Portfolio({
       <CardContent className="space-y-4 px-4 sm:px-6">
         <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
           <div>
-            <p className="text-muted-foreground text-xs">
-              พอร์ต
-            </p>
+            <p className="text-muted-foreground text-xs">พอร์ต</p>
             <p className="font-display text-3xl font-medium tabular-nums">{formatMoney(equity, '$')}</p>
             <p className={`text-sm font-semibold tabular-nums ${toneOf(pnl)}`}>
               {formatSignedMoney(pnl, '$')} (
-              {formatPercent((pnl / RULES.startingCashUsd) * 100, { signed: true, decimals: 2 })})
+              {formatPercent((pnl / RULES.startingCashUsd) * 100, {
+                signed: true,
+                decimals: 2,
+              })}
+              )
             </p>
           </div>
           <dl className="flex gap-5 text-sm">
@@ -144,15 +131,6 @@ function Portfolio({
         )}
       </CardContent>
     </Card>
-  )
-}
-
-function Stat({ label, value, tone }: { label: string; value: string; tone?: number | null }) {
-  return (
-    <div>
-      <dt className="text-muted-foreground text-xs">{label}</dt>
-      <dd className={`font-semibold tabular-nums ${toneOf(tone)}`}>{value}</dd>
-    </div>
   )
 }
 
@@ -399,7 +377,16 @@ function PlanCard({ plan, outcome, bars }: { plan: DayPlan; outcome?: PlanOutcom
       { price: plan.level, label: 'จุด', color: '--brand' },
       { price: plan.target, label: 'เป้า', color: '--delta-up', dashed: true },
       ...(outcome?.entry ? [{ price: outcome.entry.price, label: 'เข้า', color: '--series-you' }] : []),
-      ...(outcome?.stop != null ? [{ price: outcome.stop, label: 'stop', color: '--delta-down', dashed: true }] : []),
+      ...(outcome?.stop != null
+        ? [
+            {
+              price: outcome.stop,
+              label: 'stop',
+              color: '--delta-down',
+              dashed: true,
+            },
+          ]
+        : []),
     ],
     [plan, outcome],
   )
@@ -458,8 +445,16 @@ const SCAN_TONE = {
   wait: 'bg-brand-soft text-brand',
   avoid: 'bg-muted text-muted-foreground',
 } as const
-const SCAN_LABEL = { good: 'เข้าเงื่อนไข', wait: 'เฝ้าดู', avoid: 'ไม่เอา' } as const
-const LOCATION_LABEL = { 'above-value': 'เหนือ VA', 'in-value': 'ใน VA', 'below-value': 'ใต้ VA' } as const
+const SCAN_LABEL = {
+  good: 'เข้าเงื่อนไข',
+  wait: 'เฝ้าดู',
+  avoid: 'ไม่เอา',
+} as const
+const LOCATION_LABEL = {
+  'above-value': 'เหนือ VA',
+  'in-value': 'ใน VA',
+  'below-value': 'ใต้ VA',
+} as const
 
 function Scanner({ rows, scannedAt }: { rows: ScanRow[]; scannedAt: string }) {
   const [show, setShow] = useState<ScanRow['status']>('good')
@@ -473,7 +468,11 @@ function Scanner({ rows, scannedAt }: { rows: ScanRow[]; scannedAt: string }) {
           <h2 className="font-display text-lg font-medium">คัดหุ้น</h2>
           <p className="text-muted-foreground text-xs">
             {rows.length} ตัว ·{' '}
-            {new Date(scannedAt).toLocaleTimeString('th-TH-u-ca-gregory', { hour: '2-digit', minute: '2-digit' })} น.
+            {new Date(scannedAt).toLocaleTimeString('th-TH-u-ca-gregory', {
+              hour: '2-digit',
+              minute: '2-digit',
+            })}{' '}
+            น.
           </p>
         </div>
         <div className="flex gap-1" role="tablist">
@@ -533,7 +532,8 @@ function Rules() {
             </li>
             <li>
               <span className="text-foreground font-semibold">Execution</span> ซื้อแท่งถัดไป stop ใต้จุดต่ำสุดที่แนว
-              เข้าเมื่อคุ้ม ≥1:{RULES.minRr} หลังหักค่าคอมไปกลับ ช่วง 09:45–15:00 น. (นิวยอร์ก) ขายหมดก่อนปิด
+              เข้าเมื่อคุ้ม ≥1:
+              {RULES.minRr} หลังหักค่าคอมไปกลับ ช่วง 09:45–15:00 น. (นิวยอร์ก) ขายหมดก่อนปิด
             </li>
           </ol>
           <ul className="text-muted-foreground mt-3 list-disc space-y-1 pl-5">

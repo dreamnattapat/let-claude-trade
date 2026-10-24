@@ -1,7 +1,8 @@
-import { Check, ChevronDown, ExternalLink, Trophy, X } from 'lucide-react'
+import { Check, ChevronDown, ExternalLink } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { AgentAvatar } from '@/components/dream/AgentAvatar'
+import { Fold, Stat, toneOf } from '@/components/shared'
 import { SiteHeader } from '@/components/SiteHeader'
 import { DreamChart } from '@/components/dream/DreamChart'
 import { TradeBadge } from '@/components/TradeBadge'
@@ -39,21 +40,23 @@ export function DreamPage() {
   }, [latestDate])
 
   return (
-    <main className="mx-auto max-w-5xl space-y-6 px-4 pt-6 pb-12 sm:pt-10">
+    <main className="mx-auto max-w-5xl space-y-4 px-4 pt-6 pb-12 sm:pt-10">
       <SiteHeader active="lynch" />
-      <header className="space-y-2">
-        <p className="text-brand text-sm font-semibold">ความท้าทาย · สไตล์ Peter Lynch</p>
-        <h1 className="font-display text-3xl font-medium sm:text-4xl">Swing Cook</h1>
-        <p className="text-muted-foreground max-w-2xl leading-relaxed">
-          ทีม AI 7 ตัว ลงทุนตามหลักของ Peter Lynch เฉพาะหุ้นเทคโนโลยี อวกาศ สุขภาพ และพลังงาน ด้วยเงินสมมติ $
-          {formatNumber(data?.ledger.startingCashUsd ?? 10_000, 0)} เป้าหมายเดียว: ชนะ S&P 500
-          ตามล่าหุ้นที่โตได้หลายเท่า (multi-bagger) ประชุมทุกวันจันทร์ก่อนตลาดสหรัฐฯ เปิด
-          และเลือกได้ว่าจะซื้อขายที่ราคาปิดของวันไหนในสัปดาห์นั้น
+      <header>
+        <h1 className="font-display text-2xl font-medium sm:text-3xl">Swing Cook</h1>
+        <p className="text-muted-foreground text-sm">
+          <a href="#rules" className="text-brand hover:underline">
+            วิธีทำงาน
+          </a>
         </p>
       </header>
 
       {error && <p className="text-muted-foreground text-sm">โหลดข้อมูลทีม Lynch ไม่ได้ ({error})</p>}
-      {data ? <Scoreboard data={data} /> : !error && <p className="text-muted-foreground text-sm">กำลังโหลด…</p>}
+      {data ? (
+        <Scoreboard data={data} report={latest} />
+      ) : (
+        !error && <p className="text-muted-foreground text-sm">กำลังโหลด…</p>
+      )}
 
       <Team latest={latest} />
 
@@ -64,7 +67,6 @@ export function DreamPage() {
           empty={!latestDate}
         />
       )}
-      {data && <Holdings data={data} report={latest} />}
       <Lessons />
       {data && data.reports.length > 1 && <PastMeetings dates={data.reports.slice(0, -1).toReversed()} data={data} />}
       {data && data.state.fills.length > 0 && <TradeLog fills={data.state.fills} />}
@@ -73,91 +75,124 @@ export function DreamPage() {
   )
 }
 
-function Scoreboard({ data }: { data: DreamData }) {
+function Scoreboard({ data, report }: { data: DreamData; report: DreamReport | null }) {
   const { state, ledger } = data
   const lead = state.returnPct - state.spyReturnPct
   const started = state.points.length > 2
   const ahead = lead > 0.005
   const even = Math.abs(lead) <= 0.005
   const sessions = state.points.length - 2 // less the starting point and today's
+  const pnl = state.valueUsd - ledger.startingCashUsd
   return (
-    <Card>
-      <CardContent className="space-y-6">
-        <div className="grid gap-6 sm:grid-cols-[1fr_auto] sm:items-start">
-          <div className="space-y-1">
-            <p className="text-muted-foreground text-sm">มูลค่าพอร์ต Lynch</p>
-            <p className="font-display text-4xl font-medium tabular-nums">{formatMoney(state.valueUsd, '$')}</p>
-            <p className="text-muted-foreground text-xs">
-              เริ่ม {formatDate(ledger.startDate)} · เงินสด {formatMoney(state.cashUsd, '$')}
-              {started && ` · ผ่านไป ${Math.max(sessions, 1)} วันทำการ`}
+    <Card className="gap-0 py-4">
+      <CardContent className="px-4 sm:px-6 space-y-4 px-4 sm:px-6">
+        <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
+          <div>
+            <p className="text-muted-foreground text-xs">พอร์ต</p>
+            <p className="font-display text-3xl font-medium tabular-nums">{formatMoney(state.valueUsd, '$')}</p>
+            <p className={`text-sm font-semibold tabular-nums ${toneOf(pnl)}`}>
+              {formatSignedMoney(pnl, '$')} ({formatPercent(state.returnPct, { signed: true, decimals: 2 })})
             </p>
           </div>
-          <div
-            className={`flex items-center gap-3 rounded-2xl px-4 py-3 ${
-              !started || even
-                ? 'bg-muted'
-                : ahead
-                  ? 'bg-delta-up/10 text-delta-up'
-                  : 'bg-delta-down/10 text-delta-down'
-            }`}
-          >
-            {started &&
-              !even &&
-              (ahead ? <Trophy className="size-6" aria-hidden /> : <X className="size-6" aria-hidden />)}
-            <div>
-              <p className="font-semibold">
-                {!started ? 'รอซื้อขายครั้งแรก' : even ? 'สูสีกับ S&P 500' : ahead ? 'นำ S&P 500' : 'ตาม S&P 500'}
-              </p>
-              {started && !even && (
-                <p className="text-sm tabular-nums">{formatPercent(Math.abs(lead), { decimals: 2 })}</p>
-              )}
-            </div>
-          </div>
+          <dl className="flex gap-5 text-sm">
+            <Stat
+              label="S&P 500"
+              value={formatPercent(state.spyReturnPct, {
+                signed: true,
+                decimals: 2,
+              })}
+              tone={state.spyReturnPct}
+            />
+            {state.themeReturnPct != null && (
+              <Stat
+                label="ETF 4 ธีม"
+                value={formatPercent(state.themeReturnPct, {
+                  signed: true,
+                  decimals: 2,
+                })}
+                tone={state.themeReturnPct}
+              />
+            )}
+            <Stat
+              label={!started || even ? 'เทียบ S&P' : ahead ? 'นำ S&P' : 'ตาม S&P'}
+              value={started ? formatPercent(Math.abs(lead), { decimals: 2 }) : '—'}
+              tone={started && !even ? lead : null}
+            />
+          </dl>
         </div>
-        {started && sessions < EARLY_SESSIONS && (
-          <p className="bg-muted text-muted-foreground rounded-2xl px-4 py-3 text-xs leading-relaxed">
-            <span className="text-foreground font-semibold">ยังเร็วเกินไปที่จะสรุป</span> ผ่านไป {Math.max(sessions, 1)}{' '}
-            จากราว {EARLY_SESSIONS} วันทำการ (6 เดือน) ช่วงแรกแบบนี้ ชนะหรือแพ้ S&P 500 ส่วนใหญ่มาจากดวงและจังหวะตลาด
-            ยังบอกไม่ได้ว่าวิธีของทีมได้ผล
-          </p>
-        )}
-        <dl className="grid grid-cols-2 gap-4 text-sm sm:max-w-xl sm:grid-cols-3">
-          <div>
-            <dt className="text-muted-foreground">ทีม Lynch</dt>
-            <dd className="text-lg font-semibold tabular-nums">
-              {formatPercent(state.returnPct, { signed: true, decimals: 2 })}
-            </dd>
-          </div>
-          <div>
-            <dt className="text-muted-foreground">S&P 500 (SPY)</dt>
-            <dd className="text-lg font-semibold tabular-nums">
-              {formatPercent(state.spyReturnPct, { signed: true, decimals: 2 })}
-            </dd>
-          </div>
-          {state.themeReturnPct != null && (
-            <div title="เงินเท่ากันแบ่ง 4 ส่วนเท่ากันใน XLK (เทค), UFO (อวกาศ), XLV (สุขภาพ), XLE (พลังงาน) แล้วถือไว้ ถ้าทีมแพ้เส้นนี้ แปลว่าเลือกธีมถูกแต่เลือกหุ้นไม่เก่ง">
-              <dt className="text-muted-foreground">ETF 4 ธีม</dt>
-              <dd className="text-lg font-semibold tabular-nums">
-                {formatPercent(state.themeReturnPct, { signed: true, decimals: 2 })}
-              </dd>
-            </div>
-          )}
-        </dl>
-        <p className="text-muted-foreground text-xs leading-relaxed">
-          ทุกฝั่งรวมเงินปันผลหลังหักภาษีสหรัฐฯ 15%
-          {state.dividendsUsd > 0 && ` (ทีมได้ปันผลแล้ว ${formatMoney(state.dividendsUsd, '$')})`} · ETF 4 ธีม
-          คือการแบ่งเงินเท่ากันใน XLK, UFO, XLV และ XLE ใช้ดูว่าทีมชนะเพราะเลือกหุ้นเก่ง หรือแค่เพราะเลือกธีม
-        </p>
+
+        <Holding state={state} />
+
         {state.points.length > 2 && <DreamChart points={state.points} startingCash={ledger.startingCashUsd} />}
+
+        <div>
+          {started && sessions < EARLY_SESSIONS && (
+            <Fold title="ยังเร็วเกินไปที่จะสรุป">
+              <p className="text-muted-foreground text-xs leading-relaxed">
+                ผ่านไป {Math.max(sessions, 1)} จากราว {EARLY_SESSIONS} วันทำการ (6 เดือน) ช่วงแรกแบบนี้ ชนะหรือแพ้ S&P
+                500 ส่วนใหญ่มาจากดวงและจังหวะตลาด ยังบอกไม่ได้ว่าวิธีของทีมได้ผล
+              </p>
+            </Fold>
+          )}
+          <Fold title="พอร์ตแบบละเอียด">
+            <HoldingsTable data={data} report={report} />
+          </Fold>
+          <Fold title="ที่มาของตัวเลข">
+            <p className="text-muted-foreground text-xs leading-relaxed">
+              เริ่ม {formatDate(ledger.startDate)} ด้วย {formatMoney(ledger.startingCashUsd, '$')} ·
+              ทุกฝั่งรวมเงินปันผลหลังหักภาษีสหรัฐฯ 15%
+              {state.dividendsUsd > 0 && ` (ทีมได้ปันผลแล้ว ${formatMoney(state.dividendsUsd, '$')})`} · ETF 4 ธีม
+              คือการแบ่งเงินเท่ากันใน XLK, UFO, XLV และ XLE ใช้ดูว่าทีมชนะเพราะเลือกหุ้นเก่ง หรือแค่เพราะเลือกธีม
+            </p>
+          </Fold>
+        </div>
       </CardContent>
     </Card>
   )
 }
 
+/** What the team holds right now, in the same box the Day Cook page uses. */
+function Holding({ state }: { state: DreamData['state'] }) {
+  return (
+    <div className="bg-muted/50 rounded-xl px-3 py-2.5 text-sm">
+      <p className="text-muted-foreground mb-1 text-xs">ถืออยู่ตอนนี้</p>
+      {state.holdings.length === 0 ? (
+        <p>เงินสด 100%</p>
+      ) : (
+        <>
+          <ul className="space-y-1.5">
+            {state.holdings.map((h) => (
+              <li key={h.ticker} className="flex items-center gap-3">
+                <span className="w-14 shrink-0 font-semibold">{h.ticker}</span>
+                <span className="text-muted-foreground min-w-0 flex-1 text-xs tabular-nums">
+                  {formatNumber(h.units, 2)} หุ้น · ต้นทุน {formatNumber(h.avgCostUsd)} · ตอนนี้{' '}
+                  {formatNumber(h.priceUsd)}
+                  <br />
+                  สัดส่วน {formatPercent(h.weightPct, { decimals: 0 })}
+                </span>
+                <span className={`text-right tabular-nums ${toneOf(h.unrealizedUsd)}`}>
+                  {formatSignedMoney(h.unrealizedUsd, '$')}
+                  <span className="block text-xs">
+                    {formatPercent(h.unrealizedPct, {
+                      signed: true,
+                      decimals: 2,
+                    })}
+                  </span>
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p className="text-muted-foreground mt-1.5 text-xs">เงินสด {formatMoney(state.cashUsd, '$')}</p>
+        </>
+      )}
+    </div>
+  )
+}
+
 function Team({ latest }: { latest: DreamReport | null }) {
   return (
-    <section aria-labelledby="team" className="space-y-3">
-      <h2 id="team" className="font-display text-xl font-medium">
+    <section aria-labelledby="team" className="space-y-2">
+      <h2 id="team" className="font-display text-lg font-medium">
         สมาชิกทีม
       </h2>
       {/* A swipeable row on a phone, a grid on a wide screen. */}
@@ -199,8 +234,8 @@ function Team({ latest }: { latest: DreamReport | null }) {
 
 function LatestMeeting({ report, fills, empty }: { report: DreamReport | null; fills: DreamFill[]; empty: boolean }) {
   return (
-    <Card>
-      <CardHeader>
+    <Card className="gap-3 py-4">
+      <CardHeader className="px-4 sm:px-6">
         <CardTitle>ประชุมล่าสุด</CardTitle>
         <CardDescription>
           {empty
@@ -211,7 +246,7 @@ function LatestMeeting({ report, fills, empty }: { report: DreamReport | null; f
         </CardDescription>
       </CardHeader>
       {report && (
-        <CardContent>
+        <CardContent className="px-4 sm:px-6">
           <Report report={report} fills={fills} />
         </CardContent>
       )}
@@ -219,7 +254,13 @@ function LatestMeeting({ report, fills, empty }: { report: DreamReport | null; f
   )
 }
 
-type PriceCheck = { reportDate: string; ticker: string; closeUsd: number; closeDate: string; diffPct: number }
+type PriceCheck = {
+  reportDate: string
+  ticker: string
+  closeUsd: number
+  closeDate: string
+  diffPct: number
+}
 let priceChecksOnce: Promise<PriceCheck[]> | null = null
 
 /** Prices written in reports that don't match the real close (checked daily by the Action, in state.json). */
@@ -487,7 +528,7 @@ function RewardRiskLine({ decision: d }: { decision: DreamDecision }) {
   )
 }
 
-function Holdings({ data, report }: { data: DreamData; report: DreamReport | null }) {
+function HoldingsTable({ data, report }: { data: DreamData; report: DreamReport | null }) {
   const { state } = data
   // Each holding's Lynch category, from the latest meeting.
   const category = new Map(report?.decisions.filter((d) => d.category).map((d) => [d.ticker, d.category!]))
@@ -496,84 +537,81 @@ function Holdings({ data, report }: { data: DreamData; report: DreamReport | nul
     report?.decisions.filter((d) => d.targetUsd != null && d.stopUsd != null).map((d) => [d.ticker, d]),
   )
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>พอร์ตตอนนี้</CardTitle>
-        <CardDescription>ราคาล่าสุด ต้นทุนเฉลี่ยไม่รวมค่าคอมมิชชัน</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>หุ้น</TableHead>
-              <TableHead className="text-right">สัดส่วน</TableHead>
-              <TableHead className="text-right">จำนวนหุ้น</TableHead>
-              <TableHead className="text-right">ต้นทุนเฉลี่ย</TableHead>
-              <TableHead className="text-right">ราคา</TableHead>
-              <TableHead className="text-right">มูลค่า</TableHead>
-              <TableHead className="text-right">กำไร/ขาดทุน</TableHead>
-              <TableHead className="text-right">คุ้มเสี่ยงตอนนี้</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {state.holdings.map((h) => (
-              <TableRow key={h.ticker}>
-                <TableCell>
-                  <span className="font-medium">{h.ticker}</span>
-                  {category.get(h.ticker) && (
-                    <span className="text-muted-foreground block text-xs">
-                      {[
-                        theme.get(h.ticker) && DREAM_THEMES[theme.get(h.ticker)!],
-                        LYNCH_CATEGORIES[category.get(h.ticker)!],
-                      ]
-                        .filter(Boolean)
-                        .join(' · ')}
-                    </span>
-                  )}
-                </TableCell>
-                <TableCell className="text-right tabular-nums">{formatPercent(h.weightPct)}</TableCell>
-                <TableCell className="text-right tabular-nums">{formatNumber(h.units, 4)}</TableCell>
-                <TableCell className="text-right tabular-nums">{formatNumber(h.avgCostUsd)}</TableCell>
-                <TableCell className="text-right tabular-nums">{formatNumber(h.priceUsd)}</TableCell>
-                <TableCell className="text-right tabular-nums">{formatMoney(h.valueUsd, '$')}</TableCell>
-                <TableCell
-                  className={`text-right tabular-nums ${h.unrealizedUsd > 0 ? 'text-delta-up' : h.unrealizedUsd < 0 ? 'text-delta-down' : ''}`}
-                >
-                  {formatSignedMoney(h.unrealizedUsd, '$')}
-                  <div className="text-xs opacity-80">
-                    {formatPercent(h.unrealizedPct, { signed: true, decimals: 2 })}
-                  </div>
-                </TableCell>
-                <TableCell className="text-right tabular-nums">
-                  <RewardRiskNow level={levels.get(h.ticker)} price={h.priceUsd} />
-                </TableCell>
-              </TableRow>
-            ))}
-            <TableRow>
-              <TableCell className="font-medium">เงินสด</TableCell>
-              <TableCell className="text-right tabular-nums">
-                {formatPercent((state.cashUsd / state.valueUsd) * 100)}
+    <div>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>หุ้น</TableHead>
+            <TableHead className="text-right">สัดส่วน</TableHead>
+            <TableHead className="text-right">จำนวนหุ้น</TableHead>
+            <TableHead className="text-right">ต้นทุนเฉลี่ย</TableHead>
+            <TableHead className="text-right">ราคา</TableHead>
+            <TableHead className="text-right">มูลค่า</TableHead>
+            <TableHead className="text-right">กำไร/ขาดทุน</TableHead>
+            <TableHead className="text-right">คุ้มเสี่ยงตอนนี้</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {state.holdings.map((h) => (
+            <TableRow key={h.ticker}>
+              <TableCell>
+                <span className="font-medium">{h.ticker}</span>
+                {category.get(h.ticker) && (
+                  <span className="text-muted-foreground block text-xs">
+                    {[
+                      theme.get(h.ticker) && DREAM_THEMES[theme.get(h.ticker)!],
+                      LYNCH_CATEGORIES[category.get(h.ticker)!],
+                    ]
+                      .filter(Boolean)
+                      .join(' · ')}
+                  </span>
+                )}
               </TableCell>
-              <TableCell colSpan={3} />
-              <TableCell className="text-right tabular-nums">{formatMoney(state.cashUsd, '$')}</TableCell>
-              <TableCell colSpan={2} />
-            </TableRow>
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TableCell colSpan={5}>รวม</TableCell>
-              <TableCell className="text-right tabular-nums">{formatMoney(state.valueUsd, '$')}</TableCell>
+              <TableCell className="text-right tabular-nums">{formatPercent(h.weightPct)}</TableCell>
+              <TableCell className="text-right tabular-nums">{formatNumber(h.units, 4)}</TableCell>
+              <TableCell className="text-right tabular-nums">{formatNumber(h.avgCostUsd)}</TableCell>
+              <TableCell className="text-right tabular-nums">{formatNumber(h.priceUsd)}</TableCell>
+              <TableCell className="text-right tabular-nums">{formatMoney(h.valueUsd, '$')}</TableCell>
               <TableCell
-                className={`text-right tabular-nums ${state.returnPct > 0 ? 'text-delta-up' : state.returnPct < 0 ? 'text-delta-down' : ''}`}
+                className={`text-right tabular-nums ${h.unrealizedUsd > 0 ? 'text-delta-up' : h.unrealizedUsd < 0 ? 'text-delta-down' : ''}`}
               >
-                {formatSignedMoney(state.valueUsd - data.ledger.startingCashUsd, '$')}
+                {formatSignedMoney(h.unrealizedUsd, '$')}
+                <div className="text-xs opacity-80">
+                  {formatPercent(h.unrealizedPct, {
+                    signed: true,
+                    decimals: 2,
+                  })}
+                </div>
               </TableCell>
-              <TableCell />
+              <TableCell className="text-right tabular-nums">
+                <RewardRiskNow level={levels.get(h.ticker)} price={h.priceUsd} />
+              </TableCell>
             </TableRow>
-          </TableFooter>
-        </Table>
-      </CardContent>
-    </Card>
+          ))}
+          <TableRow>
+            <TableCell className="font-medium">เงินสด</TableCell>
+            <TableCell className="text-right tabular-nums">
+              {formatPercent((state.cashUsd / state.valueUsd) * 100)}
+            </TableCell>
+            <TableCell colSpan={3} />
+            <TableCell className="text-right tabular-nums">{formatMoney(state.cashUsd, '$')}</TableCell>
+            <TableCell colSpan={2} />
+          </TableRow>
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TableCell colSpan={5}>รวม</TableCell>
+            <TableCell className="text-right tabular-nums">{formatMoney(state.valueUsd, '$')}</TableCell>
+            <TableCell
+              className={`text-right tabular-nums ${state.returnPct > 0 ? 'text-delta-up' : state.returnPct < 0 ? 'text-delta-down' : ''}`}
+            >
+              {formatSignedMoney(state.valueUsd - data.ledger.startingCashUsd, '$')}
+            </TableCell>
+            <TableCell />
+          </TableRow>
+        </TableFooter>
+      </Table>
+    </div>
   )
 }
 
@@ -617,11 +655,11 @@ function PastMeetings({ dates, data }: { dates: string[]; data: DreamData }) {
       )
   }
   return (
-    <Card>
-      <CardHeader>
+    <Card className="gap-3 py-4">
+      <CardHeader className="px-4 sm:px-6">
         <CardTitle>ประชุมครั้งก่อน ๆ</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-2">
+      <CardContent className="px-4 sm:px-6 space-y-2">
         {dates.map((date) => (
           <div key={date} className="rounded-2xl border">
             <button
@@ -663,8 +701,8 @@ function TradeLog({ fills }: { fills: DreamFill[] }) {
   const buySlip = averageSlip(fills, 'buy')
   const sellSlip = averageSlip(fills, 'sell')
   return (
-    <Card>
-      <CardHeader>
+    <Card className="gap-3 py-4">
+      <CardHeader className="px-4 sm:px-6">
         <CardTitle>รายการซื้อขายทั้งหมด</CardTitle>
         <CardDescription>
           ราคาปิดของรอบที่ซื้อขาย รวมค่าคอมมิชชัน 0.15% + VAT ส่วน "ต่างจากตอนประชุม"
@@ -675,7 +713,7 @@ function TradeLog({ fills }: { fills: DreamFill[] }) {
           {(buySlip != null || sellSlip != null) && ' (ซื้อ: บวก = จ่ายแพงกว่าตอนประชุม, ขาย: บวก = ขายได้ดีกว่า)'}
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-4 sm:px-6">
         <Table>
           <TableHeader>
             <TableRow>
@@ -735,86 +773,97 @@ function Rules() {
     )
   }, [])
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>กติกา</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4 text-sm leading-relaxed">
-        <div className="space-y-1.5">
-          <h3 className="font-semibold">หลักของ Peter Lynch ที่ทีมใช้</h3>
-          <ul className="text-muted-foreground list-disc space-y-1.5 pl-5">
-            <li>ลงทุนในสิ่งที่เข้าใจ ต้องเล่าได้ใน 2 นาทีว่าทำไมซื้อ และอะไรจะทำให้ผิด</li>
-            <li>
-              จัดหุ้นเป็น 6 ประเภท: โตเร็ว แกร่ง โตช้า วัฏจักร พลิกฟื้น สินทรัพย์ซ่อนค่า แต่ละแบบมีเหตุผลซื้อขายต่างกัน
-            </li>
-            <li>ชอบ PEG (P/E หารการเติบโตของกำไร) ราว 1 หรือต่ำกว่า หนี้น้อย และสินค้าคงคลังไม่โตเร็วกว่ายอดขาย</li>
-            <li>เลี่ยงหุ้นร้อนในอุตสาหกรรมร้อน และบริษัทที่ซื้อกิจการนอกเรื่อง</li>
-            <li>รดน้ำดอกไม้ ถอนวัชพืช: ถือตัวที่เรื่องเล่ายังดีไว้ ขายเมื่อเรื่องเล่าเปลี่ยน ไม่ใช่เพราะราคาแกว่ง</li>
-          </ul>
-        </div>
-        <h3 className="font-semibold">กติกา</h3>
-        <ul className="text-muted-foreground list-disc space-y-1.5 pl-5">
-          <li>เงินสมมติ ไม่ใช่เงินจริง และไม่ใช่คำแนะนำการลงทุน</li>
-          <li>
-            ประชุมก่อนตลาดสหรัฐฯ เปิด แล้วเลือกรอบซื้อขายแต่ละคำสั่งได้ภายใน 7 วัน เติมที่ราคาปิดของรอบนั้น
-            จึงไม่มีทางรู้ราคาที่ซื้อขายล่วงหน้า และยกเลิกคำสั่งก่อนถึงรอบไม่ได้
-          </li>
-          <li>เสียค่าคอมมิชชันแบบ Dime! (0.15% + VAT 7%) ทุกครั้งที่ซื้อขาย</li>
-          <li>
-            เลือกเฉพาะ 4 ธีม: เทคโนโลยี อวกาศ สุขภาพ พลังงาน ธีมละไม่เกิน 40%
-            และทุกตัวต้องอธิบายได้ว่าบริษัททำอะไรในประโยคเดียว
-          </li>
-          <li>ซื้อหุ้นในสหรัฐฯ มูลค่าตลาด $500 ล้านขึ้นไป ไม่ยืมเงิน ไม่ short ไม่ใช้ออปชัน ใช้ ETF เฉพาะพักเงิน</li>
-          <li>
-            พอร์ตกระชับ: ถือไม่เกิน {MAX_HOLDINGS} ตัว หุ้นตัวเดียวไม่เกิน 25% หุ้นโตเร็วรวมไม่เกิน 70%
-            ของเงินที่ลงในหุ้น หุ้นอวกาศที่ยังขาดทุนรวมกันไม่เกิน 10% เงินสดได้ถึง 50% ถ้าไม่มีตัวที่คุ้มพอ
-          </li>
-          <li>
-            ทุกตัวต้องมีเป้าราคาและจุดตัดขาดทุน แล้วคำนวณความคุ้มเสี่ยง (ได้เท่าไรต่อเสี่ยง 1) ทุกสัปดาห์: 1:3
-            ขึ้นไปดีมาก, 1:2 โอเค ซื้อใหม่ต้องได้อย่างน้อย 1:2 ส่วนต่ำกว่านั้นต้องเขียนทบทวน และใกล้ 1:1
-            ต้องตัดสินใจว่าจะถือต่อ ลด หรือขาย
-          </li>
-          <li>
-            ไม่เกิน 6 คำสั่งต่อการประชุม (ครั้งแรก 10) และไม่ขายหุ้นที่เพิ่งซื้อไม่ถึง 4 สัปดาห์
-            เว้นแต่เรื่องเล่าเปลี่ยน
-          </li>
-          <li>
-            เทียบกับการซื้อ SPY ด้วยเงินเท่ากันที่ราคาปิดวันแรกแล้วถือไว้ และกับ ETF 4 ธีม (XLK, UFO, XLV, XLE เท่าๆ
-            กัน) ทุกฝั่งรวมเงินปันผลหลังหักภาษีสหรัฐฯ 15%
-          </li>
-          <li>
-            คำสั่งแก้หรือลบไม่ได้เมื่อ commit แล้ว และถ้า commit หลังตลาดรอบนั้นเปิด จะเลื่อนไปรอบถัดไปเอง
-            (ระบบดูเวลาจากประวัติ git ทุกวัน)
-          </li>
-          <li>
-            ทุกการซื้อใหม่ต้องมีฝ่ายค้านเขียนเหตุผลที่อาจผิด ราคาในรายงานต้องตรงราคาปิดจริง และทุกตัวเลขต้องมีแหล่งที่มา
-            (ตัวเลขเศรษฐกิจใช้แหล่งทางการก่อน)
-          </li>
-          <li>ทบทวนทุกสัปดาห์โดยให้คำตัดสินแบบไม่ดูเหตุผลของทีมก่อน แล้วค่อยเทียบ ไม่ให้ทีมตรวจการบ้านตัวเอง</li>
-          <li>เปลี่ยนกติกาได้เฉพาะเจ้าของ มีผลกับการประชุมถัดไป และไม่แก้ผลที่ผ่านมา</li>
-        </ul>
-        {changes.length > 0 && (
-          <details className="group/rules">
-            <summary className="cursor-pointer list-none font-semibold [&::-webkit-details-marker]:hidden">
-              ประวัติการเปลี่ยนกติกา ({changes.length})
-              <ChevronDown
-                className="text-muted-foreground ml-1 inline size-4 transition-transform group-open/rules:rotate-180"
-                aria-hidden
-              />
-            </summary>
-            <ol className="mt-3 space-y-3">
-              {changes.toReversed().map((c, i) => (
-                <li key={i} className="border-l-2 pl-3">
-                  <p className="text-muted-foreground text-xs">
-                    ตัดสินใจ {formatDate(c.date)} · มีผลตั้งแต่ {formatDate(c.effective)}
-                  </p>
-                  <p>{c.change}</p>
-                  <p className="text-muted-foreground text-xs">เหตุผล: {c.why}</p>
+    <Card id="rules" className="gap-0 py-1">
+      <CardContent className="px-4 sm:px-6">
+        <Fold title="วิธีทำงานและกติกา">
+          <div className="space-y-4 leading-relaxed">
+            <p className="text-muted-foreground">
+              ทีม AI 7 ตัว ลงทุนตามหลักของ Peter Lynch เฉพาะหุ้นเทคโนโลยี อวกาศ สุขภาพ และพลังงาน ด้วยเงินสมมติ $10,000
+              เป้าหมายเดียว: ชนะ S&P 500 ตามล่าหุ้นที่โตได้หลายเท่า (multi-bagger) ประชุมทุกวันจันทร์ก่อนตลาดสหรัฐฯ เปิด
+              และเลือกได้ว่าจะซื้อขายที่ราคาปิดของวันไหนในสัปดาห์นั้น
+            </p>
+            <div className="space-y-1.5">
+              <h3 className="font-semibold">หลักของ Peter Lynch ที่ทีมใช้</h3>
+              <ul className="text-muted-foreground list-disc space-y-1.5 pl-5">
+                <li>ลงทุนในสิ่งที่เข้าใจ ต้องเล่าได้ใน 2 นาทีว่าทำไมซื้อ และอะไรจะทำให้ผิด</li>
+                <li>
+                  จัดหุ้นเป็น 6 ประเภท: โตเร็ว แกร่ง โตช้า วัฏจักร พลิกฟื้น สินทรัพย์ซ่อนค่า
+                  แต่ละแบบมีเหตุผลซื้อขายต่างกัน
                 </li>
-              ))}
-            </ol>
-          </details>
-        )}
+                <li>ชอบ PEG (P/E หารการเติบโตของกำไร) ราว 1 หรือต่ำกว่า หนี้น้อย และสินค้าคงคลังไม่โตเร็วกว่ายอดขาย</li>
+                <li>เลี่ยงหุ้นร้อนในอุตสาหกรรมร้อน และบริษัทที่ซื้อกิจการนอกเรื่อง</li>
+                <li>
+                  รดน้ำดอกไม้ ถอนวัชพืช: ถือตัวที่เรื่องเล่ายังดีไว้ ขายเมื่อเรื่องเล่าเปลี่ยน ไม่ใช่เพราะราคาแกว่ง
+                </li>
+              </ul>
+            </div>
+            <h3 className="font-semibold">กติกา</h3>
+            <ul className="text-muted-foreground list-disc space-y-1.5 pl-5">
+              <li>เงินสมมติ ไม่ใช่เงินจริง และไม่ใช่คำแนะนำการลงทุน</li>
+              <li>
+                ประชุมก่อนตลาดสหรัฐฯ เปิด แล้วเลือกรอบซื้อขายแต่ละคำสั่งได้ภายใน 7 วัน เติมที่ราคาปิดของรอบนั้น
+                จึงไม่มีทางรู้ราคาที่ซื้อขายล่วงหน้า และยกเลิกคำสั่งก่อนถึงรอบไม่ได้
+              </li>
+              <li>เสียค่าคอมมิชชันแบบ Dime! (0.15% + VAT 7%) ทุกครั้งที่ซื้อขาย</li>
+              <li>
+                เลือกเฉพาะ 4 ธีม: เทคโนโลยี อวกาศ สุขภาพ พลังงาน ธีมละไม่เกิน 40%
+                และทุกตัวต้องอธิบายได้ว่าบริษัททำอะไรในประโยคเดียว
+              </li>
+              <li>
+                ซื้อหุ้นในสหรัฐฯ มูลค่าตลาด $500 ล้านขึ้นไป ไม่ยืมเงิน ไม่ short ไม่ใช้ออปชัน ใช้ ETF เฉพาะพักเงิน
+              </li>
+              <li>
+                พอร์ตกระชับ: ถือไม่เกิน {MAX_HOLDINGS} ตัว หุ้นตัวเดียวไม่เกิน 25% หุ้นโตเร็วรวมไม่เกิน 70%
+                ของเงินที่ลงในหุ้น หุ้นอวกาศที่ยังขาดทุนรวมกันไม่เกิน 10% เงินสดได้ถึง 50% ถ้าไม่มีตัวที่คุ้มพอ
+              </li>
+              <li>
+                ทุกตัวต้องมีเป้าราคาและจุดตัดขาดทุน แล้วคำนวณความคุ้มเสี่ยง (ได้เท่าไรต่อเสี่ยง 1) ทุกสัปดาห์: 1:3
+                ขึ้นไปดีมาก, 1:2 โอเค ซื้อใหม่ต้องได้อย่างน้อย 1:2 ส่วนต่ำกว่านั้นต้องเขียนทบทวน และใกล้ 1:1
+                ต้องตัดสินใจว่าจะถือต่อ ลด หรือขาย
+              </li>
+              <li>
+                ไม่เกิน 6 คำสั่งต่อการประชุม (ครั้งแรก 10) และไม่ขายหุ้นที่เพิ่งซื้อไม่ถึง 4 สัปดาห์
+                เว้นแต่เรื่องเล่าเปลี่ยน
+              </li>
+              <li>
+                เทียบกับการซื้อ SPY ด้วยเงินเท่ากันที่ราคาปิดวันแรกแล้วถือไว้ และกับ ETF 4 ธีม (XLK, UFO, XLV, XLE เท่าๆ
+                กัน) ทุกฝั่งรวมเงินปันผลหลังหักภาษีสหรัฐฯ 15%
+              </li>
+              <li>
+                คำสั่งแก้หรือลบไม่ได้เมื่อ commit แล้ว และถ้า commit หลังตลาดรอบนั้นเปิด จะเลื่อนไปรอบถัดไปเอง
+                (ระบบดูเวลาจากประวัติ git ทุกวัน)
+              </li>
+              <li>
+                ทุกการซื้อใหม่ต้องมีฝ่ายค้านเขียนเหตุผลที่อาจผิด ราคาในรายงานต้องตรงราคาปิดจริง
+                และทุกตัวเลขต้องมีแหล่งที่มา (ตัวเลขเศรษฐกิจใช้แหล่งทางการก่อน)
+              </li>
+              <li>ทบทวนทุกสัปดาห์โดยให้คำตัดสินแบบไม่ดูเหตุผลของทีมก่อน แล้วค่อยเทียบ ไม่ให้ทีมตรวจการบ้านตัวเอง</li>
+              <li>เปลี่ยนกติกาได้เฉพาะเจ้าของ มีผลกับการประชุมถัดไป และไม่แก้ผลที่ผ่านมา</li>
+            </ul>
+            {changes.length > 0 && (
+              <details className="group/rules">
+                <summary className="cursor-pointer list-none font-semibold [&::-webkit-details-marker]:hidden">
+                  ประวัติการเปลี่ยนกติกา ({changes.length})
+                  <ChevronDown
+                    className="text-muted-foreground ml-1 inline size-4 transition-transform group-open/rules:rotate-180"
+                    aria-hidden
+                  />
+                </summary>
+                <ol className="mt-3 space-y-3">
+                  {changes.toReversed().map((c, i) => (
+                    <li key={i} className="border-l-2 pl-3">
+                      <p className="text-muted-foreground text-xs">
+                        ตัดสินใจ {formatDate(c.date)} · มีผลตั้งแต่ {formatDate(c.effective)}
+                      </p>
+                      <p>{c.change}</p>
+                      <p className="text-muted-foreground text-xs">เหตุผล: {c.why}</p>
+                    </li>
+                  ))}
+                </ol>
+              </details>
+            )}
+          </div>
+        </Fold>
       </CardContent>
     </Card>
   )
@@ -822,16 +871,25 @@ function Rules() {
 
 const LESSON_STATUS = {
   rule: { label: 'กฎ', className: 'bg-series-dream text-white' },
-  candidate: { label: 'กำลังพิสูจน์', className: 'bg-series-dream/10 text-series-dream' },
+  candidate: {
+    label: 'กำลังพิสูจน์',
+    className: 'bg-series-dream/10 text-series-dream',
+  },
   retired: { label: 'เลิกใช้', className: 'bg-muted text-muted-foreground' },
 } as const
 
 const VERDICTS = {
   right: { label: 'ตัดสินใจถูก', className: 'bg-delta-up/10 text-delta-up' },
-  wrong: { label: 'ตัดสินใจผิด', className: 'bg-delta-down/10 text-delta-down' },
+  wrong: {
+    label: 'ตัดสินใจผิด',
+    className: 'bg-delta-down/10 text-delta-down',
+  },
   lucky: { label: 'โชคช่วย', className: 'bg-muted text-foreground' },
   unlucky: { label: 'โชคไม่ดี', className: 'bg-muted text-foreground' },
-  'too-early': { label: 'ยังเร็วไป', className: 'bg-muted text-muted-foreground' },
+  'too-early': {
+    label: 'ยังเร็วไป',
+    className: 'bg-muted text-muted-foreground',
+  },
 } as const
 
 /** The team's knowledge base and its latest weekly look back: how it learns from its own results. */
@@ -855,8 +913,8 @@ function Lessons() {
   const order = { rule: 0, candidate: 1, retired: 2 }
   const sorted = lessons.toSorted((a, b) => order[a.status] - order[b.status] || a.id.localeCompare(b.id))
   return (
-    <Card>
-      <CardHeader>
+    <Card className="gap-3 py-4">
+      <CardHeader className="px-4 sm:px-6">
         <CardTitle>บทเรียนของทีม</CardTitle>
         <CardDescription>
           ทุกวันเสาร์ ทีมย้อนดูการตัดสินใจที่ผ่านมา (รวมหุ้นที่ไม่ได้ซื้อ) เทียบกับ S&P 500
@@ -864,7 +922,7 @@ function Lessons() {
           เมื่อมีกรณีที่สองยืนยัน
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-5">
+      <CardContent className="px-4 sm:px-6 space-y-5">
         {retro && (
           <div className="bg-muted/60 space-y-3 rounded-2xl px-4 py-3 text-sm">
             <div>
