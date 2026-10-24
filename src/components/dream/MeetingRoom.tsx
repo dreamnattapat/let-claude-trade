@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 
 import { DREAM_AGENTS, type DreamAgentId, type DreamReport } from '@/lib/dreamTeam'
 import { formatDate } from '@/lib/format'
@@ -148,10 +148,163 @@ const rand = (a: number, b: number) => a + Math.random() * (b - a)
 function freeSpot(): [number, number] {
   for (;;) {
     const x = rand(8, 92)
-    const y = rand(14, 90)
-    if (((x - 50) / 26) ** 2 + ((y - 50) / 22) ** 2 > 1) return [x, y]
+    const y = rand(24, 90)
+    const onTable = ((x - 50) / 28) ** 2 + ((y - 50) / 24) ** 2 <= 1
+    const onFurniture = (x < 16 && y > 76) || (x > 86 && y > 72) || (x < 18 && y < 34) || (x > 84 && y < 34)
+    if (!onTable && !onFurniture) return [x, y]
   }
 }
+
+/** Whether a straight walk from a to b would cross the table. */
+function crossesTable(a: [number, number], b: [number, number]): boolean {
+  for (let t = 0.05; t < 1; t += 0.05) {
+    const x = a[0] + (b[0] - a[0]) * t
+    const y = a[1] + (b[1] - a[1]) * t
+    if (((x - 50) / 23) ** 2 + ((y - 50) / 19) ** 2 < 1) return true
+  }
+  return false
+}
+
+/** Walk round the table, not across it: straight if the way is clear, else via the best corner of the rug. */
+function route(from: [number, number], to: [number, number]): [number, number][] {
+  if (!crossesTable(from, to)) return [to]
+  const corners: [number, number][] = [
+    [20, 24],
+    [80, 24],
+    [16, 50],
+    [84, 50],
+    [20, 80],
+    [80, 80],
+    [50, 86],
+  ]
+  const len = (p: [number, number], q: [number, number]) => Math.hypot(p[0] - q[0], p[1] - q[1])
+  let best: [number, number][] = [to]
+  let bestLen = Infinity
+  for (const c of corners) {
+    if (crossesTable(from, c)) continue
+    if (!crossesTable(c, to) && len(from, c) + len(c, to) < bestLen) {
+      best = [c, to]
+      bestLen = len(from, c) + len(c, to)
+    }
+    for (const d of corners)
+      if (d !== c && !crossesTable(c, d) && !crossesTable(d, to)) {
+        const l = len(from, c) + len(c, d) + len(d, to)
+        if (l < bestLen) {
+          best = [c, d, to]
+          bestLen = l
+        }
+      }
+  }
+  return best
+}
+
+/** A small pixel-art picture: rows of [x, y, w, h, colour] on a w × h grid, drawn crisp. */
+function Pixels({
+  w,
+  h,
+  px,
+  className,
+  style,
+}: {
+  w: number
+  h: number
+  px: Px[]
+  className?: string
+  style?: CSSProperties
+}) {
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} className={className} style={style} shapeRendering="crispEdges" aria-hidden>
+      {px.map(([x, y, pw, ph, c], i) => (
+        <rect key={i} x={x} y={y} width={pw} height={ph} fill={c} />
+      ))}
+    </svg>
+  )
+}
+
+const PLANT: Px[] = [
+  [4, 0, 2, 2, '#4f9d3a'],
+  [1, 2, 3, 2, '#3f8a2c'],
+  [6, 2, 3, 2, '#3f8a2c'],
+  [3, 3, 4, 3, '#5fb043'],
+  [0, 4, 3, 2, '#4f9d3a'],
+  [7, 4, 3, 2, '#4f9d3a'],
+  [4, 6, 2, 2, '#2f6e22'],
+  [2, 8, 6, 1, '#b5653a'],
+  [2, 9, 6, 4, '#c8794a'],
+  [2, 9, 1, 4, '#a5562e'],
+]
+const SHELF: Px[] = [
+  [0, 0, 14, 16, '#7a4e30'],
+  [1, 1, 12, 14, '#5c3a22'],
+  [1, 5, 12, 1, '#7a4e30'],
+  [1, 10, 12, 1, '#7a4e30'],
+  [2, 2, 1, 3, '#d9534f'],
+  [3, 2, 1, 3, '#5bc0de'],
+  [4, 3, 1, 2, '#f0ad4e'],
+  [6, 2, 2, 3, '#5cb85c'],
+  [9, 2, 1, 3, '#e8e8e8'],
+  [10, 3, 2, 2, '#9b59b6'],
+  [2, 7, 2, 3, '#f0ad4e'],
+  [5, 6, 1, 4, '#337ab7'],
+  [6, 7, 1, 3, '#d9534f'],
+  [8, 7, 3, 3, '#e8e8e8'],
+  [2, 11, 3, 4, '#5cb85c'],
+  [6, 12, 1, 3, '#9b59b6'],
+  [7, 11, 1, 4, '#5bc0de'],
+  [9, 12, 3, 3, '#f0ad4e'],
+]
+const COOLER: Px[] = [
+  [2, 0, 6, 5, '#7fc4f0'],
+  [3, 1, 4, 3, '#a9dcfa'],
+  [1, 5, 8, 11, '#e8e8e8'],
+  [1, 5, 1, 11, '#c9c9c9'],
+  [3, 7, 1, 1, '#d9534f'],
+  [6, 7, 1, 1, '#337ab7'],
+  [2, 10, 6, 1, '#bdbdbd'],
+]
+const BOARD: Px[] = [
+  [0, 0, 28, 14, '#d8d8d8'],
+  [1, 1, 26, 12, '#f8f8f4'],
+  [3, 10, 4, 1, '#3fa34d'],
+  [6, 9, 3, 1, '#3fa34d'],
+  [8, 8, 3, 1, '#3fa34d'],
+  [10, 9, 3, 1, '#3fa34d'],
+  [12, 7, 3, 1, '#3fa34d'],
+  [14, 6, 3, 1, '#3fa34d'],
+  [16, 5, 3, 1, '#3fa34d'],
+  [18, 6, 2, 1, '#3fa34d'],
+  [19, 4, 3, 1, '#3fa34d'],
+  [21, 3, 3, 1, '#3fa34d'],
+  [3, 3, 7, 1, '#9aa3b5'],
+  [3, 5, 5, 1, '#9aa3b5'],
+  [23, 2, 2, 1, '#d9534f'],
+]
+const WINDOW: Px[] = [
+  [0, 0, 16, 12, '#c9c2b4'],
+  [1, 1, 14, 10, '#8fc8f0'],
+  [1, 7, 14, 4, '#b6e0f7'],
+  [7, 1, 2, 10, '#c9c2b4'],
+  [1, 5, 14, 1, '#c9c2b4'],
+  [3, 2, 3, 1, '#ffffff'],
+  [10, 3, 3, 1, '#ffffff'],
+]
+const CLOCK: Px[] = [
+  [2, 0, 6, 1, '#333'],
+  [0, 2, 1, 6, '#333'],
+  [9, 2, 1, 6, '#333'],
+  [2, 9, 6, 1, '#333'],
+  [1, 1, 8, 8, '#333'],
+  [2, 1, 6, 8, '#fafafa'],
+  [1, 2, 8, 6, '#fafafa'],
+  [4, 2, 1, 3, '#333'],
+  [5, 4, 2, 1, '#d9534f'],
+]
+const LAMP: Px[] = [
+  [2, 0, 6, 4, '#f2c94c'],
+  [3, 4, 4, 1, '#d9a62a'],
+  [4, 5, 2, 9, '#555'],
+  [2, 14, 6, 2, '#444'],
+]
 
 export function MeetingRoom({ latest }: { latest: DreamReport | null }) {
   const agents = DREAM_AGENTS
@@ -192,25 +345,31 @@ export function MeetingRoom({ latest }: { latest: DreamReport | null }) {
         const p = posRef.current[a.id]
         // Back to the seat at meeting time, or after a wander; otherwise sometimes get up and walk.
         const target: [number, number] = session || p.mode !== 'sit' || Math.random() < 0.45 ? seat : freeSpot()
-        const dist = Math.hypot(target[0] - p.x, target[1] - p.y)
-        const ms = dist < 1 ? 0 : Math.round(dist * 90)
         const atSeat = target === seat
-        setPos((all) => ({
-          ...all,
-          [a.id]: {
-            x: target[0],
-            y: target[1],
-            mode: ms ? 'walk' : atSeat ? 'sit' : 'stand',
-            facing: target[0] < p.x ? -1 : 1,
-            ms,
-          },
-        }))
-        timers.push(
-          setTimeout(() => {
-            setPos((all) => ({ ...all, [a.id]: { ...all[a.id], mode: atSeat ? 'sit' : 'stand', ms: 0 } }))
-            timers.push(setTimeout(next, session ? 60_000 : rand(3000, 9000)))
-          }, ms),
-        )
+        const legs = route([p.x, p.y], target)
+        const walkLeg = (k: number, from: [number, number]) => {
+          const to = legs[k]
+          const dist = Math.hypot(to[0] - from[0], to[1] - from[1])
+          const ms = dist < 1 ? 0 : Math.round(dist * 90)
+          setPos((all) => ({
+            ...all,
+            [a.id]: {
+              x: to[0],
+              y: to[1],
+              mode: ms ? 'walk' : atSeat ? 'sit' : 'stand',
+              facing: to[0] < from[0] ? -1 : 1,
+              ms,
+            },
+          }))
+          timers.push(
+            setTimeout(() => {
+              if (k + 1 < legs.length) return walkLeg(k + 1, to)
+              setPos((all) => ({ ...all, [a.id]: { ...all[a.id], mode: atSeat ? 'sit' : 'stand', ms: 0 } }))
+              timers.push(setTimeout(next, session ? 60_000 : rand(3000, 9000)))
+            }, ms),
+          )
+        }
+        walkLeg(0, [p.x, p.y])
       }
       timers.push(setTimeout(next, rand(500, 4000)))
     })
@@ -236,7 +395,7 @@ export function MeetingRoom({ latest }: { latest: DreamReport | null }) {
         </p>
       </div>
       <div
-        className="relative h-56 overflow-hidden rounded-2xl border sm:h-72"
+        className="relative mx-auto aspect-[16/10] w-full max-w-2xl overflow-hidden rounded-2xl border"
         style={{
           backgroundColor: 'var(--card)',
           backgroundImage:
@@ -245,6 +404,28 @@ export function MeetingRoom({ latest }: { latest: DreamReport | null }) {
           backgroundPosition: '0 0, 16px 16px',
         }}
       >
+        {/* The back wall: window, the team's whiteboard (a chart going up), a clock. */}
+        <div
+          className="absolute inset-x-0 top-0 h-[14%] border-b-4"
+          style={{ background: '#e9e1d2', borderColor: '#c9b89a' }}
+        />
+        <Pixels w={16} h={12} px={WINDOW} className="absolute top-[1.5%] left-[8%] h-[11%]" />
+        <Pixels w={28} h={14} px={BOARD} className="absolute top-[1%] left-1/2 h-[12%] -translate-x-1/2" />
+        <Pixels w={10} h={10} px={CLOCK} className="absolute top-[3%] right-[10%] h-[7%]" />
+        {/* A rug under the table. */}
+        <div
+          className="absolute top-1/2 left-1/2 h-[52%] w-[62%] -translate-x-1/2 -translate-y-1/2 rounded-[45%] border-4 border-dashed"
+          style={{
+            background: 'color-mix(in oklab, #c0504d 30%, transparent)',
+            borderColor: 'color-mix(in oklab, #c0504d 55%, transparent)',
+          }}
+        />
+        {/* Along the walls and in the corners. */}
+        <Pixels w={14} h={16} px={SHELF} className="absolute top-[15%] left-[2%] h-[20%]" />
+        <Pixels w={10} h={16} px={LAMP} className="absolute top-[16%] right-[4%] h-[18%]" />
+        <Pixels w={10} h={13} px={PLANT} className="absolute bottom-[3%] left-[2%] h-[18%]" />
+        <Pixels w={10} h={16} px={COOLER} className="absolute right-[3%] bottom-[3%] h-[22%]" />
+        <Pixels w={10} h={13} px={PLANT} className="absolute top-[16%] right-[14%] h-[14%]" />
         {/* The table, with the latest meeting's headline as the paper on it. */}
         <div
           className="absolute top-1/2 left-1/2 h-[34%] w-[42%] -translate-x-1/2 -translate-y-1/2 rounded-[40%] border-4"
