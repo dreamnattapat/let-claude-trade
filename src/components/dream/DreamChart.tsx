@@ -10,10 +10,40 @@ function cssVar(name: string): string {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim()
 }
 
+type Badge = 'team' | 'spy' | 'themes'
+
+/** A round badge at the end of a line: the site's logo for the team, the S&P 500, and the four-theme basket. */
+function EndBadge({ badge, x, y }: { badge: Badge; x: number; y: number }) {
+  const [failed, setFailed] = useState(false)
+  const ring = { team: '--series-dream', spy: '--series-spy', themes: '--series-invested' }[badge]
+  return (
+    <span
+      className="bg-card pointer-events-none absolute flex size-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-hidden rounded-full text-[9px] font-bold"
+      style={{ left: x, top: y, boxShadow: `0 0 0 2px var(${ring})`, zIndex: badge === 'team' ? 3 : 2 }}
+      aria-hidden
+    >
+      {badge === 'team' ? (
+        <img src="/logo.png" alt="" className="size-6 object-contain" />
+      ) : badge === 'spy' && !failed ? (
+        <img
+          src="/api/logo/SPY"
+          alt=""
+          className="size-full bg-white object-contain p-0.5"
+          onError={() => setFailed(true)}
+        />
+      ) : (
+        <span style={{ color: `var(${ring})` }}>{badge === 'spy' ? 'S&P' : 'ETF'}</span>
+      )}
+    </span>
+  )
+}
+
 /** Dream vs the S&P 500 and the four-theme ETF basket, % since the start. */
 export function DreamChart({ points, startingCash }: { points: DreamPoint[]; startingCash: number }) {
   const ref = useRef<HTMLDivElement>(null)
   const [hovered, setHovered] = useState<number | null>(null)
+  // Where each line ends, in pixels, for the round badges that say whose line it is.
+  const [ends, setEnds] = useState<{ key: Badge; x: number; y: number }[]>([])
   const pct = (v: number) => toPct(v, startingCash)
 
   useEffect(() => {
@@ -26,7 +56,8 @@ export function DreamChart({ points, startingCash }: { points: DreamPoint[]; sta
       },
       grid: { vertLines: { visible: false }, horzLines: { color: cssVar('--chart-grid') } },
       rightPriceScale: { borderVisible: false },
-      timeScale: { borderVisible: false },
+      // Room on the right for the badges at the ends of the lines.
+      timeScale: { borderVisible: false, rightOffset: 1.2 },
       crosshair: { mode: CrosshairMode.Magnet, horzLine: { visible: false, labelVisible: false } },
       localization: { locale: 'th-TH-u-ca-gregory', priceFormatter: (v: number) => `${v.toFixed(1)}%` },
       handleScroll: false,
@@ -41,17 +72,33 @@ export function DreamChart({ points, startingCash }: { points: DreamPoint[]; sta
         lastValueVisible: false,
       })
     // The basket is dashed and muted: a yardstick, not a contender.
-    if (points.some((p) => p.themes != null))
-      line('--series-invested', true).setData(
-        points
-          .filter((p) => p.themes != null)
-          .map((p) => ({ time: p.date as Time, value: toPct(p.themes!, startingCash) })),
-      )
+    const themed = points.filter((p) => p.themes != null)
+    const themes = themed.length ? line('--series-invested', true) : null
+    themes?.setData(themed.map((p) => ({ time: p.date as Time, value: toPct(p.themes!, startingCash) })))
     const spy = line('--series-spy')
     const dream = line('--series-dream')
     spy.setData(points.map((p) => ({ time: p.date as Time, value: toPct(p.spy, startingCash) })))
     dream.setData(points.map((p) => ({ time: p.date as Time, value: toPct(p.value, startingCash) })))
     chart.timeScale().fitContent()
+
+    const last = points.at(-1)!
+    const place = () => {
+      const x = chart.timeScale().timeToCoordinate(last.date as Time)
+      if (x == null) return
+      const at = (key: Badge, series: typeof spy | null, value: number | undefined) => {
+        const y = series && value != null ? series.priceToCoordinate(toPct(value, startingCash)) : null
+        return y == null ? [] : [{ key, x, y }]
+      }
+      setEnds([
+        ...at('themes', themes, themed.at(-1)?.themes),
+        ...at('spy', spy, last.spy),
+        ...at('team', dream, last.value),
+      ])
+    }
+    // After the first layout, and whenever the chart's size changes.
+    requestAnimationFrame(place)
+    chart.timeScale().subscribeSizeChange(place)
+    chart.timeScale().subscribeVisibleLogicalRangeChange(place)
     const index = new Map(points.map((p, i) => [p.date, i]))
     chart.subscribeCrosshairMove((param) => setHovered(param.time ? (index.get(String(param.time)) ?? null) : null))
     return () => chart.remove()
@@ -84,7 +131,12 @@ export function DreamChart({ points, startingCash }: { points: DreamPoint[]; sta
         ))}
         <p className="text-muted-foreground text-xs sm:ml-auto">{shown ? formatDate(shown.date) : ''}</p>
       </dl>
-      <div ref={ref} className="h-56 w-full" />
+      <div className="relative">
+        <div ref={ref} className="h-56 w-full" />
+        {ends.map((e) => (
+          <EndBadge key={e.key} badge={e.key} x={e.x} y={e.y} />
+        ))}
+      </div>
     </div>
   )
 }
