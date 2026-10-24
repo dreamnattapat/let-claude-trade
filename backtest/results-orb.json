@@ -1,0 +1,66 @@
+{
+ "first": "2026-07-31",
+ "last": "2026-10-23",
+ "results": [
+  {
+   "variant": "as published: long + short, up to 4×",
+   "fee": "Dime! 0.1605%",
+   "trades": 494,
+   "winRatePct": 9.51,
+   "avgR": -1.52,
+   "returnPct": -54.99,
+   "feesUsd": 4007.69,
+   "maxDrawdownPct": 54.99
+  },
+  {
+   "variant": "as published: long + short, up to 4×",
+   "fee": "IBKR $0.0035/share",
+   "trades": 494,
+   "winRatePct": 9.92,
+   "avgR": -0.39,
+   "returnPct": -18.8,
+   "feesUsd": 59.94,
+   "maxDrawdownPct": 19.44
+  },
+  {
+   "variant": "as published: long + short, up to 4×",
+   "fee": "no commission",
+   "trades": 494,
+   "winRatePct": 9.92,
+   "avgR": -0.38,
+   "returnPct": -18.24,
+   "feesUsd": 0,
+   "maxDrawdownPct": 18.9
+  },
+  {
+   "variant": "as Dime! allows: long only, no leverage",
+   "fee": "Dime! 0.1605%",
+   "trades": 256,
+   "winRatePct": 7.42,
+   "avgR": -1.63,
+   "returnPct": -19.46,
+   "feesUsd": 1304.39,
+   "maxDrawdownPct": 19.46
+  },
+  {
+   "variant": "as Dime! allows: long only, no leverage",
+   "fee": "IBKR $0.0035/share",
+   "trades": 256,
+   "winRatePct": 8.2,
+   "avgR": -0.48,
+   "returnPct": -7.05,
+   "feesUsd": 14.77,
+   "maxDrawdownPct": 7.05
+  },
+  {
+   "variant": "as Dime! allows: long only, no leverage",
+   "fee": "no commission",
+   "trades": 256,
+   "winRatePct": 8.2,
+   "avgR": -0.47,
+   "returnPct": -6.91,
+   "feesUsd": 0,
+   "maxDrawdownPct": 6.91
+  }
+ ]
+}
