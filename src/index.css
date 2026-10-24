@@ -95,9 +95,9 @@
     /* Dashboard charts and deltas. Series colors are the first two slots of a
        colorblind-validated palette; text never uses them. */
     --series-you: #2a78d6;
-    --series-spy: #eb6834;
-    --series-invested: #898781;
-    --series-dream: #7a45d1;
+    --series-spy: #d1343e;
+    --series-invested: #7a45d1;
+    --series-dream: #eb6834;
     --chart-grid: #e1e0d9;
     --chart-axis-text: #898781;
     --delta-up: #006300;
@@ -139,9 +139,9 @@
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.556 0 0);
     --series-you: #3987e5;
-    --series-spy: #d95926;
-    --series-invested: #898781;
-    --series-dream: #ad86ec;
+    --series-spy: #e5484d;
+    --series-invested: #ad86ec;
+    --series-dream: #f07a45;
     --chart-grid: #2c2c2a;
     --chart-axis-text: #898781;
     --delta-up: #0ca30c;
