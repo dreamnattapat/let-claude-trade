@@ -1,12 +1,12 @@
-/** What the market strip shows: the big indexes and a few things that move with them. */
+/** What the market strip shows: gold and what moves it (the dollar, real rates, fear), and the wider market. */
 export const MARKET = [
-  { symbol: '^GSPC', name: 'S&P 500' },
-  { symbol: '^IXIC', name: 'Nasdaq' },
-  { symbol: '^DJI', name: 'Dow Jones' },
-  { symbol: 'ES=F', name: 'S&P ล่วงหน้า (futures)' },
-  { symbol: '^VIX', name: 'VIX (ความกลัว)' },
-  { symbol: 'CL=F', name: 'น้ำมัน WTI' },
   { symbol: 'GC=F', name: 'ทองคำ' },
+  { symbol: 'SI=F', name: 'โลหะเงิน' },
+  { symbol: 'DX-Y.NYB', name: 'ดอลลาร์ DXY' },
+  { symbol: '^TNX', name: 'บอนด์ 10 ปี' },
+  { symbol: '^VIX', name: 'VIX (ความกลัว)' },
+  { symbol: '^GSPC', name: 'S&P 500' },
+  { symbol: 'CL=F', name: 'น้ำมัน WTI' },
   { symbol: 'BTC-USD', name: 'Bitcoin' },
 ] as const
 

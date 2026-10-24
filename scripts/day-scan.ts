@@ -10,7 +10,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 
 import { newYork } from '../src/lib/day/bars.ts'
 import { MARKET } from '../src/lib/day/market.ts'
-import { scanStock, UNIVERSE } from '../src/lib/day/scan.ts'
+import { scanBothSides, UNIVERSE } from '../src/lib/day/scan.ts'
 import type { DayScan } from '../src/lib/day/types.ts'
 import { bars, fearGreed, pool, quote } from './day-fetch.ts'
 
@@ -40,21 +40,21 @@ const market = (
 ).filter((m) => m != null)
 
 const rows = (
-  await pool(UNIVERSE, 5, async (ticker) => {
+  await pool([...UNIVERSE], 5, async (ticker) => {
     try {
       const [daily, intraday] = await Promise.all([
         bars(ticker, { interval: '1d', range: '6mo' }),
         bars(ticker, { interval: '5m', range: '5d', prePost: true }),
       ])
-      const row = scanStock(ticker, daily, intraday, today)
-      if (!row) errors.push(`${ticker}: not enough data (${daily.length} daily, ${intraday.length} 5-min bars)`)
+      const row = scanBothSides(ticker, daily, intraday, today)
+      if (!row.length) errors.push(`${ticker}: not enough data (${daily.length} daily, ${intraday.length} 5-min bars)`)
       return row
     } catch (e) {
       errors.push(`${ticker}: ${(e as Error).message}`)
       return null
     }
   })
-).filter((r) => r != null)
+).flatMap((r) => r ?? [])
 const order = { good: 0, wait: 1, avoid: 2 }
 rows.sort((a, b) => order[a.status] - order[b.status] || (b.estRr ?? 0) - (a.estRr ?? 0))
 

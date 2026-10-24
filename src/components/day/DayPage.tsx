@@ -11,7 +11,29 @@ import { useDay, useMarket, type FearGreed, type Quote } from '@/hooks/useDay'
 import type { Bar } from '@/lib/day/bars'
 import { dayStats, RULES, STATUS_LABELS, type PlanOutcome, type PlanStatus } from '@/lib/day/engine'
 import { fearGreedLabel } from '@/lib/day/market'
-import { SETUP_LABELS, VERDICT_LABELS, type DayDesk, type DayPlan, type DayState, type ScanRow } from '@/lib/day/types'
+import {
+  SETUP_LABELS,
+  SHORT_SETUP_LABELS,
+  VERDICT_LABELS,
+  type DayDesk,
+  type DayPlan,
+  type DayState,
+  type ScanRow,
+} from '@/lib/day/types'
+
+/** Short names for what the desk trades (gold futures since 26 Oct 2026; US stocks before, by ticker). */
+const NAMES: Record<string, string> = { 'GC=F': 'ทอง' }
+const nameOf = (ticker: string) => NAMES[ticker] ?? ticker
+
+function SideTag({ short }: { short: boolean }) {
+  return (
+    <span
+      className={`rounded px-1 text-[10px] font-semibold ${short ? 'bg-delta-down/15 text-delta-down' : 'bg-delta-up/15 text-delta-up'}`}
+    >
+      {short ? 'SHORT' : 'LONG'}
+    </span>
+  )
+}
 import { formatDate, formatMoney, formatNumber, formatPercent, formatSignedMoney } from '@/lib/format'
 
 export function DayPage() {
@@ -113,7 +135,9 @@ function Portfolio({
               {state.account.trades.toReversed().map((t) => (
                 <li key={t.planId} className="flex items-center gap-3 py-2 text-sm">
                   <span className="text-muted-foreground w-14 shrink-0 text-xs">{formatDate(t.date).slice(0, -5)}</span>
-                  <span className="w-14 shrink-0 font-semibold">{t.ticker}</span>
+                  <span className="flex w-20 shrink-0 items-center gap-1 font-semibold">
+                    {nameOf(t.ticker)} <SideTag short={t.side === 'short'} />
+                  </span>
                   <span className="text-muted-foreground min-w-0 flex-1 truncate text-xs tabular-nums">
                     {formatNumber(t.entry)} → {formatNumber(t.exit)}
                   </span>
@@ -152,8 +176,9 @@ function Holding({
     .filter((x): x is { plan: DayPlan; o: PlanOutcome } => x.o?.status === 'open' && !!x.o.entry && x.o.stop != null)
     .map(({ plan, o }) => {
       const entry = o.entry!.price
+      const dir = plan.side === 'short' ? -1 : 1
       const units = Math.min(
-        (equity * RULES.riskPct) / 100 / (entry - o.stop!),
+        (equity * RULES.riskPct) / 100 / Math.abs(entry - o.stop!),
         (equity * RULES.maxPositionPct) / 100 / entry,
       )
       const price = bars.get(plan.ticker)?.at(-1)?.c ?? entry
@@ -163,24 +188,26 @@ function Holding({
         entry,
         units,
         price,
-        pnl: units * (price - entry) - units * entry * fee,
-        r: (price - entry) / (entry - o.stop!),
+        dir,
+        pnl: dir * units * (price - entry) - units * (entry + price) * fee,
+        r: (dir * (price - entry)) / Math.abs(entry - o.stop!),
       }
     })
-  const invested = open.reduce((s, p) => s + p.units * p.entry, 0)
   return (
     <div className="bg-muted/50 rounded-xl px-3 py-2.5 text-sm">
       <p className="text-muted-foreground mb-1 text-xs">ถืออยู่ตอนนี้</p>
       {open.length === 0 ? (
-        <p>เงินสด 100%</p>
+        <p>ไม่มีสถานะ (เงินสด 100%)</p>
       ) : (
         <>
           <ul className="space-y-1.5">
             {open.map((p) => (
               <li key={p.plan.id} className="flex items-center gap-3">
-                <span className="w-14 shrink-0 font-semibold">{p.plan.ticker}</span>
+                <span className="flex w-20 shrink-0 items-center gap-1 font-semibold">
+                  {nameOf(p.plan.ticker)} <SideTag short={p.dir === -1} />
+                </span>
                 <span className="text-muted-foreground min-w-0 flex-1 text-xs tabular-nums">
-                  {formatNumber(p.units, 2)} หุ้น · เข้า {formatNumber(p.entry)} · ตอนนี้ {formatNumber(p.price)}
+                  {formatNumber(p.units, 2)} ออนซ์ · เข้า {formatNumber(p.entry)} · ตอนนี้ {formatNumber(p.price)}
                   <br />
                   stop {formatNumber(p.o.stop)} · เป้า {formatNumber(p.plan.target)}
                 </span>
@@ -195,7 +222,7 @@ function Holding({
             ))}
           </ul>
           <p className="text-muted-foreground mt-1.5 text-xs">
-            เงินสด {formatMoney(equity - invested, '$')} · กำไร/ขาดทุนคิดแบบขายตอนนี้ หักค่าคอมทั้งซื้อและขาย
+            กำไร/ขาดทุนคิดแบบปิดสถานะตอนนี้ หักค่าใช้จ่ายทั้งขาเข้าและขาออก
           </p>
         </>
       )}
@@ -344,7 +371,7 @@ function Plans({
         แผนวันนี้ ({desk.plans.length})
       </h2>
       {desk.plans.length === 0 && (
-        <p className="text-muted-foreground text-sm">ไม่มีหุ้นที่เข้าเงื่อนไข วันนี้อยู่เฉยๆ</p>
+        <p className="text-muted-foreground text-sm">ไม่มีจุดที่เข้าเงื่อนไข วันนี้อยู่เฉยๆ</p>
       )}
       <div className="grid gap-3 lg:grid-cols-2">
         {desk.plans.map((p) => (
@@ -400,8 +427,11 @@ function PlanCard({ plan, outcome, bars }: { plan: DayPlan; outcome?: PlanOutcom
     <Card className="gap-0 py-4">
       <CardContent className="space-y-2 px-4 sm:px-6">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-lg font-semibold">{plan.ticker}</span>
-          <span className="text-muted-foreground text-xs">{SETUP_LABELS[plan.setup].split(' (')[0]}</span>
+          <span className="text-lg font-semibold">{nameOf(plan.ticker)}</span>
+          <SideTag short={plan.side === 'short'} />
+          <span className="text-muted-foreground text-xs">
+            {(plan.side === 'short' ? SHORT_SETUP_LABELS : SETUP_LABELS)[plan.setup].split(' (')[0]}
+          </span>
           {outcome && (
             <span className={`ml-auto rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_TONE[outcome.status]}`}>
               {STATUS_LABELS[outcome.status]}
@@ -465,9 +495,9 @@ function Scanner({ rows, scannedAt }: { rows: ScanRow[]; scannedAt: string }) {
     <Card className="gap-0 py-4">
       <CardContent className="space-y-3 px-4 sm:px-6">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="font-display text-lg font-medium">คัดหุ้น</h2>
+          <h2 className="font-display text-lg font-medium">สแกนก่อนเปิด</h2>
           <p className="text-muted-foreground text-xs">
-            {rows.length} ตัว ·{' '}
+            {rows.length} ทาง ·{' '}
             {new Date(scannedAt).toLocaleTimeString('th-TH-u-ca-gregory', {
               hour: '2-digit',
               minute: '2-digit',
@@ -491,16 +521,18 @@ function Scanner({ rows, scannedAt }: { rows: ScanRow[]; scannedAt: string }) {
         </div>
         <ul className="divide-y">
           {shown.map((r) => (
-            <li key={r.ticker} className="py-2 text-sm">
+            <li key={`${r.ticker}-${r.side ?? 'long'}`} className="py-2 text-sm">
               <div className="flex items-baseline gap-2">
-                <span className="w-14 shrink-0 font-semibold">{r.ticker}</span>
+                <span className="flex w-20 shrink-0 items-center gap-1 font-semibold">
+                  {nameOf(r.ticker)} <SideTag short={r.side === 'short'} />
+                </span>
                 <span className="text-muted-foreground min-w-0 flex-1 truncate text-xs tabular-nums">
                   {LOCATION_LABEL[r.location]} · {r.levelName?.replace(' เมื่อวาน', '')} {formatNumber(r.level)} →{' '}
                   {formatNumber(r.target)}
                 </span>
                 <span className="tabular-nums">{r.estRr != null ? `1:${r.estRr.toFixed(1)}` : '—'}</span>
               </div>
-              <p className="text-muted-foreground pl-16 text-xs">{r.reasons[0]}</p>
+              <p className="text-muted-foreground pl-[5.5rem] text-xs">{r.reasons[0]}</p>
             </li>
           ))}
         </ul>
@@ -519,8 +551,8 @@ function Rules() {
         <Fold title="วิธีทำงานและกติกา">
           <ol className="text-muted-foreground list-decimal space-y-1.5 pl-5">
             <li>
-              <span className="text-foreground font-semibold">Environment</span> ก่อนเปิดตลาด AI ดู Fear &amp; Greed,
-              VIX, ดัชนี, ข่าว แล้วตัดสิน: เทรด / ระวัง / ไม่เทรด
+              <span className="text-foreground font-semibold">Environment</span> ก่อนตลาดนิวยอร์กเปิด AI ดูดอลลาร์
+              (DXY), ผลตอบแทนพันธบัตร 10 ปี, VIX, ข่าวเฟดและตัวเลขเศรษฐกิจ แล้วตัดสิน: เทรด / ระวัง / ไม่เทรด
             </li>
             <li>
               <span className="text-foreground font-semibold">Location</span> รอที่ระดับราคาสำคัญของเมื่อวานเท่านั้น
@@ -528,18 +560,25 @@ function Rules() {
             </li>
             <li>
               <span className="text-foreground font-semibold">Confirmation</span> แท่ง 5 นาทีที่แนวต้องปิดกลับเหนือแนว
-              เป็นแท่งเขียว ปิดครึ่งบน volume ≥{RULES.volume.hold}–{RULES.volume.reclaim} เท่า ไม่มีแท่งนี้ = ไม่เข้า
+              เป็นแท่งเขียว ปิดครึ่งบน volume ≥{RULES.volume.hold}–{RULES.volume.reclaim} เท่า (short: กลับหัว
+              ปิดกลับใต้แนว แท่งแดง ปิดครึ่งล่าง) ไม่มีแท่งนี้ = ไม่เข้า
             </li>
             <li>
-              <span className="text-foreground font-semibold">Execution</span> ซื้อแท่งถัดไป stop ใต้จุดต่ำสุดที่แนว
+              <span className="text-foreground font-semibold">Execution</span> เข้าแท่งถัดไป stop เลยจุดสุดของแนว
               เข้าเมื่อคุ้ม ≥1:
-              {RULES.minRr} หลังหักค่าคอมไปกลับ ช่วง 09:45–15:00 น. (นิวยอร์ก) ขายหมดก่อนปิด
+              {RULES.minRr} หลังหักค่าใช้จ่ายไปกลับ ช่วง 09:45–15:00 น. (นิวยอร์ก) ปิดสถานะก่อน 16:00 น.
             </li>
           </ol>
           <ul className="text-muted-foreground mt-3 list-disc space-y-1 pl-5">
             <li>
               เสี่ยง {RULES.riskPct}% ต่อเทรด หยุดเมื่อขาดทุน {RULES.dailyLossPct}% ของวัน ไม่เกิน {RULES.maxPlans}{' '}
-              แผนต่อวัน พอร์ตทบต้น รวมค่าคอม Dime!
+              แผนต่อวัน เริ่ม ${formatNumber(RULES.startingCashUsd, 0)} ทบต้น คุมสถานะได้ไม่เกิน{' '}
+              {RULES.maxPositionPct / 100} เท่าของพอร์ต
+            </li>
+            <li>
+              เทรดทองคำทั้งขึ้นและลง ใช้ราคาทองฟิวเจอร์ส COMEX (GC=F) แทน Gold Online Futures ของ TFEX ค่าใช้จ่าย{' '}
+              {RULES.commissionPct}% ต่อขา (ค่าคอม + ส่วนต่างราคา ประมาณแบบเผื่อไว้) · ก่อน 26 ต.ค. 2026 เทรดหุ้นสหรัฐฯ
+              ผ่าน Dime!
             </li>
             <li>ระบบตัดสินสัญญาณเองจากกราฟจริง แผนนับตั้งแต่เวลาที่บันทึก แท่งที่แตะทั้ง stop และเป้า นับเป็น stop</li>
             <li>ใช้ข้อมูลฟรีแทน order flow และ gamma ในคลิปต้นแบบ จึงหยาบกว่าของจริง</li>

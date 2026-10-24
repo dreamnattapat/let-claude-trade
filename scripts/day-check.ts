@@ -61,7 +61,10 @@ if (index) {
       ids.add(p.id)
       if (p.setup !== 'reclaim' && p.setup !== 'hold') fail(`${at}: setup must be reclaim or hold`)
       if (!num(p.level) || !num(p.target)) fail(`${at}: needs level and target`)
-      else if (p.target <= p.level * 1.002) fail(`${at}: the target must be above the level`)
+      else if (p.side === 'short' ? p.target >= p.level * 0.998 : p.target <= p.level * 1.002)
+        fail(`${at}: the target must be ${p.side === 'short' ? 'below' : 'above'} the level`)
+      if (p.side != null && p.side !== 'long' && p.side !== 'short') fail(`${at}: side must be long or short`)
+      if (date >= '2026-10-26' && p.side == null) fail(`${at}: needs "side" (long or short)`)
       for (const k of [
         'levelName',
         'targetName',
@@ -73,8 +76,8 @@ if (index) {
       ] as const)
         if (!text(p[k])) fail(`${at}: needs "${k}"`)
       if (scan) {
-        const row = scan.rows.find((r) => r.ticker === p.ticker)
-        if (!row) fail(`${at}: not in today's scan`)
+        const row = scan.rows.find((r) => r.ticker === p.ticker && (r.side ?? 'long') === (p.side ?? 'long'))
+        if (!row) fail(`${at}: not in today's scan on the ${p.side ?? 'long'} side`)
         else {
           if (row.status === 'avoid') fail(`${at}: the scan says avoid (${row.reasons[0]})`)
           if (num(p.level) && Math.abs(p.level / row.price - 1) > 0.1)

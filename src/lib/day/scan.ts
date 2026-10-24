@@ -10,8 +10,8 @@ import { netRr } from './engine.ts'
 import { atr, ema, volumeProfile } from './levels.ts'
 import type { ScanRow } from './types.ts'
 
-/** Liquid US stocks and ETFs a Dime! customer can buy. */
-export const UNIVERSE = [
+/** Liquid US stocks and ETFs a Dime! customer can buy: the desk's universe until 23 Oct 2026 (kept for the backtests). */
+export const STOCK_UNIVERSE = [
   'SPY',
   'QQQ',
   'IWM',
@@ -53,6 +53,12 @@ export const UNIVERSE = [
   'WMT',
   'DIS',
 ]
+
+/**
+ * What the desk trades from 26 Oct 2026: gold. COMEX gold futures (GC=F on Yahoo) stand in for
+ * TFEX's Gold Online Futures, which follow the same price in US dollars an ounce.
+ */
+export const UNIVERSE = ['GC=F'] as const
 
 export const SCAN_RULES = {
   minDollarVolumeM: 300,
@@ -120,7 +126,7 @@ export function scanStock(ticker: string, daily: Bar[], intraday: Bar[], today: 
     ;[level, levelName, target, targetName] = [val, 'VAL เมื่อวาน', poc, 'POC เมื่อวาน']
   }
   const estRisk = Math.max(level * 0.003, dailyAtr * 0.1)
-  // After Dime!'s commission both ways, as the engine will check it.
+  // After costs both ways, as the engine will check it.
   const estRr = netRr(level, level - estRisk, target)
 
   const reasons: string[] = []
@@ -179,4 +185,62 @@ export function scanStock(ticker: string, daily: Bar[], intraday: Bar[], today: 
     status,
     reasons: [...avoid, ...reasons],
   }
+}
+
+/** Swaps each word in a pair for the other, in one pass (so a swapped word isn't swapped back). */
+function swapWords(text: string, pairs: [string, string][]): string {
+  const map = new Map(pairs.flatMap(([a, b]) => [[a, b], [b, a]] as [string, string][]))
+  const escape = (x: string) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const re = new RegExp([...map.keys()].sort((a, b) => b.length - a.length).map(escape).join('|'), 'g')
+  return text.replace(re, (m) => map.get(m)!)
+}
+
+/** Thai wording of a long scan, read on the upside-down chart, as the short it describes. */
+function shortWords(text: string): string {
+  return swapWords(text, [
+    ['VAH', 'VAL'],
+    ['High เมื่อวาน', 'Low เมื่อวาน'],
+    ['เหนือ', 'ใต้'],
+    ['ขาขึ้น', 'ขาลง'],
+    ['หลุดแล้วกลับขึ้น', 'ทะลุขึ้นแล้วกลับลง'],
+    ['ไม่ซื้อตอนย่อ', 'ไม่ชอร์ตตอนเด้ง'],
+    ['รอย่อมาทดสอบ', 'รอเด้งขึ้นมาทดสอบ'],
+    ['รอย่อทดสอบ', 'รอเด้งทดสอบ'],
+    ['เปิดต่ำกว่า', 'เปิดสูงกว่า'],
+    ['แรงขายคุม', 'แรงซื้อคุม'],
+    ['แนวรับ + ความกว้าง', 'แนวต้าน − ความกว้าง'],
+  ]).replace(/gap ([+-]?)(\d)/g, (_, sign: string, d: string) => `gap ${sign === '-' ? '+' : '-'}${d}`)
+}
+
+/**
+ * Both sides of one instrument (futures can be sold short): the long scan as it is, and the short one
+ * as the long scan of the chart turned upside down, its levels and words turned back.
+ */
+export function scanBothSides(ticker: string, daily: Bar[], intraday: Bar[], today: string): ScanRow[] {
+  const long = scanStock(ticker, daily, intraday, today)
+  // Turned around yesterday's close, so prices (and so % numbers) stay about where they were.
+  const k = daily.filter((b) => b.date < today).at(-1)?.c ?? 0
+  const f = (p: number) => round(2 * k - p)
+  const flipBar = (b: Bar): Bar => ({ ...b, o: 2 * k - b.o, h: 2 * k - b.l, l: 2 * k - b.h, c: 2 * k - b.c })
+  const m = scanStock(ticker, daily.map(flipBar), intraday.map(flipBar), today)
+  const short: ScanRow | null = m && {
+    ...m,
+    side: 'short',
+    price: f(m.price),
+    gapPct: -m.gapPct,
+    prevClose: f(m.prevClose),
+    pdh: f(m.pdl),
+    pdl: f(m.pdh),
+    poc: f(m.poc),
+    vah: f(m.val),
+    val: f(m.vah),
+    trend: m.trend === 'up' ? 'down' : m.trend === 'down' ? 'up' : 'range',
+    location: m.location === 'above-value' ? 'below-value' : m.location === 'below-value' ? 'above-value' : 'in-value',
+    level: m.level == null ? null : f(m.level),
+    levelName: m.levelName && shortWords(m.levelName),
+    target: m.target == null ? null : f(m.target),
+    targetName: m.targetName && shortWords(m.targetName),
+    reasons: m.reasons.map(shortWords),
+  }
+  return [long && { ...long, side: 'long' as const }, short].filter((r) => r != null)
 }

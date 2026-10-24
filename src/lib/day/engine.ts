@@ -12,8 +12,12 @@
  *   Out by the last bar of the day at the latest (a day trade holds nothing
  *   overnight). A bar that touches both stop and target counts as the stop.
  *
+ * A short (from 26 Oct 2026, when the desk moved to gold futures) is the same
+ * rules on the chart turned upside down: a bar closing back below the level,
+ * red, in the bottom half, on volume; stop just over the high at the level.
+ *
  * The account risks 1% of its value per trade, stops for the day after
- * losing 2%, pays Dime!'s commission both ways and buys fractional shares.
+ * losing 2%, pays costs both ways and trades fractional units.
  */
 import { minutesOf, type Bar } from './bars.ts'
 import type { DayPlan } from './types.ts'
@@ -36,11 +40,15 @@ export const RULES = {
   stopBuffer: 0.001,
   minRr: 2,
   riskPct: 1,
-  /** One trade may use at most this share of the account. */
-  maxPositionPct: 50,
+  /** One trade may control at most this share of the account: 4× (futures margin allows about 10×). */
+  maxPositionPct: 400,
   dailyLossPct: 2,
   maxPlans: 3,
-  commissionPct: 0.1605,
+  /**
+   * Costs per side, % of the price: TFEX gold futures' commission plus spread and slippage, a cautious
+   * estimate (until 23 Oct 2026, US stocks at Dime!'s 0.1605%; that day had no trades).
+   */
+  commissionPct: 0.05,
   startingCashUsd: 10_000,
 } as const
 
@@ -116,7 +124,33 @@ function netR(entry: number, exit: number, risk: number, fee: number): number {
  * (from its commit time); bars that end earlier can't confirm or enter.
  * `final`: the session is over (otherwise unfinished plans stay waiting/open).
  */
-export function playPlan(plan: DayPlan, bars: Bar[], { notBefore = 0, final = true } = {}): PlanOutcome {
+export function playPlan(plan: DayPlan, bars: Bar[], options: { notBefore?: number; final?: boolean } = {}): PlanOutcome {
+  if (plan.side !== 'short') return playLong(plan, bars, options)
+  // A short is a long on the chart turned upside down around the level: play that, then turn the prices back.
+  const L = plan.level
+  const flip = (p: number) => 2 * L - p
+  const o = playLong(
+    { ...plan, side: 'long', target: flip(plan.target) },
+    bars.map((b) => ({ ...b, o: flip(b.o), h: flip(b.l), l: flip(b.h), c: flip(b.c) })),
+    options,
+  )
+  return {
+    ...o,
+    ...(o.entry ? { entry: { ...o.entry, price: flip(o.entry.price) } } : {}),
+    ...(o.stop != null ? { stop: flip(o.stop) } : {}),
+    ...(o.exit ? { exit: { ...o.exit, price: flip(o.exit.price) } } : {}),
+    ...(o.closeVsLevelPct != null ? { closeVsLevelPct: (bars.at(-1)!.c / L - 1) * 100 } : {}),
+    // Prices in the note (two decimals) are upside down too.
+    note: o.note
+      .replace(/\d+\.\d{2}\b/g, (x) => flip(Number(x)).toFixed(2))
+      .replace('ราคาเปิดต่ำกว่า stop', 'ราคาเปิดสูงกว่า stop')
+      .replace('ปิดหลุดแนว', 'ปิดทะลุแนวขึ้นไป')
+      .replace('ขายตอนตลาดปิด', 'ซื้อคืนตอนตลาดปิด'),
+  }
+}
+
+/** A long trade: the rules as written, which a short reuses on the flipped chart. */
+function playLong(plan: DayPlan, bars: Bar[], { notBefore = 0, final = true } = {}): PlanOutcome {
   const L = plan.level
   const base = { planId: plan.id }
   const closeVsLevelPct = bars.length ? (bars.at(-1)!.c / L - 1) * 100 : undefined
@@ -218,7 +252,7 @@ export function playPlan(plan: DayPlan, bars: Bar[], { notBefore = 0, final = tr
       closeVsLevelPct,
     }
   const risk = entry - stop
-  // Reward:risk after Dime!'s commission both ways: it shrinks the win and adds to the loss.
+  // Reward:risk after costs both ways: they shrink the win and add to the loss.
   const fee = RULES.commissionPct / 100
   const grossRr = (plan.target - entry) / risk
   const rr = netRr(entry, stop, plan.target)
@@ -307,6 +341,8 @@ export type DayTrade = {
   date: string
   planId: string
   ticker: string
+  /** Missing means long. */
+  side?: 'short'
   entryTime: string
   entry: number
   exitTime: string
@@ -352,6 +388,7 @@ export function runAccount(days: { date: string; plans: DayPlan[]; outcomes: Pla
         date: day.date,
         planId: o.planId,
         ticker: plan.ticker,
+        ...(plan.side === 'short' ? { side: 'short' as const } : {}),
         entryTime: o.entry!.time,
         entry: o.entry!.price,
         exitTime: o.exit!.time,
@@ -370,12 +407,13 @@ export function runAccount(days: { date: string; plans: DayPlan[]; outcomes: Pla
         })
         continue
       }
+      const dir = plan.side === 'short' ? -1 : 1
       const units = Math.min(
-        (start * RULES.riskPct) / 100 / (o.entry!.price - o.stop!),
+        (start * RULES.riskPct) / 100 / Math.abs(o.entry!.price - o.stop!),
         (start * RULES.maxPositionPct) / 100 / o.entry!.price,
       )
       const commissionUsd = units * (o.entry!.price + o.exit!.price) * fee
-      const pnlUsd = units * (o.exit!.price - o.entry!.price) - commissionUsd
+      const pnlUsd = dir * units * (o.exit!.price - o.entry!.price) - commissionUsd
       const trade = { ...base, units, pnlUsd, commissionUsd, taken: true }
       closed.push(trade)
       trades.push(trade)

@@ -53,6 +53,28 @@ describe('playPlan', () => {
     expect(out.r).toBeCloseTo((104 - 100.5 - (100.5 + 104) * fee) / (100.5 - 99.4))
   })
 
+  it('sells a reclaim short: a pop above the level, then a strong close back below on volume', () => {
+    // The long reclaim above, upside down around 100.
+    const up = (p: number) => 200 - p
+    const rows: [number, number, number, number, number][] = [
+      ...flat(4, 100.5),
+      [100.4, 100.4, 99.6, 99.7, 1500],
+      [99.7, 100.6, 99.5, 100.5, 4000],
+      [100.5, 101, 100.4, 100.9, 2000],
+      [100.9, 104.2, 100.8, 104, 2000],
+      ...flat(10, 104),
+    ]
+    const bars = session(rows.map(([o, h, l, c, v]) => [up(o), up(l), up(h), up(c), v]))
+    const out = playPlan(plan({ side: 'short', target: 96 }), bars)
+    expect(out.status).toBe('win')
+    expect(out.confirmedAt).toBe('09:55')
+    expect(out.entry).toEqual({ time: '10:00', price: 99.5 })
+    // Stop over the highest high at the level (100.5) plus 0.1% of the level.
+    expect(out.stop).toBeCloseTo(100.6)
+    expect(out.exit!.price).toBeCloseTo(96)
+    expect(out.r).toBeGreaterThan(2.9)
+  })
+
   it('checks 1:2 after commission: a trade that is 1:2 on paper but about 1:1.5 after fees is skipped', () => {
     const bars = session([
       ...flat(4, 100.5),
@@ -144,20 +166,38 @@ describe('playPlan', () => {
 })
 
 describe('runAccount', () => {
-  it('risks 1% a trade, pays commission both ways and caps one trade at half the account', () => {
+  it('risks 1% a trade, pays commission both ways and caps one trade at 4× the account', () => {
     const outcome = {
       planId: 'p',
       status: 'win' as const,
       note: '',
       entry: { time: '10:00', price: 100 },
-      stop: 99,
-      exit: { time: '11:00', price: 102 },
+      stop: 99.9,
+      exit: { time: '11:00', price: 100.2 },
       r: 2,
     }
     const acct = runAccount([{ date: '2026-10-26', plans: [plan({ id: 'p' })], outcomes: [outcome] }])
-    // $100 risk / $1 = 100 shares, but half of $10,000 buys only 50.
-    expect(acct.trades[0].units).toBeCloseTo(50)
-    expect(acct.trades[0].pnlUsd).toBeCloseTo(50 * 2 - 50 * 202 * (RULES.commissionPct / 100))
+    // $100 risk / $0.10 = 1,000 units, but 4× $10,000 controls only 400.
+    expect(acct.trades[0].units).toBeCloseTo(400)
+    expect(acct.trades[0].pnlUsd).toBeCloseTo(400 * 0.2 - 400 * 200.2 * (RULES.commissionPct / 100))
+  })
+
+  it('a short makes money when the price falls', () => {
+    const outcome = {
+      planId: 'p',
+      status: 'win' as const,
+      note: '',
+      entry: { time: '10:00', price: 100 },
+      stop: 101,
+      exit: { time: '11:00', price: 98 },
+      r: 2,
+    }
+    const acct = runAccount([
+      { date: '2026-10-26', plans: [plan({ id: 'p', side: 'short' })], outcomes: [outcome] },
+    ])
+    expect(acct.trades[0].units).toBeCloseTo(100)
+    expect(acct.trades[0].side).toBe('short')
+    expect(acct.trades[0].pnlUsd).toBeCloseTo(100 * 2 - 100 * 198 * (RULES.commissionPct / 100))
   })
 })
 

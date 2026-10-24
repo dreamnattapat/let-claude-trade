@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import type { Bar } from './bars'
-import { scanStock } from './scan'
+import { scanBothSides, scanStock } from './scan'
 
 const day = (date: string, c: number, v = 1e7): Bar => ({
   t: 0,
@@ -43,5 +43,31 @@ describe('scanStock', () => {
     expect(row.level).toBeLessThan(row.price)
     expect(row.gapPct).toBeGreaterThan(2)
     expect(['good', 'wait', 'avoid']).toContain(row.status)
+  })
+})
+
+describe('scanBothSides', () => {
+  it('reads the short side as the long side upside down', () => {
+    const daily = dates.map((d, i) => day(d, 120 - i * 0.25)) // a steady downtrend to ~100
+    const yesterday = dates.at(-2)!
+    const today = dates.at(-1)!
+    const pre: Bar[] = [{ t: 0, date: today, time: '08:00', o: 96.5, h: 96.6, l: 96.4, c: 96.5, v: 5000 }]
+    const [long, short] = scanBothSides('GOLD', daily, [...intraday(yesterday, 100), ...pre], today)
+    expect(long.side).toBe('long')
+    expect(short.side).toBe('short')
+    // Below value in a downtrend: the short waits for a bounce up to VAL, aims lower.
+    expect(short.location).toBe('below-value')
+    expect(short.trend).toBe('down')
+    expect(short.setup).toBe('hold')
+    // The nearest of yesterday's VAL and low above the price.
+    expect(short.level).toBeCloseTo(Math.min(short.val, short.pdl), 1)
+    expect(short.level!).toBeGreaterThan(short.price)
+    expect(short.target!).toBeLessThan(short.level!)
+    expect(short.price).toBeCloseTo(96.5, 1)
+    expect(short.gapPct).toBeLessThan(-2)
+    expect(short.reasons.join(' ')).toContain('รอเด้งขึ้นมาทดสอบ')
+    expect(short.reasons.join(' ')).toContain('ใต้ value area')
+    // The long side sees the same downtrend and stays out.
+    expect(long.status).toBe('avoid')
   })
 })

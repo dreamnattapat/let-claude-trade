@@ -12,6 +12,17 @@ export type DaySetup =
   /** Price comes down to a level it was trading above and holds it, with a strong close on volume. */
   | 'hold'
 
+/** A long buys first and sells later; a short sells first and buys back (futures can). */
+export type DaySide = 'long' | 'short'
+
+export const SIDE_LABELS: Record<DaySide, string> = { long: 'ซื้อ (long)', short: 'ขาย (short)' }
+
+/** For a short, the same setups upside down: a reclaim is a pop above the level that fails back under it. */
+export const SHORT_SETUP_LABELS: Record<DaySetup, string> = {
+  reclaim: 'ทะลุขึ้นแล้วหลุดกลับลงมา (reclaim)',
+  hold: 'เด้งขึ้นมาแล้วไม่ผ่าน (hold)',
+}
+
 export const SETUP_LABELS: Record<DaySetup, string> = {
   reclaim: 'หลุดแล้วกลับขึ้นมา (reclaim)',
   hold: 'ย่อลงมาแล้วยืนได้ (hold)',
@@ -22,6 +33,8 @@ export type DayPlan = {
   /** `<date>-<n>` */
   id: string
   ticker: string
+  /** Buy (long) or sell short (from 26 Oct 2026, gold); missing means long. */
+  side?: DaySide
   setup: DaySetup
   /** The level to trade from, USD, and what it is (e.g. "VAL เมื่อวาน"). */
   level: number
@@ -76,6 +89,8 @@ export type DayDesk = {
 /** One stock from the pre-open scan (public/day/scan/<date>.json). */
 export type ScanRow = {
   ticker: string
+  /** Which way the setup trades; one row per side. Missing (scans before 26 Oct 2026) means long. */
+  side?: DaySide
   /** Last price before the open (pre-market if there was any) and gap vs yesterday's close, %. */
   price: number
   gapPct: number
