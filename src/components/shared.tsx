@@ -17,11 +17,3 @@ export function Fold({ title, children, open }: { title: ReactNode; children: Re
 export const toneOf = (x: number | null | undefined) =>
   x == null || Math.abs(x) < 0.005 ? '' : x > 0 ? 'text-delta-up' : 'text-delta-down'
 
-export function Stat({ label, value, tone }: { label: string; value: string; tone?: number | null }) {
-  return (
-    <div>
-      <dt className="text-muted-foreground text-xs">{label}</dt>
-      <dd className={`font-semibold tabular-nums ${toneOf(tone)}`}>{value}</dd>
-    </div>
-  )
-}

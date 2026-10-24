@@ -2,7 +2,7 @@ import { ArrowDownRight, ArrowUpRight, Check, ChevronDown, ExternalLink, PieChar
 import { useEffect, useState } from 'react'
 
 import { AgentAvatar } from '@/components/dream/AgentAvatar'
-import { Fold, Stat, toneOf } from '@/components/shared'
+import { Fold, toneOf } from '@/components/shared'
 import { SiteHeader } from '@/components/SiteHeader'
 import { DreamChart } from '@/components/dream/DreamChart'
 import { TradeBadge } from '@/components/TradeBadge'
@@ -84,10 +84,7 @@ export function DreamPage() {
 
 function Scoreboard({ data, report }: { data: DreamData; report: DreamReport | null }) {
   const { state, ledger } = data
-  const lead = state.returnPct - state.spyReturnPct
   const started = state.points.length > 2
-  const ahead = lead > 0.005
-  const even = Math.abs(lead) <= 0.005
   const sessions = state.points.length - 2 // less the starting point and today's
   const pnl = state.valueUsd - ledger.startingCashUsd
   return (
@@ -101,31 +98,6 @@ function Scoreboard({ data, report }: { data: DreamData; report: DreamReport | n
               {formatSignedMoney(pnl, '$')} ({formatPercent(state.returnPct, { signed: true, decimals: 2 })})
             </p>
           </div>
-          <dl className="flex gap-5 text-sm">
-            <Stat
-              label="S&P 500"
-              value={formatPercent(state.spyReturnPct, {
-                signed: true,
-                decimals: 2,
-              })}
-              tone={state.spyReturnPct}
-            />
-            {state.themeReturnPct != null && (
-              <Stat
-                label="ETF 4 ธีม"
-                value={formatPercent(state.themeReturnPct, {
-                  signed: true,
-                  decimals: 2,
-                })}
-                tone={state.themeReturnPct}
-              />
-            )}
-            <Stat
-              label={!started || even ? 'เทียบ S&P' : ahead ? 'นำ S&P' : 'ตาม S&P'}
-              value={started ? formatPercent(Math.abs(lead), { decimals: 2 }) : '—'}
-              tone={started && !even ? lead : null}
-            />
-          </dl>
         </div>
 
         <Holding state={state} />
