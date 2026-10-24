@@ -14,6 +14,7 @@ import {
   decisionOutcomes,
   effectiveSession,
   lastClosedSession,
+  EXTRA_BENCHMARKS,
   THEME_ETFS,
   type DreamLedger,
   type Postmarks,
@@ -88,7 +89,23 @@ const themes = new Map<string, PriceSeries | null>(
     }),
   ),
 )
-const state = computeDream(ledger, spy, prices, today, closedThrough, { postmarks: postmarks.orders, themes })
+const extra = new Map<string, PriceSeries | null>(
+  await Promise.all(
+    EXTRA_BENCHMARKS.map(async (t): Promise<[string, PriceSeries | null]> => {
+      try {
+        return [t, await fetchSeries(t, ledger.startDate, today)]
+      } catch (e) {
+        console.warn(`No prices for ${t}: ${(e as Error).message}`)
+        return [t, null]
+      }
+    }),
+  ),
+)
+const state = computeDream(ledger, spy, prices, today, closedThrough, {
+  postmarks: postmarks.orders,
+  themes,
+  extra,
+})
 
 // Every price a meeting wrote down (priceUsd) against the real last close before that meeting.
 const priceChecks = reports.flatMap((report) =>
@@ -155,6 +172,7 @@ writeFileSync(
         valueUsd: round(p.value, 2),
         spyUsd: round(p.spy, 2),
         themesUsd: p.themes != null ? round(p.themes, 2) : undefined,
+        extraUsd: p.extra && Object.fromEntries(Object.entries(p.extra).map(([t, v]) => [t, round(v, 2)])),
       })),
       priceChecks: priceChecks.map((c) => ({ ...c, closeUsd: round(c.closeUsd), diffPct: round(c.diffPct, 2) })),
       outcomes: outcomes.map((o) => ({

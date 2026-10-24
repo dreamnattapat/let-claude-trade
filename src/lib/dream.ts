@@ -41,6 +41,9 @@ export const THEME_ETFS: Record<'tech' | 'space' | 'health' | 'energy', string> 
   energy: 'XLE',
 }
 
+/** Single ETFs shown on the chart for comparison only (bought at the first session's close and held, like SPY). */
+export const EXTRA_BENCHMARKS = ['VGT'] as const
+
 /** When an order was committed: from the git history (scripts/dream-postmark.ts). */
 export type Postmark = {
   /** The commit that wrote the order as it stands now, ISO time. */
@@ -132,6 +135,8 @@ export type DreamPoint = {
   spy: number
   /** The same starting cash split equally across THEME_ETFS, held the same way. */
   themes?: number
+  /** The same starting cash in each of EXTRA_BENCHMARKS, held the same way, by ticker. */
+  extra?: Record<string, number>
 }
 
 export type DreamState = {
@@ -214,7 +219,15 @@ export function computeDream(
   prices: Map<string, PriceSeries | null>,
   today: string,
   closedThrough: string,
-  { postmarks = {}, themes }: { postmarks?: Record<string, Postmark>; themes?: Map<string, PriceSeries | null> } = {},
+  {
+    postmarks = {},
+    themes,
+    extra,
+  }: {
+    postmarks?: Record<string, Postmark>
+    themes?: Map<string, PriceSeries | null>
+    extra?: Map<string, PriceSeries | null>
+  } = {},
 ): DreamState {
   const rate = ledger.commissionPct / 100
   const keep = 1 - DIVIDEND_TAX
@@ -246,8 +259,23 @@ export function computeDream(
     started && themeSeries.length && themeSeries.every((s) => s && s.dates.some((d) => d <= firstSession))
       ? themeSeries.map((series) => ({ series: series!, units: cash / themeSeries.length / series!.on(firstSession) }))
       : null
+  const extraBench = started
+    ? [...(extra ?? [])].flatMap(([ticker, series]) =>
+        series && series.dates.some((d) => d <= firstSession)
+          ? [{ ticker, series, units: cash / series.on(firstSession) }]
+          : [],
+      )
+    : []
   let dividendsUsd = 0
-  const points: DreamPoint[] = [{ date: origin, value: cash, spy: cash, ...(themeBench ? { themes: cash } : {}) }]
+  const points: DreamPoint[] = [
+    {
+      date: origin,
+      value: cash,
+      spy: cash,
+      ...(themeBench ? { themes: cash } : {}),
+      ...(extraBench.length ? { extra: Object.fromEntries(extraBench.map((b) => [b.ticker, cash])) } : {}),
+    },
+  ]
 
   // Every session since the start, then today at the latest prices (unless today's session has closed).
   const days = [...sessions.filter((d) => d < today), today]
@@ -274,6 +302,13 @@ export function computeDream(
               day >= firstSession ? themeBench.reduce((sum, b) => sum + benchValue(b), 0) : ledger.startingCashUsd,
           }
         : {}),
+      ...(extraBench.length
+        ? {
+            extra: Object.fromEntries(
+              extraBench.map((b) => [b.ticker, day >= firstSession ? benchValue(b) : ledger.startingCashUsd]),
+            ),
+          }
+        : {}),
     })
   }
 
@@ -288,7 +323,7 @@ export function computeDream(
     }
     // The benchmarks bought at the first session's close, so they collect from the next session on.
     if (day <= firstSession) return
-    for (const b of [...(spyBench ? [spyBench] : []), ...(themeBench ?? [])]) {
+    for (const b of [...(spyBench ? [spyBench] : []), ...(themeBench ?? []), ...extraBench]) {
       const amount = b.series.dividendOn(day)
       if (amount > 0) b.units += (b.units * amount * keep) / b.series.on(day)
     }

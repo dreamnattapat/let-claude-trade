@@ -10,11 +10,11 @@ function cssVar(name: string): string {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim()
 }
 
-type Badge = 'team' | 'spy' | 'themes'
+type Badge = 'team' | 'spy' | 'themes' | 'vgt'
 
 /** A round badge at the end of a line: the site's logo for the team, a red "500" for the S&P 500, "ETF" for the basket. */
 function EndBadge({ badge, x, y }: { badge: Badge; x: number; y: number }) {
-  const ring = { team: '--series-dream', spy: '--series-spy', themes: '--series-invested' }[badge]
+  const ring = { team: '--series-dream', spy: '--series-spy', themes: '--series-invested', vgt: '--series-vgt' }[badge]
   return (
     <span
       className="bg-card pointer-events-none absolute flex size-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-hidden rounded-full text-[9px] font-bold"
@@ -26,6 +26,10 @@ function EndBadge({ badge, x, y }: { badge: Badge; x: number; y: number }) {
       ) : badge === 'spy' ? (
         <span className="flex size-full items-center justify-center bg-[#c8343e] text-[10px] font-extrabold text-white">
           500
+        </span>
+      ) : badge === 'vgt' ? (
+        <span className="flex size-full items-center justify-center bg-[#96151d] font-serif text-sm font-bold text-white">
+          V
         </span>
       ) : (
         <span style={{ color: `var(${ring})` }}>ETF</span>
@@ -71,6 +75,9 @@ export function DreamChart({ points, startingCash }: { points: DreamPoint[]; sta
     const themed = points.filter((p) => p.themes != null)
     const themes = themed.length ? line('--series-invested', true) : null
     themes?.setData(themed.map((p) => ({ time: p.date as Time, value: toPct(p.themes!, startingCash) })))
+    const vgtPoints = points.filter((p) => p.extra?.VGT != null)
+    const vgt = vgtPoints.length ? line('--series-vgt') : null
+    vgt?.setData(vgtPoints.map((p) => ({ time: p.date as Time, value: toPct(p.extra!.VGT, startingCash) })))
     const spy = line('--series-spy')
     const dream = line('--series-dream')
     spy.setData(points.map((p) => ({ time: p.date as Time, value: toPct(p.spy, startingCash) })))
@@ -87,6 +94,7 @@ export function DreamChart({ points, startingCash }: { points: DreamPoint[]; sta
       }
       setEnds([
         ...at('themes', themes, themed.at(-1)?.themes),
+        ...at('vgt', vgt, vgtPoints.at(-1)?.extra?.VGT),
         ...at('spy', spy, last.spy),
         ...at('team', dream, last.value),
       ])
@@ -109,6 +117,7 @@ export function DreamChart({ points, startingCash }: { points: DreamPoint[]; sta
             ['ทีม Lynch', '--series-dream', shown && pct(shown.value)],
             ['S&P 500', '--series-spy', shown && pct(shown.spy)],
             ...(shown?.themes != null ? ([['ETF 4 ธีม', '--series-invested', pct(shown.themes)]] as const) : []),
+            ...(shown?.extra?.VGT != null ? ([['VGT', '--series-vgt', pct(shown.extra.VGT)]] as const) : []),
           ] as const
         ).map(([label, color, value]) => (
           <div key={label} className="flex items-center gap-2">

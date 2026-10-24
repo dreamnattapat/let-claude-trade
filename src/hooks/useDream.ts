@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import {
   computeDream,
   lastClosedSession,
+  EXTRA_BENCHMARKS,
   THEME_ETFS,
   type DreamLedger,
   type DreamState,
@@ -44,18 +45,22 @@ export function useDream(): { data: DreamData | null; error: string | null } {
       const today = localToday()
       const tickers = [...new Set(ledger.orders.map((o) => o.ticker))]
       const etfs = Object.values(THEME_ETFS)
+      const extras = [...EXTRA_BENCHMARKS]
       const withDividends = { dividends: true }
       const [spy, fx, ...series] = await Promise.all([
         fetchPrices('SPY', ledger.startDate, today, withDividends),
         fetchPrices('THB=X', ledger.startDate, today),
         ...tickers.map((t) => fetchPrices(yahooSymbol(t), ledger.startDate, today, withDividends).catch(() => null)),
         ...etfs.map((t) => fetchPrices(t, ledger.startDate, today, withDividends).catch(() => null)),
+        ...extras.map((t) => fetchPrices(t, ledger.startDate, today, withDividends).catch(() => null)),
       ])
       const prices = new Map(tickers.map((t, i) => [t, series[i]]))
       const themes = new Map(etfs.map((t, i) => [t, series[tickers.length + i]]))
+      const extra = new Map(extras.map((t, i) => [t, series[tickers.length + etfs.length + i]]))
       const state = computeDream(ledger, spy, prices, today, lastClosedSession(new Date()), {
         postmarks: postmarks?.orders,
         themes,
+        extra,
       })
       if (!cancelled) setData({ ledger, state, fx, reports: index.reports })
     })().catch((e: Error) => !cancelled && setError(e.message))
