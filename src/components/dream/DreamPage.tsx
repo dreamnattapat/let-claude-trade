@@ -41,7 +41,7 @@ export function DreamPage() {
 
   return (
     <main className="mx-auto max-w-5xl space-y-4 px-4 pt-6 pb-12 sm:pt-10">
-      <SiteHeader active="lynch" />
+      <SiteHeader />
       <header>
         <h1 className="font-display text-2xl font-medium sm:text-3xl">Swing Cook</h1>
         <p className="text-muted-foreground text-sm">

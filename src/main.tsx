@@ -6,7 +6,6 @@ import '@fontsource/ibm-plex-sans-thai/600.css'
 import '@fontsource/mitr/400.css'
 import '@fontsource/mitr/500.css'
 import './index.css'
-import { DayPage } from './components/day/DayPage.tsx'
 import { DreamPage } from './components/dream/DreamPage.tsx'
 
 // Follow the device's light or dark setting.
@@ -15,8 +14,12 @@ const applyTheme = () => document.documentElement.classList.toggle('dark', dark.
 applyTheme()
 dark.addEventListener('change', applyTheme)
 
-// /lynch is Team Lynch, the weekly experiment (/dream, its first name, still works); / is the day desk.
-const lynch = /^\/(lynch|dream)\/?$/.test(window.location.pathname)
-document.title = lynch ? 'Swing Cook · Let Claude Cook' : 'Day Cook · Let Claude Cook'
+// One experiment now: Team Lynch ("Swing Cook"), at / and at its old addresses /lynch and /dream.
+// (A day-trading desk ran here from 23 to 24 Oct 2026; its backtests found no edge after costs, so it was removed.)
+document.title = 'Swing Cook · Let Claude Cook'
 
-createRoot(document.getElementById('root')!).render(<StrictMode>{lynch ? <DreamPage /> : <DayPage />}</StrictMode>)
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <DreamPage />
+  </StrictMode>,
+)

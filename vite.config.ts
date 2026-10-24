@@ -20,13 +20,6 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api\/chart\//, '/v8/finance/chart/'),
         headers: { 'User-Agent': 'Mozilla/5.0' },
       },
-      // Locally, Fear & Greed comes straight from CNN (the Worker trims it in production).
-      '/api/fng': {
-        target: 'https://production.dataviz.cnn.io',
-        changeOrigin: true,
-        rewrite: () => '/index/fearandgreed/graphdata',
-        headers: { 'User-Agent': 'Mozilla/5.0', Referer: 'https://edition.cnn.com/' },
-      },
     },
   },
 })
