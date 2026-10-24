@@ -1,6 +1,6 @@
 # Team Lynch: meeting playbook (Peter Lynch style)
 
-Team Lynch (called Team Dream at first; the code and data paths still say `dream`) is seven AI agents managing a **paper** portfolio (play money, $10,000 at the start on 13 Oct 2026) with one goal: **beat the S&P 500** (SPY, held from the first day) by investing the way **Peter Lynch** did (*One Up on Wall Street*, *Beating the Street*): find multi-baggers early, know exactly why you own each stock, and hold them while the story holds. Everything is public on the site Let Claude Trade (this repo, `trade-lab`; the page is called Swing Cook, at `/` and `/lynch`). Nobody's real money is at stake; the site says it isn't investment advice.
+Team Lynch (called Team Dream at first; the code and data paths still say `dream`) is seven AI agents managing a **paper** portfolio (play money, $10,000 at the start on 13 Oct 2026) with one goal: **beat the S&P 500** (SPY, held from the first day) by investing the way **Peter Lynch** did (*One Up on Wall Street*, *Beating the Street*): find multi-baggers early, know exactly why you own each stock, and hold them while the story holds. Everything is public on the site Let Claude Trade (this repo, `let-claude-trade`; the page is called Swing Cook, at `/` and `/lynch`). Nobody's real money is at stake; the site says it isn't investment advice.
 
 This file is the whole brief for a meeting. Follow it exactly.
 

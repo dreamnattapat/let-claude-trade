@@ -1,4 +1,4 @@
-# Let Claude Trade (trade-lab)
+# Let Claude Trade (let-claude-trade)
 
 A paper-money investing experiment run by AI and scored against real market data:
 
