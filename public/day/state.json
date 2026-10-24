@@ -1,0 +1,49 @@
+{
+ "updatedAt": "2026-10-24T00:01:13.714Z",
+ "days": [
+  {
+   "date": "2026-10-23",
+   "verdict": "caution",
+   "postedAt": "2026-10-23T14:57:53.000Z",
+   "edits": 0,
+   "outcomes": [
+    {
+     "planId": "2026-10-23-1",
+     "status": "no-touch",
+     "note": "ราคาไม่มาถึงจุดที่วางไว้ทั้งวัน",
+     "closeVsLevelPct": 1.6083449136859773
+    },
+    {
+     "planId": "2026-10-23-2",
+     "status": "skipped-rr",
+     "touchedAt": "11:00",
+     "confirmedAt": "11:45",
+     "stop": 346.97270732421873,
+     "rr": 1.0549154499160263,
+     "grossRr": 3.8663731009229365,
+     "note": "มีสัญญาณตอน 11:45 แต่ถ้าเข้าที่ 347.79 คุ้มเสี่ยงหลังหักค่าคอมแค่ 1:1.1 (ก่อนหัก 1:3.9) จึงไม่เข้า",
+     "closeVsLevelPct": 0.12237434595900876
+    }
+   ]
+  }
+ ],
+ "account": {
+  "cashUsd": 10000,
+  "trades": [],
+  "points": [
+   {
+    "date": "2026-10-23",
+    "valueUsd": 10000
+   }
+  ]
+ },
+ "stats": {
+  "trades": 0,
+  "wins": 0,
+  "winRatePct": null,
+  "avgR": null,
+  "totalR": 0,
+  "pnlUsd": 0,
+  "commissionUsd": 0
+ }
+}
