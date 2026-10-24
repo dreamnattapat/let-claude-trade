@@ -1,4 +1,4 @@
-import { Check, ChevronDown, ExternalLink } from 'lucide-react'
+import { ArrowDownRight, ArrowUpRight, Check, ChevronDown, ExternalLink, PieChart } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { AgentAvatar } from '@/components/dream/AgentAvatar'
@@ -158,40 +158,100 @@ function Scoreboard({ data, report }: { data: DreamData; report: DreamReport | n
   )
 }
 
-/** What the team holds right now, in the same box the Day Cook page uses. */
+/** A plain letter badge for a ticker, its colour fixed by the name (no company logos). */
+function TickerBadge({ ticker }: { ticker: string }) {
+  const hue = [...ticker].reduce((h, c, i) => (h * 53 + c.charCodeAt(0) * (i + 7)) % 360, 11)
+  return (
+    <span
+      className="flex size-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-white"
+      style={{ background: `oklch(0.55 0.13 ${hue})` }}
+      aria-hidden
+    >
+      {ticker.slice(0, 1)}
+    </span>
+  )
+}
+
+/** What the team holds right now, laid out like Dime!'s holdings list: tap a row for the details. */
 function Holding({ state }: { state: DreamData['state'] }) {
   return (
-    <div className="bg-muted/50 rounded-xl px-3 py-2.5 text-sm">
-      <p className="text-muted-foreground mb-1 text-xs">ถืออยู่ตอนนี้</p>
-      {state.holdings.length === 0 ? (
-        <p>เงินสด 100%</p>
-      ) : (
-        <>
-          <ul className="space-y-1.5">
-            {state.holdings.map((h) => (
-              <li key={h.ticker} className="flex items-center gap-3">
-                <span className="w-14 shrink-0 font-semibold">{h.ticker}</span>
-                <span className="text-muted-foreground min-w-0 flex-1 text-xs tabular-nums">
-                  {formatNumber(h.units, 2)} หุ้น · ต้นทุน {formatNumber(h.avgCostUsd)} · ตอนนี้{' '}
-                  {formatNumber(h.priceUsd)}
-                  <br />
-                  สัดส่วน {formatPercent(h.weightPct, { decimals: 0 })}
-                </span>
-                <span className={`text-right tabular-nums ${toneOf(h.unrealizedUsd)}`}>
-                  {formatSignedMoney(h.unrealizedUsd, '$')}
-                  <span className="block text-xs">
-                    {formatPercent(h.unrealizedPct, {
-                      signed: true,
-                      decimals: 2,
-                    })}
+    <div className="text-sm">
+      <div className="text-muted-foreground grid grid-cols-[1fr_5.5rem_6.5rem] gap-3 pb-1 text-xs">
+        <span>{state.holdings.length} สินทรัพย์</span>
+        <span className="text-right">มูลค่า (USD)</span>
+        <span className="text-right">% กำไรและมูลค่า</span>
+      </div>
+      <ul className="divide-y">
+        {state.holdings.map((h) => {
+          const up = h.unrealizedUsd >= 0
+          const Arrow = up ? ArrowUpRight : ArrowDownRight
+          return (
+            <li key={h.ticker}>
+              <details className="group">
+                <summary className="grid cursor-pointer list-none grid-cols-[1fr_5.5rem_6.5rem] items-center gap-3 py-3 [&::-webkit-details-marker]:hidden">
+                  <span className="flex min-w-0 items-center gap-3">
+                    <TickerBadge ticker={h.ticker} />
+                    <span className="min-w-0">
+                      <span className="block font-semibold">{h.ticker}</span>
+                      <span className="text-muted-foreground flex items-center gap-1 text-xs tabular-nums">
+                        <PieChart className="size-3" aria-hidden />
+                        {formatPercent(h.weightPct, { decimals: 2 })}
+                      </span>
+                    </span>
                   </span>
-                </span>
-              </li>
-            ))}
-          </ul>
-          <p className="text-muted-foreground mt-1.5 text-xs">เงินสด {formatMoney(state.cashUsd, '$')}</p>
-        </>
-      )}
+                  <span className="text-right tabular-nums">
+                    <span className="block font-semibold">{formatNumber(h.valueUsd)}</span>
+                    <span className="text-muted-foreground block text-xs">{formatNumber(h.units, 2)} หุ้น</span>
+                  </span>
+                  <span className={`text-right tabular-nums ${toneOf(h.unrealizedUsd)}`}>
+                    <span className="flex items-center justify-end gap-0.5 font-semibold">
+                      <Arrow className="size-3.5" aria-hidden />
+                      {formatPercent(Math.abs(h.unrealizedPct), { decimals: 2 })}
+                    </span>
+                    <span className="block text-xs">
+                      ({formatSignedMoney(h.unrealizedUsd, '$').replace('$', '')} USD)
+                    </span>
+                  </span>
+                </summary>
+                <dl className="bg-muted/50 mb-3 grid grid-cols-2 gap-x-4 gap-y-3 rounded-xl px-4 py-3 tabular-nums">
+                  <div>
+                    <dt className="text-muted-foreground text-xs">จำนวนหุ้น</dt>
+                    <dd>{formatNumber(h.units, 4)}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted-foreground text-xs">ราคาล่าสุด (USD)</dt>
+                    <dd>{formatNumber(h.priceUsd)}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted-foreground text-xs">ต้นทุนต่อหุ้น (USD)</dt>
+                    <dd>{formatNumber(h.avgCostUsd, 4)}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted-foreground text-xs">ต้นทุนรวม (USD)</dt>
+                    <dd>{formatNumber(h.units * h.avgCostUsd)}</dd>
+                  </div>
+                </dl>
+              </details>
+            </li>
+          )
+        })}
+        <li className="grid grid-cols-[1fr_5.5rem_6.5rem] items-center gap-3 py-3">
+          <span className="flex items-center gap-3">
+            <span className="bg-muted flex size-10 shrink-0 items-center justify-center rounded-full font-semibold">
+              $
+            </span>
+            <span>
+              <span className="block font-semibold">เงินสด</span>
+              <span className="text-muted-foreground flex items-center gap-1 text-xs tabular-nums">
+                <PieChart className="size-3" aria-hidden />
+                {formatPercent((state.cashUsd / state.valueUsd) * 100, { decimals: 2 })}
+              </span>
+            </span>
+          </span>
+          <span className="text-right font-semibold tabular-nums">{formatNumber(state.cashUsd)}</span>
+          <span />
+        </li>
+      </ul>
     </div>
   )
 }
