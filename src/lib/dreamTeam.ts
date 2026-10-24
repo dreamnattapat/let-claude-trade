@@ -87,14 +87,15 @@ export const LYNCH_CATEGORIES: Record<LynchCategory, string> = {
   cash: 'พักเงิน',
 }
 
-/** The four themes the owner follows (the team only buys within them), plus cash parking. */
-export type DreamTheme = 'tech' | 'space' | 'health' | 'energy' | 'cash'
+/** The five themes the owner follows (the team only buys within them; staples from 26 Oct 2026), plus cash parking. */
+export type DreamTheme = 'tech' | 'space' | 'health' | 'energy' | 'staples' | 'cash'
 
 export const DREAM_THEMES: Record<DreamTheme, string> = {
   tech: 'เทคโนโลยี',
   space: 'อวกาศ',
   health: 'สุขภาพ',
   energy: 'พลังงาน',
+  staples: 'สินค้าจำเป็น',
   cash: 'พักเงิน',
 }
 
