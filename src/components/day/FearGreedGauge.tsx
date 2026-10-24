@@ -2,11 +2,11 @@ import { fearGreedLabel } from '@/lib/day/market'
 
 /** CNN's five bands, 0–100, with the Thai names the page uses. */
 const BANDS = [
-  { from: 0, to: 25, label: 'กลัวสุดขีด', tone: 'var(--delta-down)' },
-  { from: 25, to: 45, label: 'กลัว', tone: 'var(--delta-down)' },
-  { from: 45, to: 55, label: 'กลาง', tone: 'var(--muted-foreground)' },
-  { from: 55, to: 75, label: 'โลภ', tone: 'var(--delta-up)' },
-  { from: 75, to: 100, label: 'โลภสุดขีด', tone: 'var(--delta-up)' },
+  { from: 0, to: 25, label: 'Extreme Fear', tone: 'var(--delta-down)' },
+  { from: 25, to: 45, label: 'Fear', tone: 'var(--delta-down)' },
+  { from: 45, to: 55, label: 'Neutral', tone: 'var(--muted-foreground)' },
+  { from: 55, to: 75, label: 'Greed', tone: 'var(--delta-up)' },
+  { from: 75, to: 100, label: 'Extreme Greed', tone: 'var(--delta-up)' },
 ]
 
 const CX = 150

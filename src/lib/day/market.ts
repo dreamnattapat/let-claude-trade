@@ -12,9 +12,9 @@ export const MARKET = [
 
 /** CNN's bands for the Fear & Greed score, in Thai. */
 export function fearGreedLabel(score: number): string {
-  if (score < 25) return 'กลัวสุดขีด'
-  if (score < 45) return 'กลัว'
-  if (score <= 55) return 'เป็นกลาง'
-  if (score <= 75) return 'โลภ'
-  return 'โลภสุดขีด'
+  if (score < 25) return 'Extreme Fear'
+  if (score < 45) return 'Fear'
+  if (score <= 55) return 'Neutral'
+  if (score <= 75) return 'Greed'
+  return 'Extreme Greed'
 }

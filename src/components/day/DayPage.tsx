@@ -237,8 +237,8 @@ function Market({ quotes, fearGreed }: { quotes: Quote[]; fearGreed: FearGreed |
               <p className="-mt-1 text-sm font-semibold">Fear &amp; Greed: {fearGreedLabel(fearGreed.score)}</p>
               {fearGreed.previousClose != null && (
                 <p className="text-muted-foreground text-xs">
-                  เมื่อวาน {Math.round(fearGreed.previousClose)}
-                  {fearGreed.previousWeek != null && ` · สัปดาห์ก่อน ${Math.round(fearGreed.previousWeek)}`}
+                  Yesterday {Math.round(fearGreed.previousClose)}
+                  {fearGreed.previousWeek != null && ` · Last week ${Math.round(fearGreed.previousWeek)}`}
                 </p>
               )}
             </>
