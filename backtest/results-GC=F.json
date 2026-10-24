@@ -1,0 +1,281 @@
+{
+ "first": "2026-08-03",
+ "last": "2026-10-23",
+ "sessions": 59,
+ "spyPct": 1.41,
+ "results": [
+  {
+   "name": "desk: best 3 good",
+   "commissionPct": 0.05,
+   "plans": 1,
+   "status": {
+    "no-confirm": 1
+   },
+   "trades": 0,
+   "winRatePct": null,
+   "avgR": null,
+   "totalR": 0,
+   "endUsd": 10000,
+   "returnPct": 0,
+   "commissionUsd": 0,
+   "maxDrawdownPct": 0,
+   "avgRBySetup": {
+    "reclaim": {
+     "n": 0,
+     "avgR": null
+    },
+    "hold": {
+     "n": 0,
+     "avgR": null
+    }
+   },
+   "avgTradePct": null,
+   "avgControlPct": 0.3,
+   "tradesList": []
+  },
+  {
+   "name": "desk: best 3 good",
+   "commissionPct": 0,
+   "plans": 1,
+   "status": {
+    "no-confirm": 1
+   },
+   "trades": 0,
+   "winRatePct": null,
+   "avgR": null,
+   "totalR": 0,
+   "endUsd": 10000,
+   "returnPct": 0,
+   "commissionUsd": 0,
+   "maxDrawdownPct": 0,
+   "avgRBySetup": {
+    "reclaim": {
+     "n": 0,
+     "avgR": null
+    },
+    "hold": {
+     "n": 0,
+     "avgR": null
+    }
+   },
+   "avgTradePct": null,
+   "avgControlPct": 0.4,
+   "tradesList": []
+  },
+  {
+   "name": "every good",
+   "commissionPct": 0.05,
+   "plans": 1,
+   "status": {
+    "no-confirm": 1
+   },
+   "trades": 0,
+   "winRatePct": null,
+   "avgR": null,
+   "totalR": 0,
+   "endUsd": 10000,
+   "returnPct": 0,
+   "commissionUsd": 0,
+   "maxDrawdownPct": 0,
+   "avgRBySetup": {
+    "reclaim": {
+     "n": 0,
+     "avgR": null
+    },
+    "hold": {
+     "n": 0,
+     "avgR": null
+    }
+   },
+   "avgTradePct": null,
+   "avgControlPct": 0.3,
+   "tradesList": []
+  },
+  {
+   "name": "every good",
+   "commissionPct": 0,
+   "plans": 1,
+   "status": {
+    "no-confirm": 1
+   },
+   "trades": 0,
+   "winRatePct": null,
+   "avgR": null,
+   "totalR": 0,
+   "endUsd": 10000,
+   "returnPct": 0,
+   "commissionUsd": 0,
+   "maxDrawdownPct": 0,
+   "avgRBySetup": {
+    "reclaim": {
+     "n": 0,
+     "avgR": null
+    },
+    "hold": {
+     "n": 0,
+     "avgR": null
+    }
+   },
+   "avgTradePct": null,
+   "avgControlPct": 0.4,
+   "tradesList": []
+  },
+  {
+   "name": "every good + wait",
+   "commissionPct": 0.05,
+   "plans": 10,
+   "status": {
+    "no-touch": 3,
+    "time-exit": 1,
+    "no-confirm": 3,
+    "loss": 2,
+    "skipped-rr": 1
+   },
+   "trades": 3,
+   "winRatePct": 33.33,
+   "avgR": -0.72,
+   "totalR": -2.16,
+   "endUsd": 9947.95,
+   "returnPct": -0.52,
+   "commissionUsd": 14.98,
+   "maxDrawdownPct": 0.58,
+   "avgRBySetup": {
+    "reclaim": {
+     "n": 0,
+     "avgR": null
+    },
+    "hold": {
+     "n": 3,
+     "avgR": -0.72
+    }
+   },
+   "avgTradePct": -0.35,
+   "avgControlPct": -0.19,
+   "tradesList": [
+    "2026-08-24 GC=F 0.28R $6",
+    "2026-09-16 GC=F -1.27R $-24",
+    "2026-09-17 GC=F -1.17R $-35"
+   ]
+  },
+  {
+   "name": "every good + wait",
+   "commissionPct": 0,
+   "plans": 10,
+   "status": {
+    "no-touch": 3,
+    "time-exit": 2,
+    "no-confirm": 3,
+    "loss": 2
+   },
+   "trades": 4,
+   "winRatePct": 50,
+   "avgR": -0.37,
+   "totalR": -1.47,
+   "endUsd": 9963.35,
+   "returnPct": -0.37,
+   "commissionUsd": 0,
+   "maxDrawdownPct": 0.48,
+   "avgRBySetup": {
+    "reclaim": {
+     "n": 0,
+     "avgR": null
+    },
+    "hold": {
+     "n": 4,
+     "avgR": -0.37
+    }
+   },
+   "avgTradePct": -0.18,
+   "avgControlPct": -0.09,
+   "tradesList": [
+    "2026-08-24 GC=F 0.51R $11",
+    "2026-09-16 GC=F -1.00R $-19",
+    "2026-09-17 GC=F -1.00R $-30",
+    "2026-09-25 GC=F 0.02R $0"
+   ]
+  },
+  {
+   "name": "every day, any status",
+   "commissionPct": 0.05,
+   "plans": 49,
+   "status": {
+    "no-touch": 9,
+    "no-confirm": 22,
+    "time-exit": 3,
+    "skipped-rr": 12,
+    "loss": 3
+   },
+   "trades": 6,
+   "winRatePct": 50,
+   "avgR": 0.03,
+   "totalR": 0.15,
+   "endUsd": 9958.2,
+   "returnPct": -0.42,
+   "commissionUsd": 29.93,
+   "maxDrawdownPct": 0.58,
+   "avgRBySetup": {
+    "reclaim": {
+     "n": 0,
+     "avgR": null
+    },
+    "hold": {
+     "n": 6,
+     "avgR": 0.03
+    }
+   },
+   "avgTradePct": -0.14,
+   "avgControlPct": -0.22,
+   "tradesList": [
+    "2026-08-24 GC=F 0.28R $6",
+    "2026-09-16 GC=F -1.27R $-24",
+    "2026-09-17 GC=F -1.17R $-35",
+    "2026-09-29 GC=F 3.10R $30",
+    "2026-10-02 GC=F -1.24R $-25",
+    "2026-10-06 GC=F 0.46R $6"
+   ]
+  },
+  {
+   "name": "every day, any status",
+   "commissionPct": 0,
+   "plans": 49,
+   "status": {
+    "no-touch": 9,
+    "no-confirm": 22,
+    "time-exit": 5,
+    "skipped-rr": 9,
+    "loss": 4
+   },
+   "trades": 9,
+   "winRatePct": 55.56,
+   "avgR": 0.28,
+   "totalR": 2.49,
+   "endUsd": 9993.24,
+   "returnPct": -0.07,
+   "commissionUsd": 0,
+   "maxDrawdownPct": 0.48,
+   "avgRBySetup": {
+    "reclaim": {
+     "n": 1,
+     "avgR": 1.51
+    },
+    "hold": {
+     "n": 8,
+     "avgR": 0.12
+    }
+   },
+   "avgTradePct": -0.01,
+   "avgControlPct": -0.12,
+   "tradesList": [
+    "2026-08-24 GC=F 0.51R $11",
+    "2026-09-15 GC=F 1.51R $20",
+    "2026-09-16 GC=F -1.00R $-19",
+    "2026-09-17 GC=F -1.00R $-30",
+    "2026-09-25 GC=F 0.02R $0",
+    "2026-09-29 GC=F 3.61R $35",
+    "2026-10-02 GC=F -1.00R $-20",
+    "2026-10-06 GC=F 0.84R $11",
+    "2026-10-08 GC=F -1.00R $-15"
+   ]
+  }
+ ]
+}

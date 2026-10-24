@@ -21,7 +21,9 @@ for (const f of readdirSync(DIR)) data.set(f.replace('.json', ''), JSON.parse(re
 const spy = data.get('SPY')!
 const sessions = new Map([...data].map(([s, d]) => [s, byDay(regularSession(d.intraday))]))
 const dates = [...sessions.get('SPY')!.keys()].filter((d) => sessions.get('SPY')!.get(d)!.length >= 70)
-const tickers = [...data.keys()].filter((t) => t !== 'SPY')
+const only = process.argv.slice(2)
+const FUTURES = ['GC=F', 'MGC=F']
+const tickers = only.length ? only : [...data.keys()].filter((t) => t !== 'SPY' && !FUTURES.includes(t))
 
 // The scan as it would have run before each open: history up to yesterday and today's pre-market only.
 const scans = new Map<string, ScanRow[]>()
@@ -42,6 +44,7 @@ const PICKS: Record<string, Pick> = {
   'desk: best 3 good': (rows) => rows.filter((r) => r.status === 'good').sort(byRr).slice(0, 3),
   'every good': (rows) => rows.filter((r) => r.status === 'good'),
   'every good + wait': (rows) => rows.filter((r) => r.status !== 'avoid'),
+  'every day, any status': (rows) => rows,
 }
 
 const pct = (x: number) => Math.round(x * 100) / 100
@@ -127,8 +130,8 @@ console.log(`good per day: avg ${(goodPerDay.reduce((a, b) => a + b, 0) / goodPe
 
 const results = []
 for (const [name, pick] of Object.entries(PICKS))
-  for (const fee of [0.1605, 0.02, 0]) results.push(run(name, pick, fee))
+  for (const fee of only.length ? [0.05, 0] : [0.1605, 0.02, 0]) results.push(run(name, pick, fee))
 writeFileSync(
-  'backtest/results.json',
+  only.length ? `backtest/results-${only.join('-')}.json` : 'backtest/results.json',
   JSON.stringify({ first, last, sessions: scans.size, spyPct: pct(spyPct), results }, null, 1) + '\n',
 )
