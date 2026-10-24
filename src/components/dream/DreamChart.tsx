@@ -12,9 +12,8 @@ function cssVar(name: string): string {
 
 type Badge = 'team' | 'spy' | 'themes'
 
-/** A round badge at the end of a line: the site's logo for the team, the S&P 500, and the four-theme basket. */
+/** A round badge at the end of a line: the site's logo for the team, a red "500" for the S&P 500, "ETF" for the basket. */
 function EndBadge({ badge, x, y }: { badge: Badge; x: number; y: number }) {
-  const [failed, setFailed] = useState(false)
   const ring = { team: '--series-dream', spy: '--series-spy', themes: '--series-invested' }[badge]
   return (
     <span
@@ -24,15 +23,12 @@ function EndBadge({ badge, x, y }: { badge: Badge; x: number; y: number }) {
     >
       {badge === 'team' ? (
         <img src="/logo.png" alt="" className="size-6 object-contain" />
-      ) : badge === 'spy' && !failed ? (
-        <img
-          src="/api/logo/SPY"
-          alt=""
-          className="size-full bg-white object-contain p-0.5"
-          onError={() => setFailed(true)}
-        />
+      ) : badge === 'spy' ? (
+        <span className="flex size-full items-center justify-center bg-[#c8343e] text-[10px] font-extrabold text-white">
+          500
+        </span>
       ) : (
-        <span style={{ color: `var(${ring})` }}>{badge === 'spy' ? 'S&P' : 'ETF'}</span>
+        <span style={{ color: `var(${ring})` }}>ETF</span>
       )}
     </span>
   )
