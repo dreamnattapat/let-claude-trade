@@ -2,6 +2,7 @@ import { ArrowDownRight, ArrowUpRight, Check, ChevronDown, ExternalLink, PieChar
 import { useEffect, useState } from 'react'
 
 import { AgentAvatar } from '@/components/dream/AgentAvatar'
+import { MeetingRoom } from '@/components/dream/MeetingRoom'
 import { Fold, toneOf } from '@/components/shared'
 import { SiteHeader } from '@/components/SiteHeader'
 import { DreamChart } from '@/components/dream/DreamChart'
@@ -65,7 +66,7 @@ export function DreamPage() {
         !error && <p className="text-muted-foreground text-sm">กำลังโหลด…</p>
       )}
 
-      <Team latest={latest} />
+      <MeetingRoom latest={latest} />
 
       {data && (
         <LatestMeeting
@@ -236,49 +237,6 @@ function Holding({ state }: { state: DreamData['state'] }) {
         </li>
       </ul>
     </div>
-  )
-}
-
-function Team({ latest }: { latest: DreamReport | null }) {
-  return (
-    <section aria-labelledby="team" className="space-y-2">
-      <h2 id="team" className="font-display text-lg font-medium">
-        สมาชิกทีม
-      </h2>
-      {/* A swipeable row on a phone, a grid on a wide screen. */}
-      <div className="-mx-4 flex snap-x scroll-px-4 gap-3 overflow-x-auto px-4 pb-2 lg:mx-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0">
-        {DREAM_AGENTS.map((agent) => {
-          const stance = latest?.memos.find((m) => m.agent === agent.id)?.stance
-          const joinsLater = agent.since != null && (!latest || latest.date < agent.since)
-          return (
-            <Card key={agent.id} className="w-64 shrink-0 snap-start gap-3 py-5 lg:w-auto">
-              <CardContent className="space-y-3 px-5">
-                <div className="flex items-center gap-3">
-                  <AgentAvatar agent={agent.id} />
-                  <div>
-                    <p className="font-semibold">{agent.name}</p>
-                    <p className="text-muted-foreground text-xs">
-                      {agent.thaiName} · {agent.role}
-                    </p>
-                  </div>
-                </div>
-                <p className="text-muted-foreground text-xs leading-relaxed">{agent.focus}</p>
-                {joinsLater && (
-                  <p className="text-xs">
-                    เข้าทีมตั้งแต่ประชุม <span className="font-semibold">{formatDate(agent.since)}</span>
-                  </p>
-                )}
-                {stance && (
-                  <p className="text-xs">
-                    มุมมองล่าสุด: <span className="font-semibold">{stance}</span>
-                  </p>
-                )}
-              </CardContent>
-            </Card>
-          )
-        })}
-      </div>
-    </section>
   )
 }
 
