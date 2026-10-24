@@ -168,6 +168,12 @@ export type DreamLesson = {
   /** L001, L002, ... */
   id: string
   status: 'candidate' | 'rule' | 'retired'
+  /**
+   * Who brought it: the team (from its own results, the default) or the owner (from what they noticed in the
+   * market, via dream/OWNER-NOTES.md). The team tests an owner's lesson like its own; only the owner makes it a rule
+   * without a confirming case.
+   */
+  by?: 'team' | 'owner'
   /** The lesson as a short check to apply, in Thai. */
   title: string
   /** Why, and how to apply it, in Thai. */

@@ -1027,6 +1027,7 @@ function Lessons() {
           >
             <p className="text-muted-foreground mb-2 text-xs">
               บทเรียนใหม่เริ่มจาก &ldquo;กำลังพิสูจน์&rdquo; และกลายเป็น &ldquo;กฎ&rdquo; เมื่อมีกรณีที่สองยืนยัน
+              บทเรียน &ldquo;จากเจ้าของ&rdquo; มาจากสิ่งที่เจ้าของสังเกตตลาดเอง ทีมทดสอบทุกสัปดาห์เหมือนกัน
             </p>
             <ul className="space-y-2">
               {sorted.map((l) => (
@@ -1036,7 +1037,14 @@ function Lessons() {
                   >
                     <summary className="flex cursor-pointer list-none items-start gap-3 [&::-webkit-details-marker]:hidden">
                       <span className="text-muted-foreground w-10 shrink-0 pt-0.5 text-xs font-semibold">{l.id}</span>
-                      <span className="min-w-0 flex-1 text-sm font-medium">{l.title}</span>
+                      <span className="min-w-0 flex-1 text-sm font-medium">
+                        {l.title}
+                        {l.by === 'owner' && (
+                          <span className="border-series-dream/40 text-series-dream ml-1.5 inline-block rounded-full border px-1.5 text-[11px] font-medium whitespace-nowrap">
+                            จากเจ้าของ
+                          </span>
+                        )}
+                      </span>
                       <span
                         className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${LESSON_STATUS[l.status].className}`}
                       >

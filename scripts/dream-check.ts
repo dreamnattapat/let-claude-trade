@@ -292,7 +292,8 @@ for (const l of lessons) {
     fail(`${where}: appliesTo must name team members`)
   if (!l.evidence?.length || l.evidence[0].kind !== 'origin') fail(`${where}: evidence must start with its origin`)
   const confirmed = l.evidence?.filter((e) => e.kind === 'confirmed').length ?? 0
-  if (l.status === 'rule' && confirmed < 1)
+  if (l.by && !['team', 'owner'].includes(l.by)) fail(`${where}: by must be team or owner`)
+  if (l.status === 'rule' && confirmed < 1 && l.by !== 'owner')
     fail(`${where}: a rule needs at least one confirming case besides its origin`)
 }
 if (index) {
