@@ -2,6 +2,8 @@
  * Market data proxy for the site, since browsers can't call these directly:
  * - GET /api/chart/<SYMBOL>?interval=..&range=.. (or period1/period2) forwards to
  *   Yahoo Finance's chart endpoint (no API key).
+ * * - GET /api/logo/<TICKER> forwards to a public company-logo image (financialmodelingprep.com, else parqet.com),
+ *   cached for a week, so the page can show logos while its CSP allows images from itself only.
  * Everything else is the static site in dist/.
  *
  * Only a ticker symbol and a date range ever reach this Worker. It passes
@@ -18,6 +20,8 @@ const CACHE_SECONDS = 900
 export default {
   async fetch(request: Request): Promise<Response> {
     const url = new URL(request.url)
+    const logo = url.pathname.match(/^\/api\/logo\/([A-Z0-9.-]{1,10})$/)
+    if (request.method === 'GET' && logo) return companyLogo(logo[1])
     const symbol = decodeURIComponent(url.pathname.replace(/^\/api\/chart\//, ''))
     if (request.method !== 'GET' || !url.pathname.startsWith('/api/chart/') || !SYMBOL_RE.test(symbol)) {
       return new Response('Not found', { status: 404 })
@@ -46,3 +50,22 @@ export default {
   },
 }
 
+/** A company's logo by ticker from the first source that has it, or 404 (the page then shows a letter badge). */
+async function companyLogo(ticker: string): Promise<Response> {
+  const week = 7 * 24 * 3600
+  for (const source of [
+    `https://financialmodelingprep.com/image-stock/${ticker}.png`,
+    `https://assets.parqet.com/logos/symbol/${ticker}?format=png`,
+  ]) {
+    const response = await fetch(source, {
+      headers: { 'User-Agent': 'Mozilla/5.0' },
+      cf: { cacheTtl: week, cacheEverything: true },
+    } as RequestInit)
+    const type = response.headers.get('Content-Type') ?? ''
+    if (response.ok && type.startsWith('image/'))
+      return new Response(response.body, {
+        headers: { 'Content-Type': type, 'Cache-Control': `public, max-age=${week}` },
+      })
+  }
+  return new Response('No logo', { status: 404 })
+}

@@ -13,6 +13,12 @@ export default defineConfig({
   },
   server: {
     proxy: {
+      // Company logos, as the Worker serves them in production.
+      '/api/logo/': {
+        target: 'https://financialmodelingprep.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/logo\/(.+)$/, '/image-stock/$1.png'),
+      },
       // Same forwarding as the price proxy Worker (worker/index.ts) does in production.
       '/api/chart/': {
         target: 'https://query1.finance.yahoo.com',

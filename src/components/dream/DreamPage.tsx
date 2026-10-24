@@ -158,9 +158,20 @@ function Scoreboard({ data, report }: { data: DreamData; report: DreamReport | n
   )
 }
 
-/** A plain letter badge for a ticker, its colour fixed by the name (no company logos). */
+/** The company's logo (through the site's Worker), or a letter badge if there isn't one. */
 function TickerBadge({ ticker }: { ticker: string }) {
+  const [failed, setFailed] = useState(false)
   const hue = [...ticker].reduce((h, c, i) => (h * 53 + c.charCodeAt(0) * (i + 7)) % 360, 11)
+  if (!failed)
+    return (
+      <img
+        src={`/api/logo/${encodeURIComponent(ticker)}`}
+        alt=""
+        loading="lazy"
+        onError={() => setFailed(true)}
+        className="size-10 shrink-0 rounded-full bg-white object-contain p-1"
+      />
+    )
   return (
     <span
       className="flex size-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-white"
