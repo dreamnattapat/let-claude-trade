@@ -1,0 +1,438 @@
+{
+ "first": "2026-08-03",
+ "last": "2026-10-23",
+ "sessions": 59,
+ "spyPct": 1.41,
+ "results": [
+  {
+   "name": "desk: best 3 good",
+   "commissionPct": 0.1605,
+   "plans": 152,
+   "status": {
+    "no-touch": 66,
+    "no-confirm": 81,
+    "loss": 3,
+    "skipped-rr": 2
+   },
+   "trades": 3,
+   "winRatePct": 0,
+   "avgR": -1.63,
+   "totalR": -4.9,
+   "endUsd": 9871.15,
+   "returnPct": -1.29,
+   "commissionUsd": 47.82,
+   "maxDrawdownPct": 1.29,
+   "avgRBySetup": {
+    "reclaim": {
+     "n": 1,
+     "avgR": -1.71
+    },
+    "hold": {
+     "n": 2,
+     "avgR": -1.6
+    }
+   },
+   "avgTradePct": -0.86,
+   "avgControlPct": -0.42,
+   "tradesList": [
+    "2026-08-11 PANW -1.78R $-37",
+    "2026-09-03 MU -1.42R $-54",
+    "2026-10-09 AVGO -1.71R $-38"
+   ]
+  },
+  {
+   "name": "desk: best 3 good",
+   "commissionPct": 0.02,
+   "plans": 152,
+   "status": {
+    "no-touch": 66,
+    "no-confirm": 81,
+    "loss": 5
+   },
+   "trades": 5,
+   "winRatePct": 0,
+   "avgR": -1.06,
+   "totalR": -5.31,
+   "endUsd": 9796.59,
+   "returnPct": -2.03,
+   "commissionUsd": 9.88,
+   "maxDrawdownPct": 2.03,
+   "avgRBySetup": {
+    "reclaim": {
+     "n": 2,
+     "avgR": -1.06
+    },
+    "hold": {
+     "n": 3,
+     "avgR": -1.06
+    }
+   },
+   "avgTradePct": -0.82,
+   "avgControlPct": -0.14,
+   "tradesList": [
+    "2026-08-11 PANW -1.10R $-23",
+    "2026-08-17 AMD -1.03R $-60",
+    "2026-08-26 COIN -1.04R $-57",
+    "2026-09-03 MU -1.05R $-40",
+    "2026-10-09 AVGO -1.09R $-24"
+   ]
+  },
+  {
+   "name": "desk: best 3 good",
+   "commissionPct": 0,
+   "plans": 152,
+   "status": {
+    "no-touch": 66,
+    "no-confirm": 81,
+    "loss": 5
+   },
+   "trades": 5,
+   "winRatePct": 0,
+   "avgR": -1,
+   "totalR": -5,
+   "endUsd": 9806.39,
+   "returnPct": -1.94,
+   "commissionUsd": 0,
+   "maxDrawdownPct": 1.94,
+   "avgRBySetup": {
+    "reclaim": {
+     "n": 2,
+     "avgR": -1
+    },
+    "hold": {
+     "n": 3,
+     "avgR": -1
+    }
+   },
+   "avgTradePct": -0.78,
+   "avgControlPct": -0.1,
+   "tradesList": [
+    "2026-08-11 PANW -1.00R $-21",
+    "2026-08-17 AMD -1.00R $-58",
+    "2026-08-26 COIN -1.00R $-55",
+    "2026-09-03 MU -1.00R $-38",
+    "2026-10-09 AVGO -1.00R $-22"
+   ]
+  },
+  {
+   "name": "every good",
+   "commissionPct": 0.1605,
+   "plans": 283,
+   "status": {
+    "no-touch": 112,
+    "no-confirm": 156,
+    "loss": 5,
+    "skipped-rr": 10
+   },
+   "trades": 5,
+   "winRatePct": 0,
+   "avgR": -1.6,
+   "totalR": -8,
+   "endUsd": 9776.38,
+   "returnPct": -2.24,
+   "commissionUsd": 79.28,
+   "maxDrawdownPct": 2.24,
+   "avgRBySetup": {
+    "reclaim": {
+     "n": 1,
+     "avgR": -1.71
+    },
+    "hold": {
+     "n": 4,
+     "avgR": -1.57
+    }
+   },
+   "avgTradePct": -0.9,
+   "avgControlPct": -0.48,
+   "tradesList": [
+    "2026-08-11 PANW -1.78R $-37",
+    "2026-09-03 MU -1.42R $-54",
+    "2026-09-21 SNOW -1.38R $-57",
+    "2026-09-22 PANW -1.71R $-38",
+    "2026-10-09 AVGO -1.71R $-38"
+   ]
+  },
+  {
+   "name": "every good",
+   "commissionPct": 0.02,
+   "plans": 283,
+   "status": {
+    "no-touch": 112,
+    "no-confirm": 156,
+    "loss": 10,
+    "time-exit": 3,
+    "skipped-rr": 2
+   },
+   "trades": 13,
+   "winRatePct": 0,
+   "avgR": -0.93,
+   "totalR": -12.1,
+   "endUsd": 9568.68,
+   "returnPct": -4.31,
+   "commissionUsd": 25.42,
+   "maxDrawdownPct": 4.31,
+   "avgRBySetup": {
+    "reclaim": {
+     "n": 3,
+     "avgR": -1.05
+    },
+    "hold": {
+     "n": 10,
+     "avgR": -0.89
+    }
+   },
+   "avgTradePct": -0.68,
+   "avgControlPct": -0.2,
+   "tradesList": [
+    "2026-08-11 PANW -1.10R $-23",
+    "2026-08-11 XOM -0.14R $-3",
+    "2026-08-14 BA -1.06R $-34",
+    "2026-08-17 NVDA -0.89R $-27",
+    "2026-08-17 AMD -1.03R $-59",
+    "2026-08-26 COIN -1.04R $-57",
+    "2026-09-03 MU -1.05R $-39",
+    "2026-09-15 SHOP -1.04R $-50",
+    "2026-09-21 SNOW -1.05R $-42",
+    "2026-09-22 PANW -1.09R $-24",
+    "2026-09-29 MU -0.48R $-15",
+    "2026-10-02 META -1.06R $-35",
+    "2026-10-09 AVGO -1.09R $-24"
+   ]
+  },
+  {
+   "name": "every good",
+   "commissionPct": 0,
+   "plans": 283,
+   "status": {
+    "no-touch": 112,
+    "no-confirm": 156,
+    "loss": 10,
+    "time-exit": 3,
+    "skipped-rr": 2
+   },
+   "trades": 13,
+   "winRatePct": 0,
+   "avgR": -0.87,
+   "totalR": -11.28,
+   "endUsd": 9593.62,
+   "returnPct": -4.06,
+   "commissionUsd": 0,
+   "maxDrawdownPct": 4.06,
+   "avgRBySetup": {
+    "reclaim": {
+     "n": 3,
+     "avgR": -1
+    },
+    "hold": {
+     "n": 10,
+     "avgR": -0.83
+    }
+   },
+   "avgTradePct": -0.64,
+   "avgControlPct": -0.16,
+   "tradesList": [
+    "2026-08-11 PANW -1.00R $-21",
+    "2026-08-11 XOM -0.05R $-1",
+    "2026-08-14 BA -1.00R $-32",
+    "2026-08-17 NVDA -0.82R $-25",
+    "2026-08-17 AMD -1.00R $-57",
+    "2026-08-26 COIN -1.00R $-55",
+    "2026-09-03 MU -1.00R $-37",
+    "2026-09-15 SHOP -1.00R $-48",
+    "2026-09-21 SNOW -1.00R $-41",
+    "2026-09-22 PANW -1.00R $-22",
+    "2026-09-29 MU -0.42R $-13",
+    "2026-10-02 META -1.00R $-33",
+    "2026-10-09 AVGO -1.00R $-22"
+   ]
+  },
+  {
+   "name": "every good + wait",
+   "commissionPct": 0.1605,
+   "plans": 633,
+   "status": {
+    "no-confirm": 351,
+    "no-touch": 232,
+    "loss": 7,
+    "skipped-rr": 38,
+    "win": 1,
+    "time-exit": 4
+   },
+   "trades": 12,
+   "winRatePct": 25,
+   "avgR": -0.53,
+   "totalR": -6.33,
+   "endUsd": 9838.96,
+   "returnPct": -1.61,
+   "commissionUsd": 190.59,
+   "maxDrawdownPct": 1.88,
+   "avgRBySetup": {
+    "reclaim": {
+     "n": 1,
+     "avgR": -1.71
+    },
+    "hold": {
+     "n": 11,
+     "avgR": -0.42
+    }
+   },
+   "avgTradePct": -0.27,
+   "avgControlPct": -0.37,
+   "tradesList": [
+    "2026-08-05 AAPL -1.71R $-38",
+    "2026-08-11 PANW -1.78R $-36",
+    "2026-08-21 CRWD -1.78R $-36",
+    "2026-09-03 MU -1.42R $-54",
+    "2026-09-14 PLTR 3.61R $94",
+    "2026-09-21 SNOW -1.38R $-57",
+    "2026-09-22 PANW -1.71R $-38",
+    "2026-09-22 TSLA -1.06R $-22",
+    "2026-10-05 HOOD 0.69R $23",
+    "2026-10-06 RKLB 2.49R $59",
+    "2026-10-09 AVGO -1.71R $-38",
+    "2026-10-09 HOOD -0.56R $-16"
+   ]
+  },
+  {
+   "name": "every good + wait",
+   "commissionPct": 0.02,
+   "plans": 633,
+   "status": {
+    "no-confirm": 351,
+    "no-touch": 232,
+    "loss": 17,
+    "skipped-rr": 15,
+    "time-exit": 16,
+    "win": 2
+   },
+   "trades": 35,
+   "winRatePct": 37.14,
+   "avgR": 0.01,
+   "totalR": 0.41,
+   "endUsd": 9851.79,
+   "returnPct": -1.48,
+   "commissionUsd": 69.22,
+   "maxDrawdownPct": 2.13,
+   "avgRBySetup": {
+    "reclaim": {
+     "n": 4,
+     "avgR": -1.07
+    },
+    "hold": {
+     "n": 31,
+     "avgR": 0.15
+    }
+   },
+   "avgTradePct": -0.08,
+   "avgControlPct": -0.09,
+   "tradesList": [
+    "2026-08-05 AAPL -1.09R $-24",
+    "2026-08-11 PANW -1.10R $-22",
+    "2026-08-11 XOM -0.14R $-3",
+    "2026-08-14 BA -1.06R $-34",
+    "2026-08-14 NFLX 0.70R $12",
+    "2026-08-17 NVDA -0.89R $-27",
+    "2026-08-17 AMD -1.03R $-59",
+    "2026-08-18 UNH -1.08R $-27",
+    "2026-08-21 CRWD -1.10R $-22",
+    "2026-08-25 TSM 1.37R $24",
+    "2026-08-25 BA 0.78R $11",
+    "2026-08-25 MU 0.86R $56",
+    "2026-08-26 COIN -1.04R $-57",
+    "2026-09-03 MU -1.05R $-39",
+    "2026-09-11 NFLX 3.17R $70",
+    "2026-09-14 PLTR 4.15R $108",
+    "2026-09-15 SHOP -1.04R $-51",
+    "2026-09-17 AAPL 2.55R $30",
+    "2026-09-18 AMZN 0.52R $7",
+    "2026-09-18 GOOGL -1.09R $-23",
+    "2026-09-21 SNOW -1.05R $-43",
+    "2026-09-22 PANW -1.09R $-24",
+    "2026-09-22 TSLA -0.39R $-8",
+    "2026-09-25 JPM 2.03R $44",
+    "2026-09-25 DIS -1.18R $-13",
+    "2026-09-29 MU -0.48R $-15",
+    "2026-10-02 META -1.06R $-35",
+    "2026-10-05 HOOD 1.10R $37",
+    "2026-10-06 RKLB 3.08R $73",
+    "2026-10-06 GOOGL 0.03R $1",
+    "2026-10-06 DIS 0.31R $6",
+    "2026-10-09 AVGO -1.09R $-25",
+    "2026-10-09 HOOD -0.06R $-2",
+    "2026-10-12 UNH -1.10R $-22",
+    "2026-10-22 PANW -1.04R $-50"
+   ]
+  },
+  {
+   "name": "every good + wait",
+   "commissionPct": 0,
+   "plans": 633,
+   "status": {
+    "no-confirm": 351,
+    "no-touch": 232,
+    "loss": 17,
+    "skipped-rr": 14,
+    "time-exit": 17,
+    "win": 2
+   },
+   "trades": 36,
+   "winRatePct": 41.67,
+   "avgR": 0.12,
+   "totalR": 4.34,
+   "endUsd": 9947.24,
+   "returnPct": -0.53,
+   "commissionUsd": 0,
+   "maxDrawdownPct": 1.9,
+   "avgRBySetup": {
+    "reclaim": {
+     "n": 4,
+     "avgR": -1
+    },
+    "hold": {
+     "n": 32,
+     "avgR": 0.26
+    }
+   },
+   "avgTradePct": -0.03,
+   "avgControlPct": -0.05,
+   "tradesList": [
+    "2026-08-05 AAPL -1.00R $-22",
+    "2026-08-11 PANW -1.00R $-20",
+    "2026-08-11 XOM -0.05R $-1",
+    "2026-08-14 BA -1.00R $-32",
+    "2026-08-14 NFLX 0.81R $14",
+    "2026-08-17 NVDA -0.82R $-25",
+    "2026-08-17 AMD -1.00R $-57",
+    "2026-08-18 UNH -1.00R $-25",
+    "2026-08-21 CRWD -1.00R $-20",
+    "2026-08-25 TSM 1.48R $26",
+    "2026-08-25 BA 0.92R $13",
+    "2026-08-25 MU 0.89R $58",
+    "2026-08-26 COIN -1.00R $-55",
+    "2026-09-03 MU -1.00R $-38",
+    "2026-09-11 NFLX 3.26R $73",
+    "2026-09-14 PLTR 4.22R $110",
+    "2026-09-15 SHOP -1.00R $-49",
+    "2026-09-17 AAPL 2.72R $32",
+    "2026-09-18 AMZN 0.66R $9",
+    "2026-09-18 GOOGL -1.00R $-21",
+    "2026-09-21 SNOW -1.00R $-42",
+    "2026-09-22 PANW -1.00R $-22",
+    "2026-09-22 TSLA -0.30R $-6",
+    "2026-09-23 XOM 0.98R $26",
+    "2026-09-25 JPM 2.12R $46",
+    "2026-09-25 DIS -1.00R $-11",
+    "2026-09-29 MU -0.42R $-14",
+    "2026-10-02 META -1.00R $-34",
+    "2026-10-05 HOOD 1.16R $39",
+    "2026-10-06 RKLB 3.17R $75",
+    "2026-10-06 GOOGL 0.11R $3",
+    "2026-10-06 DIS 0.41R $8",
+    "2026-10-09 AVGO -1.00R $-23",
+    "2026-10-09 HOOD 0.01R $0",
+    "2026-10-12 UNH -1.00R $-20",
+    "2026-10-22 PANW -1.00R $-48"
+   ]
+  }
+ ]
+}
