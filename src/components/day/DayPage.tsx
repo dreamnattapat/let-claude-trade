@@ -31,7 +31,6 @@ export function DayPage() {
       <header>
         <h1 className="font-display text-2xl font-medium sm:text-3xl">Day Cook</h1>
         <p className="text-muted-foreground text-sm">
-          เงินสมมติ · AI วางแผนก่อนเปิดตลาด · ระบบเข้าเทรดเองเมื่อเกิดสัญญาณ ·{' '}
           <a href="#rules" className="text-brand hover:underline">
             วิธีทำงาน
           </a>
