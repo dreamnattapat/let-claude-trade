@@ -569,6 +569,214 @@ function route(a: [number, number], b: [number, number]): [number, number][] {
 
 type Pos = { x: number; y: number; mode: Mode; facing: 1 | -1; ms: number; label: string; over?: boolean }
 
+/**
+ * The office pets: three little animals that wander about, nap and say hello when tapped.
+ * They're not on the team, so they never come to meetings.
+ */
+type PetId = 'cat' | 'dog' | 'duck'
+const PETS: { id: PetId; name: string; sound: string; speed: number }[] = [
+  { id: 'cat', name: 'ปันผล แมวประจำออฟฟิศ', sound: 'เมี้ยว', speed: 75 },
+  { id: 'dog', name: 'บูล หมาประจำออฟฟิศ', sound: 'โฮ่ง!', speed: 60 },
+  { id: 'duck', name: 'ทองคำ ลูกเป็ดประจำออฟฟิศ', sound: 'ก๊าบ', speed: 110 },
+]
+
+function petPixels(id: PetId, step: 0 | 1, asleep: boolean): Px[] {
+  const eyes = (y: number, a: number, b: number, c = '#111'): Px[] =>
+    asleep
+      ? [
+          [a, y, 2, 1, c],
+          [b, y, 2, 1, c],
+        ]
+      : [
+          [a, y, 1, 1, c],
+          [b, y, 1, 1, c],
+        ]
+  switch (id) {
+    case 'cat': {
+      const c = '#9aa0a8'
+      const d = '#6f757d'
+      return [
+        [1, 0, 2, 2, c],
+        [7, 0, 2, 2, c],
+        [2, 1, 1, 1, '#f29bb0'],
+        [7, 1, 1, 1, '#f29bb0'],
+        [1, 1, 8, 5, c],
+        [4, 1, 2, 1, d],
+        [1, 3, 1, 1, d],
+        [8, 3, 1, 1, d],
+        ...eyes(3, 3, 6),
+        [4, 4, 2, 1, '#f29bb0'],
+        [2, 6, 6, 3, c],
+        [4, 6, 2, 3, '#ececec'],
+        [2, 9, 2, 1, d],
+        [6, 9, 2, 1, d],
+        ...((step
+          ? [
+              [8, 7, 2, 1, d],
+              [10, 6, 1, 1, d],
+            ]
+          : [
+              [8, 8, 2, 1, d],
+              [10, 7, 1, 1, d],
+            ]) as Px[]),
+      ]
+    }
+    case 'dog': {
+      const c = '#d99a4e'
+      const d = '#b5772f'
+      return [
+        [1, 0, 2, 2, d],
+        [7, 0, 2, 2, d],
+        [1, 1, 8, 5, c],
+        [3, 3, 4, 3, '#fbf3e6'],
+        ...eyes(2, 3, 6),
+        [4, 4, 2, 1, '#2b2b2b'],
+        [2, 6, 6, 3, c],
+        [4, 6, 2, 2, '#fbf3e6'],
+        [2, 9, 2, 1, d],
+        [6, 9, 2, 1, d],
+        ...((step ? [[8, 5, 2, 2, d]] : [[9, 5, 2, 2, d]]) as Px[]),
+      ]
+    }
+    case 'duck':
+      return [
+        [3, 0, 4, 4, '#f5d142'],
+        ...eyes(1, 5, 5),
+        [7, 2, 2, 1, '#f08a24'],
+        [1, 4, 8, 4, '#f5d142'],
+        [0, 4, 2, 2, '#f5d142'],
+        [3, 5, 3, 2, step ? '#e2b92b' : '#d4aa1f'],
+        ...((step
+          ? [
+              [3, 8, 2, 1, '#f08a24'],
+              [6, 8, 1, 1, '#f08a24'],
+            ]
+          : [
+              [3, 8, 1, 1, '#f08a24'],
+              [5, 8, 2, 1, '#f08a24'],
+            ]) as Px[]),
+      ]
+  }
+}
+
+/** A random open spot on the floor for a pet (anywhere it can stand, not on furniture or the table). */
+function petSpot(): [number, number] {
+  for (;;) {
+    const x = rand(6, 94)
+    const y = rand(22, 97)
+    if (!blockedAt(x, y) && !blockedAt(x - 2, y) && !blockedAt(x + 2, y)) return [x, y]
+  }
+}
+
+type PetPos = { x: number; y: number; ms: number; facing: 1 | -1; state: 'walk' | 'sit' | 'sleep' }
+
+function Pets({ step, reduced }: { step: 0 | 1; reduced: boolean }) {
+  const [pos, setPos] = useState<Record<PetId, PetPos>>(() => {
+    const at = (id: PetId): PetPos => {
+      const [x, y] = petSpot()
+      return { x, y, ms: 0, facing: Math.random() < 0.5 ? 1 : -1, state: id === 'cat' ? 'sleep' : 'sit' }
+    }
+    return { cat: at('cat'), dog: at('dog'), duck: at('duck') }
+  })
+  const [said, setSaid] = useState<PetId | null>(null)
+  const posRef = useRef(pos)
+  useEffect(() => {
+    posRef.current = pos
+  }, [pos])
+
+  useEffect(() => {
+    if (reduced) return
+    const timers: ReturnType<typeof setTimeout>[] = []
+    for (const pet of PETS) {
+      const next = () => {
+        const p = posRef.current[pet.id]
+        const r = Math.random()
+        // Mostly potter about; sometimes sit a while or curl up for a nap (cats nap most).
+        if (r < (pet.id === 'cat' ? 0.3 : 0.15)) {
+          setPos((all) => ({ ...all, [pet.id]: { ...all[pet.id], state: 'sleep', ms: 0 } }))
+          timers.push(setTimeout(next, rand(8000, 20000)))
+          return
+        }
+        if (r < 0.4) {
+          setPos((all) => ({ ...all, [pet.id]: { ...all[pet.id], state: 'sit', ms: 0 } }))
+          timers.push(setTimeout(next, rand(2000, 6000)))
+          return
+        }
+        const legs = route([p.x, p.y], petSpot())
+        const walkLeg = (k: number, from: [number, number]) => {
+          const to = legs[k]
+          const ms = Math.round(Math.hypot(to[0] - from[0], to[1] - from[1]) * pet.speed)
+          setPos((all) => ({
+            ...all,
+            [pet.id]: { x: to[0], y: to[1], ms, facing: to[0] < from[0] ? -1 : 1, state: 'walk' },
+          }))
+          timers.push(
+            setTimeout(() => {
+              if (k + 1 < legs.length) return walkLeg(k + 1, to)
+              setPos((all) => ({ ...all, [pet.id]: { ...all[pet.id], state: 'sit', ms: 0 } }))
+              timers.push(setTimeout(next, rand(1500, 5000)))
+            }, ms),
+          )
+        }
+        walkLeg(0, [p.x, p.y])
+      }
+      timers.push(setTimeout(next, rand(1000, 5000)))
+    }
+    return () => timers.forEach(clearTimeout)
+  }, [reduced])
+
+  useEffect(() => {
+    if (!said) return
+    const t = setTimeout(() => setSaid(null), 1500)
+    return () => clearTimeout(t)
+  }, [said])
+
+  return PETS.map((pet) => {
+    const p = pos[pet.id]
+    const walking = p.state === 'walk'
+    return (
+      <button
+        key={pet.id}
+        type="button"
+        onClick={() => setSaid(pet.id)}
+        aria-label={pet.name}
+        title={pet.name}
+        className="absolute w-[7%] -translate-x-1/2 -translate-y-full"
+        style={{
+          aspectRatio: '12 / 10',
+          left: `${p.x}%`,
+          top: `${p.y}%`,
+          transition: `left ${p.ms}ms linear, top ${p.ms}ms linear`,
+          zIndex: Math.round(p.y),
+        }}
+      >
+        <span
+          className="block size-full"
+          style={{ transform: `scaleX(${p.facing})${walking ? ` translateY(${step ? -1 : 0}px)` : ''}` }}
+        >
+          <svg viewBox="0 0 12 10" className="size-full" shapeRendering="crispEdges" aria-hidden>
+            {petPixels(pet.id, walking || (pet.id === 'dog' && p.state === 'sit') ? step : 0, p.state === 'sleep').map(
+              ([x, y, w, h, c], i) => (
+                <rect key={i} x={x} y={y} width={w} height={h} fill={c} />
+              ),
+            )}
+          </svg>
+        </span>
+        {p.state === 'sleep' && said !== pet.id && (
+          <span className="text-muted-foreground absolute -top-3 right-0 text-[9px] leading-3 font-semibold">
+            {step ? 'z' : 'Z'}
+          </span>
+        )}
+        {said === pet.id && (
+          <span className="bg-background text-foreground absolute -top-5 left-1/2 -translate-x-1/2 rounded-md border px-1 text-[10px] leading-4 whitespace-nowrap">
+            {pet.sound}
+          </span>
+        )}
+      </button>
+    )
+  })
+}
+
 /** Pick somewhere to go that nobody else has, by what this agent likes. */
 function pickSpot(agent: DreamAgentId, taken: Set<string>, current?: string): Spot {
   const free = SPOTS.filter((s) => !taken.has(s.id) && s.id !== current)
@@ -776,6 +984,7 @@ export function MeetingRoom({ latest }: { latest: DreamReport | null }) {
         >
           <div className="absolute top-1/2 left-1/2 h-1/3 w-1/4 -translate-x-1/2 -translate-y-1/2 rotate-[-6deg] bg-[#f4efe2]" />
         </div>
+        <Pets step={step} reduced={reduced} />
         {agents.map((a) => {
           const p = pos[a.id]
           const moving = p.mode === 'walk' || p.mode === 'run'
