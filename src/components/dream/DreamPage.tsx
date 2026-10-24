@@ -43,7 +43,7 @@ export function DreamPage() {
       <SiteHeader active="lynch" />
       <header className="space-y-2">
         <p className="text-brand text-sm font-semibold">ความท้าทาย · สไตล์ Peter Lynch</p>
-        <h1 className="font-display text-3xl font-medium sm:text-4xl">ทีม Lynch</h1>
+        <h1 className="font-display text-3xl font-medium sm:text-4xl">Swing Cook</h1>
         <p className="text-muted-foreground max-w-2xl leading-relaxed">
           ทีม AI 7 ตัว ลงทุนตามหลักของ Peter Lynch เฉพาะหุ้นเทคโนโลยี อวกาศ สุขภาพ และพลังงาน ด้วยเงินสมมติ $
           {formatNumber(data?.ledger.startingCashUsd ?? 10_000, 0)} เป้าหมายเดียว: ชนะ S&P 500

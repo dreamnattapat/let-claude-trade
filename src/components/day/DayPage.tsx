@@ -29,7 +29,7 @@ export function DayPage() {
     <main className="mx-auto max-w-5xl space-y-4 px-4 pt-6 pb-12 sm:pt-10">
       <SiteHeader active="day" />
       <header>
-        <h1 className="font-display text-2xl font-medium sm:text-3xl">เดย์เทรด</h1>
+        <h1 className="font-display text-2xl font-medium sm:text-3xl">Day Cook</h1>
         <p className="text-muted-foreground text-sm">
           เงินสมมติ · AI วางแผนก่อนเปิดตลาด · ระบบเข้าเทรดเองเมื่อเกิดสัญญาณ ·{' '}
           <a href="#rules" className="text-brand hover:underline">

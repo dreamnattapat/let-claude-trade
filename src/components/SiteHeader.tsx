@@ -18,8 +18,8 @@ export function SiteHeader({ active }: { active: 'day' | 'lynch' }) {
         Let Claude Cook
       </a>
       <div className="bg-muted/60 flex gap-1 rounded-full p-1">
-        {link('day', '/', 'เดย์เทรด')}
-        {link('lynch', '/lynch', 'ทีม Lynch (รายสัปดาห์)')}
+        {link('day', '/', 'Day Cook')}
+        {link('lynch', '/lynch', 'Swing Cook')}
       </div>
     </nav>
   )
