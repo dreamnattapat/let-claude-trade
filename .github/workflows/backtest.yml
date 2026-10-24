@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - run: node scripts/backtest-fetch.ts
+      - run: node scripts/backtest-fetch.ts $(cat backtest/symbols.txt 2>/dev/null)
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898699+github-actions[bot]@users.noreply.github.com"

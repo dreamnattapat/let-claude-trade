@@ -26,7 +26,7 @@ async function get(symbol: string, query: string) {
   }
 }
 
-const symbols = [...new Set([...UNIVERSE, 'SPY'])]
+const symbols = process.argv.length > 2 ? process.argv.slice(2) : [...new Set([...UNIVERSE, 'SPY'])]
 const errors: string[] = []
 await pool(symbols, 4, async (s) => {
   try {
