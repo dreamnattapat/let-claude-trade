@@ -15,7 +15,7 @@ export function SiteHeader({ active }: { active: 'day' | 'lynch' }) {
     <nav aria-label="เมนู" className="flex flex-wrap items-center justify-between gap-3">
       <a href="/" className="flex items-center gap-2 font-semibold">
         <img src="/logo.png" alt="" className="size-8" />
-        Let Claude cook
+        Let Claude Cook
       </a>
       <div className="bg-muted/60 flex gap-1 rounded-full p-1">
         {link('day', '/', 'เดย์เทรด')}
