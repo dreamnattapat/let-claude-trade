@@ -214,13 +214,13 @@ describe('integrity', () => {
     expect(state.spyReturnPct).toBeCloseTo(1.7)
   })
 
-  it('tracks an equal-weight basket of the four theme ETFs', () => {
+  it('tracks an equal-weight basket of the five theme ETFs', () => {
     const themes = new Map(
       Object.values(THEME_ETFS).map((t, i) => [t, series(t, i === 0 ? [10, 10, 20, 20] : [10, 10, 10, 10])]),
     )
     const state = computeDream(ledger([]), spy, new Map(), '2026-10-15', '2026-10-15', { themes })
-    // A quarter of the cash doubled: +25%.
-    expect(state.themeReturnPct).toBeCloseTo(25)
+    // A fifth of the cash doubled: +20%.
+    expect(state.themeReturnPct).toBeCloseTo(20)
     expect(computeDream(ledger([]), spy, new Map(), '2026-10-15', '2026-10-15').themeReturnPct).toBeNull()
   })
 })

@@ -121,8 +121,8 @@ function Scoreboard({ data, report }: { data: DreamData; report: DreamReport | n
             <p className="text-muted-foreground text-xs leading-relaxed">
               เริ่ม {formatDate(ledger.startDate)} ด้วย {formatMoney(ledger.startingCashUsd, '$')} ·
               ทุกฝั่งรวมเงินปันผลหลังหักภาษีสหรัฐฯ 15%
-              {state.dividendsUsd > 0 && ` (ทีมได้ปันผลแล้ว ${formatMoney(state.dividendsUsd, '$')})`} · ETF 4 ธีม
-              คือการแบ่งเงินเท่ากันใน XLK, UFO, XLV และ XLE ใช้ดูว่าทีมชนะเพราะเลือกหุ้นเก่ง หรือแค่เพราะเลือกธีม
+              {state.dividendsUsd > 0 && ` (ทีมได้ปันผลแล้ว ${formatMoney(state.dividendsUsd, '$')})`} · ETF 5 ธีม
+              คือการแบ่งเงินเท่ากันใน XLK, UFO, XLV, XLE และ XLP ใช้ดูว่าทีมชนะเพราะเลือกหุ้นเก่ง หรือแค่เพราะเลือกธีม
             </p>
           </Fold>
         </div>
@@ -885,8 +885,8 @@ function Rules() {
                 เว้นแต่เรื่องเล่าเปลี่ยน
               </li>
               <li>
-                เทียบกับการซื้อ SPY ด้วยเงินเท่ากันที่ราคาปิดวันแรกแล้วถือไว้ และกับ ETF 4 ธีม (XLK, UFO, XLV, XLE เท่าๆ
-                กัน) ทุกฝั่งรวมเงินปันผลหลังหักภาษีสหรัฐฯ 15%
+                เทียบกับการซื้อ SPY ด้วยเงินเท่ากันที่ราคาปิดวันแรกแล้วถือไว้ และกับ ETF 5 ธีม (XLK, UFO, XLV, XLE, XLP
+                เท่าๆ กัน) ทุกฝั่งรวมเงินปันผลหลังหักภาษีสหรัฐฯ 15%
               </li>
               <li>
                 คำสั่งแก้หรือลบไม่ได้เมื่อ commit แล้ว และถ้า commit หลังตลาดรอบนั้นเปิด จะเลื่อนไปรอบถัดไปเอง

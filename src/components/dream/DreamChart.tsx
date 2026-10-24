@@ -38,7 +38,7 @@ function EndBadge({ badge, x, y }: { badge: Badge; x: number; y: number }) {
   )
 }
 
-/** Dream vs the S&P 500 and the four-theme ETF basket, % since the start. */
+/** Dream vs the S&P 500 and the five-theme ETF basket, % since the start. */
 export function DreamChart({ points, startingCash }: { points: DreamPoint[]; startingCash: number }) {
   const ref = useRef<HTMLDivElement>(null)
   const [hovered, setHovered] = useState<number | null>(null)
@@ -116,7 +116,7 @@ export function DreamChart({ points, startingCash }: { points: DreamPoint[]; sta
           [
             ['ทีม Lynch', '--series-dream', shown && pct(shown.value)],
             ['S&P 500', '--series-spy', shown && pct(shown.spy)],
-            ...(shown?.themes != null ? ([['ETF 4 ธีม', '--series-invested', pct(shown.themes)]] as const) : []),
+            ...(shown?.themes != null ? ([['ETF 5 ธีม', '--series-invested', pct(shown.themes)]] as const) : []),
             ...(shown?.extra?.VGT != null ? ([['VGT', '--series-vgt', pct(shown.extra.VGT)]] as const) : []),
           ] as const
         ).map(([label, color, value]) => (

@@ -117,7 +117,7 @@ export type DreamDecision = {
   orderId?: string
   /** Lynch's category, for anything bought or held. */
   category?: LynchCategory
-  /** Which of the four themes it belongs to. */
+  /** Which of the five themes it belongs to. */
   theme?: DreamTheme
   /** What the company does, in one plain sentence. */
   about?: string

@@ -34,11 +34,12 @@ import { PriceSeries } from './prices.ts'
 export const DIVIDEND_TAX = 0.15
 
 /** One ETF per theme, held equally: the "picked the right themes" benchmark. */
-export const THEME_ETFS: Record<'tech' | 'space' | 'health' | 'energy', string> = {
+export const THEME_ETFS: Record<'tech' | 'space' | 'health' | 'energy' | 'staples', string> = {
   tech: 'XLK',
   space: 'UFO',
   health: 'XLV',
   energy: 'XLE',
+  staples: 'XLP',
 }
 
 /** Single ETFs shown on the chart for comparison only (bought at the first session's close and held, like SPY). */
@@ -151,7 +152,7 @@ export type DreamState = {
   points: DreamPoint[]
   returnPct: number
   spyReturnPct: number
-  /** The four-theme ETF basket, if all its prices loaded. */
+  /** The five-theme ETF basket, if all its prices loaded. */
   themeReturnPct: number | null
   /** Dividends paid into the team's cash so far, after tax. */
   dividendsUsd: number

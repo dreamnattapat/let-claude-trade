@@ -240,7 +240,7 @@ if (index) {
       if (d.category && !(d.category in LYNCH_CATEGORIES)) fail(`${where}: ${d.ticker} category "${d.category}"`)
       if ((d.action === 'buy' || d.action === 'hold') && !d.category)
         fail(`${where}: ${d.ticker} needs a Lynch category`)
-      // Only the four themes the owner follows, each explained in one plain sentence.
+      // Only the five themes the owner follows, each explained in one plain sentence.
       if (d.theme && !(d.theme in DREAM_THEMES)) fail(`${where}: ${d.ticker} theme "${d.theme}"`)
       if ((d.action === 'buy' || d.action === 'hold') && !d.theme) fail(`${where}: ${d.ticker} needs a theme`)
       if ((d.action === 'buy' || d.action === 'hold') && d.theme !== 'cash' && !d.about?.trim())
