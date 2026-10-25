@@ -532,7 +532,8 @@ function DecisionRow({
     d.targetUsd != null && d.stopUsd != null && d.priceUsd != null
       ? rewardRisk(d.priceUsd, d.targetUsd, d.stopUsd)
       : null
-  const verdict = ratio != null ? rewardRiskVerdict(ratio, stopGapPct(d.priceUsd!, d.stopUsd!)) : null
+  const verdict =
+    ratio != null ? rewardRiskVerdict(ratio, stopGapPct(d.priceUsd!, d.stopUsd!), d.action === 'hold') : null
   return (
     <li>
       <details className="group/row">
@@ -681,13 +682,13 @@ const RR_TONE = {
 /** The target, the stop and what they add up to, for one decision. */
 function RewardRiskLine({ decision: d }: { decision: DreamDecision }) {
   const ratio = rewardRisk(d.priceUsd!, d.targetUsd!, d.stopUsd!)
-  const verdict = rewardRiskVerdict(ratio, stopGapPct(d.priceUsd!, d.stopUsd!))
+  const verdict = rewardRiskVerdict(ratio, stopGapPct(d.priceUsd!, d.stopUsd!), d.action === 'hold')
   return (
     <div className="space-y-1 text-xs">
       <p className="text-muted-foreground flex flex-wrap gap-x-3 gap-y-0.5 tabular-nums">
         <span>ราคาตอนประชุม {formatMoney(d.priceUsd, '$')}</span>
         <span>เป้า {formatMoney(d.targetUsd, '$')}</span>
-        <span>ตัดขาดทุน {formatMoney(d.stopUsd, '$')}</span>
+        <span>จุดทบทวน {formatMoney(d.stopUsd, '$')}</span>
         <span className={`font-semibold ${RR_TONE[verdict.tone]}`}>
           คุ้มเสี่ยง {ratio == null ? '—' : `1:${formatNumber(ratio, 1)}`} · {verdict.label}
         </span>
@@ -695,7 +696,7 @@ function RewardRiskLine({ decision: d }: { decision: DreamDecision }) {
       {(d.targetWhy || d.stopWhy) && (
         <p className="text-muted-foreground leading-relaxed">
           {d.targetWhy && <span>เป้า: {d.targetWhy} </span>}
-          {d.stopWhy && <span>ตัดขาดทุน: {d.stopWhy}</span>}
+          {d.stopWhy && <span>จุดทบทวน: {d.stopWhy}</span>}
         </p>
       )}
       {d.review && (
@@ -801,12 +802,12 @@ function RewardRiskNow({ level, price }: { level?: DreamDecision; price: number 
     return <span className="text-muted-foreground">—</span>
   const ratio = rewardRisk(price, level.targetUsd, level.stopUsd)
   const gap = stopGapPct(price, level.stopUsd)
-  const verdict = rewardRiskVerdict(ratio, gap)
+  const verdict = rewardRiskVerdict(ratio, gap, true)
   return (
     <>
       <span
         className={`font-semibold ${RR_TONE[verdict.tone]}`}
-        title={`เป้า ${formatMoney(level.targetUsd, '$')} · จุดตัดขาดทุน ${formatMoney(level.stopUsd, '$')}`}
+        title={`เป้า ${formatMoney(level.targetUsd, '$')} · จุดทบทวน ${formatMoney(level.stopUsd, '$')}`}
       >
         {gap < NEAR_STOP_PCT
           ? gap <= 0
@@ -974,7 +975,8 @@ function Rules() {
               ทีม AI 7 ตัว ลงทุนตามหลักของ Peter Lynch เฉพาะหุ้นเทคโนโลยี อวกาศ สุขภาพ พลังงาน และสินค้าจำเป็น
               ด้วยเงินสมมติ $10,000 เป้าหมายเดียว: ชนะ S&P 500 ตามล่าหุ้นที่โตได้หลายเท่า (multi-bagger)
               ประชุมทุกวันจันทร์ก่อนตลาดสหรัฐฯ เปิด และเลือกได้ว่าจะซื้อขายที่ราคาปิดของวันไหนในสัปดาห์นั้น
-              ทุกวันพุธเช็กหุ้นที่ถือรอบสั้น ๆ ขายหรือลดได้ถ้าหลุดจุดตัดขาดทุนหรือมีข่าวร้ายแรง แต่ไม่ซื้อเพิ่ม
+              ทุกวันพุธเช็กหุ้นที่ถือรอบสั้น ๆ ถ้าราคาหลุดจุดทบทวนหรือมีข่าวร้ายแรงให้ตรวจเรื่องราว
+              ขายหรือลดเฉพาะเมื่อเรื่องราวพัง และไม่ซื้อเพิ่ม
             </p>
             <div className="space-y-1.5">
               <h3 className="font-semibold">หลักของ Peter Lynch ที่ทีมใช้</h3>
@@ -1012,9 +1014,10 @@ function Rules() {
                 (นับเงินสดด้วย) หุ้นอวกาศที่ยังขาดทุนรวมกันไม่เกิน 10% เงินสดได้ถึง 50% ถ้าไม่มีตัวที่คุ้มพอ
               </li>
               <li>
-                ทุกตัวต้องมีเป้าราคาและจุดตัดขาดทุน แล้วคำนวณความคุ้มเสี่ยง (ได้เท่าไรต่อเสี่ยง 1) ทุกสัปดาห์: 1:3
-                ขึ้นไปดีมาก, 1:2 โอเค ซื้อใหม่ต้องได้อย่างน้อย 1:2 ส่วนต่ำกว่านั้นต้องเขียนทบทวน และใกล้ 1:1
-                ต้องตัดสินใจว่าจะถือต่อ ลด หรือขาย
+                ซื้อใหม่หรือซื้อเพิ่มต้องคุ้มเสี่ยงอย่างน้อย 1:2 (เป้าราคาเทียบกับจุดทบทวน) และผ่านเกณฑ์ของ Lynch:
+                (การเติบโต + ปันผล%) ÷ P/E อย่างน้อย 1 และหนี้ต่อทุนไม่เกิน 0.5 หรือมีเงินสดสุทธิ ตั้งแต่ 26 ต.ค.
+                ทีมขายตามแบบ Lynch: ราคาหลุดจุดทบทวนแปลว่าต้องตรวจเรื่องราว ไม่ใช่ขายทันที
+                และไม่ลดหุ้นที่ดีเพียงเพราะราคาใกล้เป้า ขายเมื่อเรื่องราวพังหรือถึงเงื่อนไขขายของหุ้นประเภทนั้น
               </li>
               <li>
                 ไม่เกิน 6 คำสั่งต่อการประชุม (ครั้งแรก 10) และไม่ขายหุ้นที่เพิ่งซื้อไม่ถึง 4 สัปดาห์

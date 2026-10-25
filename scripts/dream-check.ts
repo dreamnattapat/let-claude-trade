@@ -23,6 +23,7 @@ import {
   INTEGRITY_FROM_RETRO,
   LYNCH_CATEGORIES,
   MAX_HOLDINGS,
+  LYNCH_SELLING_FROM,
   NEAR_STOP_PCT,
   PRICE_CHECK_TOLERANCE_PCT,
   RR_OK,
@@ -320,7 +321,12 @@ if (index) {
           const rr = rewardRisk(d.priceUsd!, d.targetUsd!, d.stopUsd!)
           if (d.action === 'buy' && (rr == null || Math.round(rr * 10) / 10 < RR_OK))
             fail(`${where}: ${d.ticker} is a buy at 1:${rr?.toFixed(2)}, under the 1:2 minimum`)
-          if ((rr == null || Math.round(rr * 10) / 10 < RR_OK) && !d.review?.trim())
+          // From LYNCH_SELLING_FROM a holding that ran toward its target needs no review for that alone.
+          if (
+            (rr == null || Math.round(rr * 10) / 10 < RR_OK) &&
+            (d.action === 'buy' || date < LYNCH_SELLING_FROM) &&
+            !d.review?.trim()
+          )
             fail(`${where}: ${d.ticker} is at 1:${rr?.toFixed(2)}, under 1:2, and needs a "review"`)
           // Just above the stop the ratio balloons (1:300) while the stock is about to break: that needs a review too.
           const gap = stopGapPct(d.priceUsd!, d.stopUsd!)

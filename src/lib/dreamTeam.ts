@@ -260,6 +260,12 @@ export type DreamRuleChange = {
 
 /** Meetings from this date need a bear case on new buys and the model's name; retros from the next date a blind verdict. */
 export const INTEGRITY_FROM_MEETING = '2026-10-19'
+
+/**
+ * From this meeting the team follows Lynch on selling (owner's decision, 25 Oct 2026): the stop is a review level,
+ * not an automatic sell, and a holding isn't trimmed just because it ran toward its target.
+ */
+export const LYNCH_SELLING_FROM = '2026-10-26'
 export const INTEGRITY_FROM_RETRO = '2026-10-17'
 
 /** Results over fewer US sessions than this (about six months) are mostly luck: the site says so. */
@@ -297,11 +303,16 @@ export function stopGapPct(price: number, stop: number): number {
   return ((price - stop) / price) * 100
 }
 
-export function rewardRiskVerdict(exact: number | null, gapPct?: number): RewardRiskVerdict {
-  if (gapPct != null && gapPct <= 0) return { label: 'หลุดจุดตัดขาดทุน', tone: 'review' }
-  if (gapPct != null && gapPct < NEAR_STOP_PCT) return { label: 'ใกล้จุดตัดขาดทุน', tone: 'review' }
+/**
+ * `holding`: a stock we already own. Its ratio falls as it runs toward the target, which (Lynch: let the flowers
+ * grow) is not by itself a reason to trim, so a low ratio there reads "near target", not "review".
+ */
+export function rewardRiskVerdict(exact: number | null, gapPct?: number, holding = false): RewardRiskVerdict {
+  if (gapPct != null && gapPct <= 0) return { label: 'หลุดจุดทบทวน', tone: 'review' }
+  if (gapPct != null && gapPct < NEAR_STOP_PCT) return { label: 'ใกล้จุดทบทวน', tone: 'review' }
   // Judged at one decimal, as written (1:2.0), so 1.98 counts as 1:2.
   const ratio = exact == null ? null : Math.round(exact * 10) / 10
+  if (holding && (ratio == null || ratio < RR_OK)) return { label: 'ใกล้เป้า ดูตามเรื่องราว', tone: 'weak' }
   if (ratio == null || ratio < RR_REVIEW) return { label: 'ต้องทบทวน', tone: 'review' }
   if (ratio >= RR_VERY_GOOD) return { label: 'ดีมาก', tone: 'great' }
   if (ratio >= RR_OK) return { label: 'โอเค', tone: 'ok' }
