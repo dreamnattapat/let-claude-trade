@@ -242,6 +242,8 @@ export type DreamCheck = {
   }[]
   /** Ids of the sell orders placed (in ledger.json, reportDate = this date). */
   orders: string[]
+  /** Ids of pending buys it called off because their story broke (ledger.json `cancels`, date = this date). */
+  cancels?: string[]
   model: string
 }
 

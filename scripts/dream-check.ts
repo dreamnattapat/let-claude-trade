@@ -96,6 +96,14 @@ if (ledger) {
       fail(`${where}: a sell needs 0 < fraction <= 1`)
     if (o.side !== 'buy' && o.side !== 'sell') fail(`${where}: side must be buy or sell`)
     if (!o.reason?.trim()) fail(`${where}: needs a reason`)
+    // A limit buy: fills at the first close at or below the limit, from `session` to `until`, or expires.
+    if (o.limitUsd != null || o.until != null) {
+      if (o.side !== 'buy') fail(`${where}: only buys take a limit`)
+      if (!(typeof o.limitUsd === 'number' && o.limitUsd > 0)) fail(`${where}: limitUsd must be a price above 0`)
+      if (!ISO.test(o.until ?? '') || o.until! < o.session) fail(`${where}: until must be a date on or after session`)
+      else if (o.until! > latestSession.toISOString().slice(0, 10))
+        fail(`${where}: until is more than 7 days after the meeting`)
+    }
     if (checkDates.has(o.reportDate)) {
       // The midweek check only protects the portfolio: sells and trims, no buys.
       if (o.side !== 'sell') fail(`${where}: the midweek check can only sell or trim`)
@@ -160,6 +168,47 @@ if (ledger) {
       if (!published.some((p) => p.id === o.id) && o.session < earliest)
         fail(`order ${o.id}: session ${o.session} has already opened; the earliest is ${earliest}`)
   }
+  // 1b. Cancels: only by a midweek check, only buys that haven't filled, from a session that hasn't opened, final.
+  const publishedCancels = (() => {
+    for (const ref of ['origin/main', 'HEAD']) {
+      try {
+        const text = execFileSync('git', ['show', `${ref}:public/dream/ledger.json`], {
+          encoding: 'utf8',
+          stdio: ['ignore', 'pipe', 'ignore'],
+        })
+        return (JSON.parse(text) as DreamLedger).cancels ?? []
+      } catch {
+        // try the next
+      }
+    }
+    return null
+  })()
+  const seen = new Set<string>()
+  for (const c of ledger.cancels ?? []) {
+    const where = `cancel of ${c.orderId}`
+    const o = ledger.orders.find((x) => x.id === c.orderId)
+    if (seen.has(c.orderId)) fail(`${where}: cancelled twice`)
+    seen.add(c.orderId)
+    if (!o) fail(`${where}: no such order`)
+    else {
+      if (o.side !== 'buy') fail(`${where}: only buys can be cancelled (sell orders protect the portfolio)`)
+      if (!(c.date > o.reportDate)) fail(`${where}: must come from a later check than the meeting that placed it`)
+    }
+    if (!checkDates.has(c.date)) fail(`${where}: only a midweek check can cancel (no check on ${c.date})`)
+    if (!ISO.test(c.from ?? '') || c.from < c.date) fail(`${where}: from must be a session on or after the check`)
+    if (!c.reason?.trim()) fail(`${where}: needs a reason (the news, not the price)`)
+    const old = publishedCancels?.find((p) => p.orderId === c.orderId)
+    if (old && JSON.stringify(old) !== JSON.stringify(c)) fail(`${where}: was changed; cancels are final`)
+    if (!old) {
+      const earliest = firstSessionAfter(new Date())
+      if (c.from < earliest) fail(`${where}: from ${c.from} has already opened; the earliest is ${earliest}`)
+      const f = state?.orders?.find((x) => x.id === c.orderId)
+      if (f && f.status !== 'pending') fail(`${where}: the order is already ${f.status}`)
+    }
+  }
+  for (const p of publishedCancels ?? [])
+    if (!(ledger.cancels ?? []).some((c) => c.orderId === p.orderId)) fail(`cancel of ${p.orderId} was removed`)
+
   // 2. From the whole history (postmarks.json, written by the Action): changes and removals since the lock.
   const postmarks = existsSync('public/dream/postmarks.json') ? read<Postmarks>('public/dream/postmarks.json') : null
   for (const [id, pm] of Object.entries(postmarks?.orders ?? {}))
@@ -353,6 +402,9 @@ for (const date of checkIndex?.checks ?? []) {
   }
   const placed = (ledger?.orders ?? []).filter((o) => o.reportDate === date).map((o) => o.id)
   if (placed.length > 3) fail(`${where}: at most 3 orders in a midweek check`)
+  const cancelled = (ledger?.cancels ?? []).filter((c) => c.date === date).map((c) => c.orderId)
+  if (cancelled.sort().join() !== [...(check.cancels ?? [])].sort().join())
+    fail(`${where}: "cancels" must list exactly the buys it cancelled in ledger.json`)
   if (placed.sort().join() !== [...(check.orders ?? [])].sort().join())
     fail(`${where}: "orders" must list exactly the ledger orders placed that day`)
   for (const h of check.holdings ?? [])

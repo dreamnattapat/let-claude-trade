@@ -65,6 +65,56 @@ describe('computeDream', () => {
     expect(state.fills[0].slipPct).toBeCloseTo((60 / 55 - 1) * 100)
   })
 
+  it('fills a limit buy at the first close at or below its limit, and expires one that never gets there', () => {
+    // A dip to test against: 50, 45, 60, 66.
+    const dip = new Map([['NVDA', series('NVDA', [50, 45, 60, 66], 70)]])
+    const state = computeDream(
+      ledger([
+        order({ ticker: 'NVDA', side: 'buy', session: '2026-10-12', usd: 900, limitUsd: 46, until: '2026-10-15' }),
+        {
+          ...order({ ticker: 'NVDA', side: 'buy', session: '2026-10-12', usd: 900 }),
+          id: 'x',
+          limitUsd: 40,
+          until: '2026-10-14',
+        },
+      ]),
+      spy,
+      dip,
+      '2026-10-16',
+      '2026-10-15',
+    )
+    expect(state.fills.find((f) => f.limitUsd === 46)).toMatchObject({
+      status: 'filled',
+      fillDate: '2026-10-13',
+      price: 45,
+    })
+    expect(state.fills.find((f) => f.id === 'x')).toMatchObject({ status: 'expired' })
+    // Still waiting while its window is open.
+    const open = computeDream(
+      ledger([
+        order({ ticker: 'NVDA', side: 'buy', session: '2026-10-14', usd: 900, limitUsd: 40, until: '2026-10-20' }),
+      ]),
+      spy,
+      dip,
+      '2026-10-16',
+      '2026-10-15',
+    )
+    expect(open.fills[0].status).toBe('pending')
+  })
+
+  it('skips a buy a midweek check cancelled before its session', () => {
+    const buy = order({ ticker: 'NVDA', side: 'buy', session: '2026-10-15', usd: 1000 })
+    const state = computeDream(
+      { ...ledger([buy]), cancels: [{ orderId: buy.id, date: '2026-10-14', from: '2026-10-14', reason: 'ข่าวร้าย' }] },
+      spy,
+      prices,
+      '2026-10-16',
+      '2026-10-15',
+    )
+    expect(state.fills[0].status).toBe('cancelled')
+    expect(state.cashUsd).toBe(10_000)
+  })
+
   it('leaves an order pending until its session has closed', () => {
     const state = computeDream(
       ledger([order({ ticker: 'NVDA', side: 'buy', session: '2026-10-15', usd: 1000 })]),

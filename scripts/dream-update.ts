@@ -156,6 +156,8 @@ writeFileSync(
         side: f.side,
         usd: f.usd,
         fraction: f.fraction,
+        limitUsd: f.limitUsd,
+        until: f.until,
         status: f.status,
         fillDate: f.fillDate,
         price: f.price && round(f.price),

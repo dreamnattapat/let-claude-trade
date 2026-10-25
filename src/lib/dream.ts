@@ -82,7 +82,27 @@ export type DreamOrder = {
   usd?: number
   /** Sells: the share of the holding to sell, above 0 up to 1 (all). */
   fraction?: number
+  /**
+   * Buys only, from 25 Oct 2026: a limit. The order fills at the close of the first session from `session` through
+   * `until` that closes at or below it, and expires if none does.
+   */
+  limitUsd?: number
+  /** With `limitUsd`: the last session it may fill at (at most 7 days after the meeting). */
+  until?: string
   /** Why, in a sentence (Thai). */
+  reason: string
+}
+
+/**
+ * A buy called off before it filled, by a midweek check, because its story broke (from 28 Oct 2026). It takes
+ * effect from `from`, a session that hadn't opened when the cancel was committed. Final once placed, like orders.
+ */
+export type DreamCancel = {
+  orderId: string
+  /** The midweek check that cancelled it, YYYY-MM-DD in Bangkok. */
+  date: string
+  from: string
+  /** Why, in a sentence (Thai): the news, never the price. */
   reason: string
 }
 
@@ -92,10 +112,11 @@ export type DreamLedger = {
   /** Commission per fill, % of the trade's value, VAT included. */
   commissionPct: number
   orders: DreamOrder[]
+  cancels?: DreamCancel[]
 }
 
 export type DreamFill = DreamOrder & {
-  status: 'filled' | 'pending' | 'rejected'
+  status: 'filled' | 'pending' | 'rejected' | 'cancelled' | 'expired'
   /** When it was committed, if known; and whether that was after its session opened (then it fills a session later). */
   postedAt?: string
   late?: boolean
@@ -359,12 +380,27 @@ export function computeDream(
     const due = fills.filter((f) => f.status === 'pending' && f.effectiveSession <= day)
     // Sells first, so their cash can pay for the day's buys.
     for (const f of [...due.filter((f) => f.side === 'sell'), ...due.filter((f) => f.side === 'buy')]) {
+      const cancel = ledger.cancels?.find((c) => c.orderId === f.id && c.from <= day)
+      if (cancel) {
+        Object.assign(f, { status: 'cancelled', note: `ยกเลิกในเช็กกลางสัปดาห์ ${cancel.date}: ${cancel.reason}` })
+        continue
+      }
+      if (f.limitUsd != null && f.until && day > f.until) {
+        Object.assign(f, { status: 'expired', note: `ราคาไม่ลงถึง $${f.limitUsd} ภายใน ${f.until}` })
+        continue
+      }
       if (!prices.get(f.ticker)) {
         Object.assign(f, { status: 'rejected', note: 'ไม่พบราคาของหุ้นตัวนี้' })
         continue
       }
       const price = closeOn(f.ticker, day)
       if (price == null) continue // no trading in it today (e.g. halted): try the next session
+      // A limit buy waits for a close at or below its limit (and expires after `until`, above).
+      if (f.side === 'buy' && f.limitUsd != null && price > f.limitUsd) {
+        if (f.until && day >= f.until)
+          Object.assign(f, { status: 'expired', note: `ราคาไม่ลงถึง $${f.limitUsd} ภายใน ${f.until}` })
+        continue
+      }
       if (f.side === 'buy') {
         const gross = Math.min(f.usd ?? 0, cash / (1 + rate))
         if (gross < 1) {

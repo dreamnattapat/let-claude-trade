@@ -587,12 +587,16 @@ function FillStatus({ fill }: { fill: DreamFill }) {
   if (fill.status === 'pending')
     return (
       <span className="text-muted-foreground w-full text-xs sm:w-auto">
-        รอราคาปิดของรอบ {formatDate(fill.effectiveSession)}
+        {fill.limitUsd != null
+          ? `รอราคาปิดไม่เกิน $${formatNumber(fill.limitUsd)} ระหว่าง ${formatDate(fill.effectiveSession)}–${formatDate(fill.until)}`
+          : `รอราคาปิดของรอบ ${formatDate(fill.effectiveSession)}`}
         {fill.late && ' (ส่งคำสั่งหลังตลาดเปิด จึงเลื่อนรอบ)'}
       </span>
     )
   if (fill.status === 'rejected')
     return <span className="text-delta-down w-full text-xs sm:w-auto">ไม่สำเร็จ: {fill.note}</span>
+  if (fill.status === 'cancelled' || fill.status === 'expired')
+    return <span className="text-muted-foreground w-full text-xs sm:w-auto">{fill.note}</span>
   return (
     <span className="text-muted-foreground inline-flex w-full items-center gap-1 text-xs tabular-nums sm:w-auto">
       <Check className="text-delta-up size-3.5" aria-hidden />
@@ -865,7 +869,17 @@ function TradeLog({ fills }: { fills: DreamFill[] }) {
                         : `ขาย ${formatPercent((f.fraction ?? 0) * 100, { decimals: 0 })}`}
                   </TableCell>
                   <TableCell className="text-xs">
-                    {f.status === 'filled' ? 'สำเร็จ' : f.status === 'pending' ? 'รอราคาปิด' : `ไม่สำเร็จ: ${f.note}`}
+                    {f.status === 'filled'
+                      ? 'สำเร็จ'
+                      : f.status === 'pending'
+                        ? f.limitUsd != null
+                          ? `รอราคา ≤ $${formatNumber(f.limitUsd)}`
+                          : 'รอราคาปิด'
+                        : f.status === 'cancelled'
+                          ? 'ยกเลิก'
+                          : f.status === 'expired'
+                            ? 'หมดอายุ'
+                            : `ไม่สำเร็จ: ${f.note}`}
                     {f.late && <span className="text-delta-down block">ส่งช้า เลื่อนรอบ</span>}
                   </TableCell>
                 </TableRow>
@@ -917,7 +931,8 @@ function Rules() {
               <li>เงินสมมติ ไม่ใช่เงินจริง และไม่ใช่คำแนะนำการลงทุน</li>
               <li>
                 ประชุมก่อนตลาดสหรัฐฯ เปิด แล้วเลือกรอบซื้อขายแต่ละคำสั่งได้ภายใน 7 วัน เติมที่ราคาปิดของรอบนั้น
-                จึงไม่มีทางรู้ราคาที่ซื้อขายล่วงหน้า และยกเลิกคำสั่งก่อนถึงรอบไม่ได้
+                จึงไม่มีทางรู้ราคาที่ซื้อขายล่วงหน้า คำสั่งซื้อตั้งราคาได้ (ซื้อเมื่อราคาปิดลงมาถึงที่ตั้งไว้
+                ไม่ถึงก็หมดอายุ) และยกเลิกได้เฉพาะในเช็กวันพุธเมื่อเรื่องราวพังก่อนได้ซื้อ
               </li>
               <li>เสียค่าคอมมิชชันแบบ Dime! (0.15% + VAT 7%) ทุกครั้งที่ซื้อขาย</li>
               <li>
