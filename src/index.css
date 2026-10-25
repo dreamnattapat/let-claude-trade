@@ -100,6 +100,13 @@
     --series-invested: #7a45d1;
     --series-dream: #eb6834;
     --series-vgt: #8b1e2b;
+    /* Portfolio by theme: categorical slots 1–5 in fixed order (validated), cash a neutral gray. */
+    --theme-tech: #2a78d6;
+    --theme-space: #eb6834;
+    --theme-health: #1baf7a;
+    --theme-energy: #eda100;
+    --theme-staples: #e87ba4;
+    --theme-cash: #b5b3ab;
     --chart-grid: #e1e0d9;
     --chart-axis-text: #898781;
     --delta-up: #006300;
@@ -145,6 +152,12 @@
     --series-invested: #ad86ec;
     --series-dream: #f07a45;
     --series-vgt: #b8424f;
+    --theme-tech: #3987e5;
+    --theme-space: #d95926;
+    --theme-health: #199e70;
+    --theme-energy: #c98500;
+    --theme-staples: #d55181;
+    --theme-cash: #5f5e59;
     --chart-grid: #2c2c2a;
     --chart-axis-text: #898781;
     --delta-up: #0ca30c;

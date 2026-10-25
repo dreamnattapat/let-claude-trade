@@ -19,6 +19,7 @@ import {
   NEAR_STOP_PCT,
   stopGapPct,
   DREAM_THEMES,
+  type DreamTheme,
   LYNCH_CATEGORIES,
   type DreamDecision,
   type DreamCheck,
@@ -106,6 +107,8 @@ function Scoreboard({ data, report }: { data: DreamData; report: DreamReport | n
 
         <Holding state={state} />
 
+        <ThemeMix state={state} report={report} />
+
         {state.points.length > 2 && <DreamChart points={state.points} startingCash={ledger.startingCashUsd} />}
 
         <div>
@@ -160,6 +163,68 @@ function TickerBadge({ ticker }: { ticker: string }) {
 }
 
 /** What the team holds right now, laid out like Dime!'s holdings list: tap a row for the details. */
+const THEME_ORDER = ['tech', 'space', 'health', 'energy', 'staples'] as const
+const THEME_CAP_PCT = 40
+
+/** Where the money is, by theme (the owner's five, each capped at 40%), with cash last: one 100% bar and a legend. */
+function ThemeMix({ state, report }: { state: DreamData['state']; report: DreamReport | null }) {
+  const themeOf = new Map(report?.decisions.filter((d) => d.theme).map((d) => [d.ticker, d.theme!]))
+  const groups = new Map<string, { pct: number; tickers: string[] }>()
+  for (const h of state.holdings) {
+    const t = themeOf.get(h.ticker) ?? 'other'
+    const g = groups.get(t) ?? { pct: 0, tickers: [] }
+    g.pct += h.weightPct
+    g.tickers.push(h.ticker)
+    groups.set(t, g)
+  }
+  const cashPct = (state.cashUsd / state.valueUsd) * 100
+  const rows = [
+    ...[...groups].sort(
+      ([a], [b]) =>
+        THEME_ORDER.indexOf(a as (typeof THEME_ORDER)[number]) - THEME_ORDER.indexOf(b as (typeof THEME_ORDER)[number]),
+    ),
+    ...(cashPct > 0.05 ? ([['cash', { pct: cashPct, tickers: [] }]] as const) : []),
+  ].map(([key, g]) => ({
+    key,
+    label: key === 'cash' ? 'เงินสด' : key === 'other' ? 'ไม่ระบุธีม' : DREAM_THEMES[key as DreamTheme],
+    color: `var(--theme-${(THEME_ORDER as readonly string[]).includes(key) || key === 'cash' ? key : 'cash'})`,
+    ...g,
+  }))
+  if (!rows.length) return null
+  return (
+    <figure className="space-y-2" aria-label="สัดส่วนเงินในพอร์ตตามกลุ่ม">
+      <figcaption className="text-muted-foreground flex items-baseline justify-between text-xs">
+        <span>สัดส่วนตามกลุ่ม</span>
+        <span>เพดานกลุ่มละ {THEME_CAP_PCT}%</span>
+      </figcaption>
+      <div className="bg-card flex h-3 w-full gap-0.5 overflow-hidden rounded-full">
+        {rows.map((r) => (
+          <div
+            key={r.key}
+            className="h-full transition-opacity hover:opacity-80"
+            style={{ width: `${r.pct}%`, background: r.color }}
+            title={`${r.label} ${formatPercent(r.pct, { decimals: 1 })}${r.tickers.length ? ` · ${r.tickers.join(', ')}` : ''}`}
+          />
+        ))}
+      </div>
+      <ul className="grid grid-cols-1 gap-x-6 gap-y-1.5 text-sm sm:grid-cols-2">
+        {rows.map((r) => {
+          const over = r.key !== 'cash' && r.pct > THEME_CAP_PCT + 0.05
+          return (
+            <li key={r.key} className="flex items-center gap-2">
+              <span className="size-2.5 shrink-0 rounded-sm" style={{ background: r.color }} aria-hidden />
+              <span className="font-medium">{r.label}</span>
+              <span className="text-muted-foreground min-w-0 flex-1 truncate text-xs">{r.tickers.join(', ')}</span>
+              {over && <span className="text-delta-down text-xs">เกินเพดาน</span>}
+              <span className="font-semibold tabular-nums">{formatPercent(r.pct, { decimals: 1 })}</span>
+            </li>
+          )
+        })}
+      </ul>
+    </figure>
+  )
+}
+
 function Holding({ state }: { state: DreamData['state'] }) {
   return (
     <div className="text-sm">
