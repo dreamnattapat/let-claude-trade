@@ -318,7 +318,9 @@ if (index) {
         else {
           if (!d.targetWhy?.trim() || !d.stopWhy?.trim()) fail(`${where}: ${d.ticker} needs targetWhy and stopWhy`)
           if (d.stopUsd! >= d.priceUsd!) fail(`${where}: ${d.ticker} stop must be below the price`)
-          const rr = rewardRisk(d.priceUsd!, d.targetUsd!, d.stopUsd!)
+          // A limit buy is judged at its limit (the price it can fill at), with the review level worked out from there.
+          const limit = d.action === 'buy' ? ledger?.orders.find((o) => o.id === d.orderId)?.limitUsd : undefined
+          const rr = rewardRisk(limit ?? d.priceUsd!, d.targetUsd!, d.stopUsd!)
           if (d.action === 'buy' && (rr == null || Math.round(rr * 10) / 10 < RR_OK))
             fail(`${where}: ${d.ticker} is a buy at 1:${rr?.toFixed(2)}, under the 1:2 minimum`)
           // From LYNCH_SELLING_FROM a holding that ran toward its target needs no review for that alone.
