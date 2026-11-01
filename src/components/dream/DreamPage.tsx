@@ -250,6 +250,9 @@ function Holding({ state }: { state: DreamData['state'] }) {
                       <span className="text-muted-foreground flex items-center gap-1 text-xs tabular-nums">
                         <PieChart className="size-3" aria-hidden />
                         {formatPercent(h.weightPct, { decimals: 2 })}
+                      </span>
+                      {/* Its own line: the name column is narrow on a phone. */}
+                      <span className="mt-1 flex">
                         <StageChip reading={stages[h.ticker]} />
                       </span>
                     </span>
