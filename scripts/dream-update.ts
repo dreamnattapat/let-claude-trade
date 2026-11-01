@@ -21,6 +21,7 @@ import {
 } from '../src/lib/dream.ts'
 import { PRICE_CHECK_TOLERANCE_PCT, type DreamReport } from '../src/lib/dreamTeam.ts'
 import { chartEvents, parseChart, yahooSymbol, type PriceSeries } from '../src/lib/prices.ts'
+import { stageOf, type StageReading } from '../src/lib/stage.ts'
 
 const LEDGER = 'public/dream/ledger.json'
 const STATE = 'public/dream/state.json'
@@ -123,6 +124,28 @@ const priceChecks = reports.flatMap((report) =>
   }),
 )
 const outcomes = decisionOutcomes(decisions, spy, prices, closedThrough)
+
+// Weinstein's stage for everything we hold and everything the latest meeting looked at (two years of weekly closes).
+const closesOf = (s: PriceSeries): [string, number][] =>
+  s.dates.filter((d) => d <= closedThrough).map((d): [string, number] => [d, s.on(d)])
+const twoYearsAgo = new Date(now.getTime() - 760 * 86400000).toISOString().slice(0, 10)
+const stageTickers = [
+  ...new Set([...state.holdings.map((h) => h.ticker), ...(reports.at(-1)?.decisions.map((d) => d.ticker) ?? [])]),
+]
+const stages: Record<string, StageReading> = {}
+try {
+  const spyLong = closesOf(await fetchSeries('SPY', twoYearsAgo, today))
+  for (const t of stageTickers) {
+    try {
+      const reading = stageOf(closesOf(await fetchSeries(yahooSymbol(t), twoYearsAgo, today)), spyLong)
+      if (reading) stages[t] = reading
+    } catch (e) {
+      console.warn(`No stage for ${t}: ${(e as Error).message}`)
+    }
+  }
+} catch (e) {
+  console.warn(`No stages: ${(e as Error).message}`)
+}
 const round = (x: number, d = 4) => Math.round(x * 10 ** d) / 10 ** d
 writeFileSync(
   STATE,
@@ -135,6 +158,19 @@ writeFileSync(
       returnPct: round(state.returnPct, 3),
       spyReturnPct: round(state.spyReturnPct, 3),
       leadPct: round(state.returnPct - state.spyReturnPct, 3),
+      stages: Object.fromEntries(
+        Object.entries(stages).map(([t, s]) => [
+          t,
+          {
+            ...s,
+            closeUsd: round(s.closeUsd, 2),
+            ma30wUsd: round(s.ma30wUsd, 2),
+            vsMaPct: round(s.vsMaPct, 2),
+            maSlopePct: round(s.maSlopePct, 2),
+            relStrengthPct: s.relStrengthPct != null ? round(s.relStrengthPct, 2) : null,
+          },
+        ]),
+      ),
       themeReturnPct: state.themeReturnPct != null ? round(state.themeReturnPct, 3) : null,
       dividendsUsd: round(state.dividendsUsd, 2),
       holdings: state.holdings.map((h) => ({

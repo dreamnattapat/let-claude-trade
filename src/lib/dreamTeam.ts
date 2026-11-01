@@ -134,6 +134,13 @@ export type DreamDecision = {
   /** The price where the trend or the story is broken, so the team gets out, and why that level. */
   stopUsd?: number
   stopWhy?: string
+  /**
+   * Weinstein's stage at the meeting (from 2 Nov 2026, buys and holds): 1 basing, 2 advancing, 3 topping,
+   * 4 declining (state.json → stages, or Tempo's own reading of the weekly chart).
+   */
+  stage?: 1 | 2 | 3 | 4
+  /** Why buy anyway, for a buy in stage 1 or 3. */
+  stageWhy?: string
   /** Required when reward:risk is below 1:2: the team's verdict (keep, trim or sell) and why. */
   review?: string
   /** For a new buy (from 19 Oct 2026): Story's case against it, 2–4 points, and the Captain's answer. */
@@ -266,6 +273,9 @@ export const INTEGRITY_FROM_MEETING = '2026-10-19'
  * not an automatic sell, and a holding isn't trimmed just because it ran toward its target.
  */
 export const LYNCH_SELLING_FROM = '2026-10-26'
+
+/** From this meeting every buy and hold carries its Weinstein stage (owner's decision, 1 Nov 2026). */
+export const STAGES_FROM = '2026-11-02'
 export const INTEGRITY_FROM_RETRO = '2026-10-17'
 
 /** Results over fewer US sessions than this (about six months) are mostly luck: the site says so. */

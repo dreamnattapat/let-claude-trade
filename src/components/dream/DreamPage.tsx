@@ -30,6 +30,7 @@ import {
   EARLY_SESSIONS,
   type LynchCategory,
 } from '@/lib/dreamTeam'
+import { STAGE_LABELS, type Stage, type StageReading } from '@/lib/stage'
 import { formatDate, formatMoney, formatNumber, formatPercent, formatSignedMoney } from '@/lib/format'
 
 /** Team Dream's public page: the team, the score against the S&P 500, and every meeting. */
@@ -226,6 +227,7 @@ function ThemeMix({ state, report }: { state: DreamData['state']; report: DreamR
 }
 
 function Holding({ state }: { state: DreamData['state'] }) {
+  const stages = useStages()
   return (
     <div className="text-sm">
       <div className="text-muted-foreground grid grid-cols-[1fr_5.5rem_6.5rem] gap-3 pb-1 text-xs">
@@ -248,6 +250,7 @@ function Holding({ state }: { state: DreamData['state'] }) {
                       <span className="text-muted-foreground flex items-center gap-1 text-xs tabular-nums">
                         <PieChart className="size-3" aria-hidden />
                         {formatPercent(h.weightPct, { decimals: 2 })}
+                        <StageChip reading={stages[h.ticker]} />
                       </span>
                     </span>
                   </span>
@@ -375,7 +378,7 @@ function LatestMeeting({ report, fills, empty }: { report: DreamReport | null; f
       </CardHeader>
       {report && (
         <CardContent className="px-4 sm:px-6">
-          <Report report={report} fills={fills} />
+          <Report report={report} fills={fills} latest />
         </CardContent>
       )}
     </Card>
@@ -389,18 +392,52 @@ type PriceCheck = {
   closeDate: string
   diffPct: number
 }
-let priceChecksOnce: Promise<PriceCheck[]> | null = null
+type StateExtras = { priceChecks?: PriceCheck[]; stages?: Record<string, StageReading> }
+let stateExtrasOnce: Promise<StateExtras> | null = null
+/** The parts of state.json the page doesn't compute itself (written daily by the Action), fetched once. */
+const stateExtras = () =>
+  (stateExtrasOnce ??= fetchDreamJson<StateExtras>('/dream/state.json').catch(() => ({}) as StateExtras))
+
+/** Weinstein's stage of each stock we hold or looked at in the latest meeting (state.json). */
+function useStages(): Record<string, StageReading> {
+  const [stages, setStages] = useState<Record<string, StageReading>>({})
+  useEffect(() => {
+    let live = true
+    stateExtras().then((s) => live && setStages(s.stages ?? {}))
+    return () => {
+      live = false
+    }
+  }, [])
+  return stages
+}
+
+const STAGE_TONE: Record<Stage, string> = {
+  1: 'border-border text-muted-foreground',
+  2: 'border-delta-up/40 text-delta-up',
+  3: 'border-series-dream/40 text-series-dream',
+  4: 'border-delta-down/40 text-delta-down',
+}
+
+/** A small "ระยะ 2 ขาขึ้น" chip, with the numbers behind it on hover. */
+function StageChip({ reading }: { reading?: StageReading }) {
+  if (!reading) return null
+  const rs = reading.relStrengthPct
+  return (
+    <span
+      className={`shrink-0 rounded-full border px-1.5 text-[11px] leading-4 font-medium whitespace-nowrap ${STAGE_TONE[reading.stage]}`}
+      title={`Weinstein: ราคาปิดสัปดาห์ ${formatDate(reading.weekOf)} ${formatPercent(reading.vsMaPct, { signed: true, decimals: 1 })} จากเส้นเฉลี่ย 30 สัปดาห์ (เส้น ${formatPercent(reading.maSlopePct, { signed: true, decimals: 1 })} ใน 4 สัปดาห์)${rs != null ? ` · แข็งกว่า S&P 500 ${formatPercent(rs, { signed: true, decimals: 1 })}` : ''}`}
+    >
+      ระยะ {reading.stage} {STAGE_LABELS[reading.stage]}
+    </span>
+  )
+}
 
 /** Prices written in reports that don't match the real close (checked daily by the Action, in state.json). */
 function usePriceChecks(date: string): PriceCheck[] {
   const [checks, setChecks] = useState<PriceCheck[]>([])
   useEffect(() => {
-    priceChecksOnce ??= fetchDreamJson<{ priceChecks?: PriceCheck[] }>('/dream/state.json').then(
-      (s) => s.priceChecks ?? [],
-      () => [],
-    )
     let live = true
-    priceChecksOnce.then((all) => live && setChecks(all.filter((c) => c.reportDate === date)))
+    stateExtras().then((s) => live && setChecks((s.priceChecks ?? []).filter((c) => c.reportDate === date)))
     return () => {
       live = false
     }
@@ -409,9 +446,12 @@ function usePriceChecks(date: string): PriceCheck[] {
 }
 
 /** One meeting: Captain's summary, the decisions and every agent's memo. */
-function Report({ report, fills }: { report: DreamReport; fills: DreamFill[] }) {
+function Report({ report, fills, latest = false }: { report: DreamReport; fills: DreamFill[]; latest?: boolean }) {
   const byId = new Map(fills.map((f) => [f.id, f]))
   const priceChecks = usePriceChecks(report.date)
+  // Today's stage only makes sense next to the latest meeting's decisions.
+  const allStages = useStages()
+  const stages = latest ? allStages : {}
   return (
     <div className="space-y-5">
       <div className="flex gap-3">
@@ -432,6 +472,7 @@ function Report({ report, fills }: { report: DreamReport; fills: DreamFill[] }) 
             decision={d}
             fill={d.orderId ? byId.get(d.orderId) : undefined}
             checks={priceChecks.filter((c) => c.ticker === d.ticker)}
+            stage={stages[d.ticker]}
           />
         )
         return (
@@ -523,10 +564,12 @@ function DecisionRow({
   decision: d,
   fill,
   checks,
+  stage,
 }: {
   decision: DreamDecision
   fill?: DreamFill
   checks: PriceCheck[]
+  stage?: StageReading
 }) {
   const ratio =
     d.targetUsd != null && d.stopUsd != null && d.priceUsd != null
@@ -540,6 +583,7 @@ function DecisionRow({
         <summary className="flex cursor-pointer list-none items-center gap-2 px-4 py-3 text-sm [&::-webkit-details-marker]:hidden">
           <span className="w-14 shrink-0 font-semibold">{d.ticker}</span>
           <DecisionBadge action={d.action} />
+          <StageChip reading={stage} />
           {checks.length > 0 && <span className="text-delta-down text-xs">⚠ ราคา</span>}
           <span className="min-w-0 flex-1 truncate text-xs">
             {fill ? <FillStatus fill={fill} /> : <span className="text-muted-foreground">{d.about ?? ''}</span>}
@@ -1020,6 +1064,10 @@ function Rules() {
                 หุ้นแข็งแกร่งผ่านได้ด้วยหนี้สุทธิไม่เกิน 2.5 เท่าของ EBITDA และเครดิต A- ขึ้นไป ตั้งแต่ 26 ต.ค.
                 ทีมขายตามแบบ Lynch: ราคาหลุดจุดทบทวนแปลว่าต้องตรวจเรื่องราว ไม่ใช่ขายทันที
                 และไม่ลดหุ้นที่ดีเพียงเพราะราคาใกล้เป้า ขายเมื่อเรื่องราวพังหรือถึงเงื่อนไขขายของหุ้นประเภทนั้น
+              </li>
+              <li>
+                ดูจังหวะด้วยระยะของหุ้นแบบ Stan Weinstein (เส้นเฉลี่ย 30 สัปดาห์): ระยะ 1 ฐาน, 2 ขาขึ้น, 3 ทำยอด, 4 ขาลง
+                ห้ามซื้อหุ้นระยะ 4 ซื้อดีที่สุดในระยะ 2 และหุ้นที่ถืออยู่เข้าระยะ 4 ต้องทบทวนเรื่องราว ไม่ขายอัตโนมัติ
               </li>
               <li>
                 ไม่เกิน 6 คำสั่งต่อการประชุม (ครั้งแรก 10) และไม่ขายหุ้นที่เพิ่งซื้อไม่ถึง 4 สัปดาห์

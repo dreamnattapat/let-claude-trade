@@ -24,6 +24,7 @@ import {
   LYNCH_CATEGORIES,
   MAX_HOLDINGS,
   LYNCH_SELLING_FROM,
+  STAGES_FROM,
   NEAR_STOP_PCT,
   PRICE_CHECK_TOLERANCE_PCT,
   RR_OK,
@@ -334,6 +335,17 @@ if (index) {
           const gap = stopGapPct(d.priceUsd!, d.stopUsd!)
           if (date >= INTEGRITY_FROM_MEETING && gap < NEAR_STOP_PCT && !d.review?.trim())
             fail(`${where}: ${d.ticker} is ${gap.toFixed(1)}% above its stop and needs a "review"`)
+          // Weinstein's stage: never buy in stage 4, say why for stage 1 or 3, and re-check the story of a holding in 4.
+          if (date >= STAGES_FROM) {
+            if (![1, 2, 3, 4].includes(d.stage as number))
+              fail(`${where}: ${d.ticker} needs its Weinstein "stage" (1–4)`)
+            else if (d.action === 'buy' && d.stage === 4)
+              fail(`${where}: ${d.ticker} is in stage 4 (declining): no buys there`)
+            else if (d.action === 'buy' && d.stage !== 2 && !d.stageWhy?.trim())
+              fail(`${where}: ${d.ticker} is a buy in stage ${d.stage} and needs "stageWhy"`)
+            else if (d.action === 'hold' && d.stage === 4 && !d.review?.trim())
+              fail(`${where}: ${d.ticker} is held in stage 4 and needs a "review" of its story`)
+          }
         }
       }
       if (d.orderId && ledger && !ledger.orders.some((o) => o.id === d.orderId))
