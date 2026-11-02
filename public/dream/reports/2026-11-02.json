@@ -1,0 +1,514 @@
+{
+ "date": "2026-11-02",
+ "session": "2026-11-02",
+ "headline": "สัปดาห์งบและเลือกตั้ง: ถือ TSM, VST, TOST ต่อ ไม่มีคำสั่ง PEP หมดอายุไม่ได้ซื้อ",
+ "summary": "ไม่มีคำสั่งรอบนี้ ทั้ง 3 ตัวที่ถือเรื่องยังไม่พัง: TSM ลงตามหุ้นชิปทั้งกลุ่ม (stage 3 จึงไม่เติม) VST ผู้บริหารขายหุ้นตามแผนล่วงหน้า ไม่ใช่สัญญาณร้าย แต่ราคาห่างจุดทบทวนแค่ 4.1% ก่อนงบ 6 พ.ย. และ TOST มีคดี FTC ที่ยังไม่ทำให้เรื่องพัง งบ 3 พ.ย. จะตัดสิน ไม่ซื้อใหม่เพราะ HRMY ไม่ผ่าน Lynch ratio เมื่อใช้ตัวเลขที่ยืนยันได้ ADMA ติดงบ 4 พ.ย. ที่ยกเลิกคำสั่งตามผลไม่ทัน ส่วน PG และ UNH วิ่งขึ้นไปแล้ว และ PEP อยู่ stage 4 เงินสด 43.9% (เกิน 30% เพราะไม่มีตัวที่ผ่านครบและสัปดาห์นี้มีเหตุการณ์ใหญ่หลายอย่าง) และยอมรับว่าตัวเลข HRMY และ PG ในรายงานก่อนผิด จึงคิดราคาในรายการอยากได้ใหม่",
+ "memos": [
+  {
+   "agent": "atlas",
+   "title": "อากาศ: เศรษฐกิจยังโต แต่เงินเฟ้อ น้ำมัน และดอกเบี้ยยังสูง สัปดาห์นี้มีเลือกตั้งกลางเทอมและตัวเลขจ้างงาน",
+   "stance": "neutral",
+   "points": [
+    "เฟดคงดอกเบี้ย 3.75–4.00% เมื่อ 28 ต.ค. ด้วยเสียง 10–2 สองคนที่ค้าน (Cook, Hammack) อยากขึ้น 0.25% แถลงการณ์บอกว่าเงินเฟ้อ 'ยังสูง' พันธบัตร 10 ปี 4.98% (H.15, 29 ต.ค.) ปิดสัปดาห์ราว 4.93% (ข่าว)",
+    "เงินเฟ้อกลับมาสูง: PCE ก.ย. +3.6% ตัว core +3.1% (BEA 29 ต.ค.) CPI ก.ย. +3.7% พลังงาน +20.4% (BLS) แต่ GDP ไตรมาส 3 โต 3.4% ต่อปี (BEA) การใช้จ่ายจริง ก.ย. แทบไม่โต อัตราการออมเหลือ 3.8%",
+    "ตลาดงานอ่อนลง: ก.ย. จ้างเพิ่ม 29,000 ตำแหน่ง ว่างงาน 4.2% (BLS 2 ต.ค.) ECI ไตรมาส 3 +3.4% ต่ำกว่าเงินเฟ้อ แปลว่าค่าจ้างจริงลด ตัวเลขจ้างงาน ต.ค. ออกศุกร์ 6 พ.ย.",
+    "น้ำมัน: Brent ปิด 30 ต.ค. $113.43 WTI $104.12 ทั้งเดือน ต.ค. Brent +13.6% (ข่าว) ตาม L008 ผู้ได้ประโยชน์คือผู้ผลิตน้ำมัน (มาร์จิ้นกลุ่มพลังงานไตรมาส 3 15.4% จาก 8.1% ปีก่อน FactSet) ผู้เสียประโยชน์คือผู้บริโภค ร้านอาหาร และบริษัทอาหาร/ของใช้ที่ต้นทุนขนส่งและบรรจุภัณฑ์แพงขึ้น",
+    "งบไตรมาส 3: รายงานแล้วเกินครึ่ง กำไรโต 31.6% (LSEG ผ่านข่าว Reuters 31 ต.ค.) แต่ศุกร์ 30 ต.ค. S&P 500 −1.8% Nasdaq −2.9% จากความกังวลเงินลงทุน AI หลังงบ Alphabet/Amazon และ Intel ร่วงแรง",
+    "สัปดาห์นี้: อ. 3 พ.ย. เลือกตั้งกลางเทอม (มีการเลือกกรรมการกำกับสาธารณูปโภคใน 9 รัฐ กระทบ VST) ศ. 6 พ.ย. จ้างงาน ท่าที neutral เงินสดที่เหมาะ 35–45% (ตอนนี้ 43.9%) พลังงานได้ประโยชน์แต่ระวังหุ้นวัฏจักรช่วงกำไรใกล้ยอด สุขภาพและสินค้าจำเป็นตั้งรับได้ แต่สินค้าจำเป็นโดนต้นทุนพลังงาน"
+   ],
+   "sources": [
+    {
+     "title": "Federal Reserve FOMC statement, 28 Oct 2026",
+     "url": "https://federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm"
+    },
+    {
+     "title": "Federal Reserve H.15",
+     "url": "https://www.federalreserve.gov/releases/h15/"
+    },
+    {
+     "title": "BEA GDP Q3 2026 advance estimate",
+     "url": "https://bea.gov/news/2026/gdp-advance-estimate-3rd-quarter-2026"
+    },
+    {
+     "title": "BEA Personal Income and Outlays, September 2026",
+     "url": "https://bea.gov/news/2026/personal-income-and-outlays-september-2026"
+    },
+    {
+     "title": "BLS Employment Situation, September 2026",
+     "url": "https://www.bls.gov/news.release/archives/empsit_10022026.htm"
+    },
+    {
+     "title": "BLS ECI Q3 2026",
+     "url": "https://www.bls.gov/news.release/archives/eci_10302026.htm"
+    },
+    {
+     "title": "FactSet: Q3 2026 net profit margin",
+     "url": "https://insight.factset.com/sp-500-reporting-second-highest-net-profit-margin-in-more-than-15-years-for-q3-2026"
+    },
+    {
+     "title": "FinanceFeeds: Brent $113.43 (ข่าว)",
+     "url": "https://financefeeds.com/brent-crude-oil-price-113-saturday-week-ahead-after-october-13-6-percent-gain-hormuz-mines-midterms-jobs-report-bull-120-bear-106/"
+    },
+    {
+     "title": "Reuters via Devdiscourse: Wall St Week Ahead (ข่าว)",
+     "url": "https://www.devdiscourse.com/article/international/3999839-wall-st-week-ahead-midterm-us-elections-earnings-jobs-data-loom-for-ai-wary-stock-market"
+    }
+   ]
+  },
+  {
+   "agent": "scout",
+   "title": "รายการอยากได้ยังแพงหรือติดเรื่อง: HRMY รอคดีและงบ ADMA รองบ PG กับ UNH วิ่งไปแล้ว SLB เป็นหุ้นพลังงานที่ยังไม่วิ่ง",
+   "points": [
+    "HRMY: วันที่ 22 ต.ค. ลงราว 6–7% เพราะเป็นวันแถลงปิดคดีสิทธิบัตร WAKIX กับ AET Pharma ที่ศาล Delaware (ยังไม่ตัดสิน) ไขปริศนาจากสัปดาห์ก่อนได้แล้ว การเปลี่ยน CEO เป็นไปตามแผน (COO Peter Anastasiou ขึ้นแทน 1 ม.ค. 2027) และคงเป้ายอดขาย WAKIX ปี 2026 $1.0–1.04B งบ 4 พ.ย. ก่อนตลาดเปิด",
+    "ADMA: ASCENIV ไตรมาส 2 $102.9M (+24%) คงเป้าปี 2026 รายได้ $530–560M แต่ยอดขายรวมโตแค่ 2% เพราะ BIVIGAM −48.5% ราคา $11.41 งบ 4 พ.ย. หลังตลาดปิด",
+    "ตาม L008 หุ้นตั้งรับที่ 'ยังไม่ถูกซื้อแรง' หายากขึ้น: PG วิ่งขึ้นหลังงบ 22 ต.ค. (ยอดขาย organic +4% แต่ core EPS +1%) UNH ขึ้นมาแล้วราว 24% ในปีนี้หลังงบไตรมาส 3 ดีกว่าคาด (EPS ปรับปรุง $4.69 ขึ้นเป้าทั้งปีเป็นอย่างน้อย $20.50)",
+    "SLB (บริการแหล่งน้ำมัน) เป็นผู้ได้ประโยชน์จากน้ำมันแพงที่ยังไม่วิ่ง: ต่ำกว่าจุดสูง ส.ค. ราว 11% งบไตรมาส 3 ดีกว่าคาด ได้สัญญาใหม่กับ TotalEnergies และ Aramco กำไรปี 2026 คาดลด 16.6% แล้วปี 2027 ฟื้น 26.9% หนี้ต่อทุน 0.47 แต่คุ้มเสี่ยงที่ราคาตอนนี้แค่ราว 1:1.2 ราคาที่คุ้ม 1:2 ราว $52 (ยังไม่มี stage และราคาปิดยืนยันได้แค่จากข้อมูลรายเดือน)",
+    "ตัดออก: CHD (ราคาเกินเป้าเฉลี่ย P/E 33.8) CL (P/E 36.7) KDP (หนี้สุทธิราว 4.5 เท่าของ EBITDA) ELV (หนี้ต่อ EBITDA 3.47 สมาชิกลด 487k ใกล้จุดสูงรอบปี)"
+   ],
+   "sources": [
+    {
+     "title": "GuruFocus: HRMY shares drop amid patent litigation in Delaware",
+     "url": "https://www.gurufocus.com/news/9137788/harmony-biosciences-hrmy-shares-drop-amid-patent-litigation-in-delaware"
+    },
+    {
+     "title": "QuiverQuant: Harmony names Peter Anastasiou CEO",
+     "url": "https://www.quiverquant.com/news/Harmony+Biosciences+Names+Peter+Anastasiou+CEO+Effective+January+1,+2027;+Reaffirms+2026+WAKIX+Guidance"
+    },
+    {
+     "title": "RTTNews: ADMA Q2 2026 results",
+     "url": "https://www.rttnews.com/3677148/adma-biologics-surges-on-q2-results-reiterates-fy26-guidance-eyes-continued-asceniv-sales-growth.aspx"
+    },
+    {
+     "title": "stockanalysis ADMA forecast",
+     "url": "https://stockanalysis.com/stocks/adma/forecast/"
+    },
+    {
+     "title": "Trefis: What just happened to SLB stock",
+     "url": "https://www.trefis.com/stock/slb/articles/620545/what-just-happened-to-slb-stock/2026-10-26"
+    },
+    {
+     "title": "stockanalysis SLB forecast",
+     "url": "https://stockanalysis.com/stocks/slb/forecast/"
+    },
+    {
+     "title": "XTB: UNH Q3 2026 beats and raises guidance",
+     "url": "https://www.xtb.com/en/market-analysis/unitedhealth-group-shares-gain-3-after-stronger-than-expected-earnings-and-guidance"
+    },
+    {
+     "title": "stockanalysis UNH statistics",
+     "url": "https://stockanalysis.com/stocks/unh/statistics/"
+    },
+    {
+     "title": "stockanalysis UNH forecast",
+     "url": "https://stockanalysis.com/stocks/unh/forecast/"
+    },
+    {
+     "title": "TIKR: Keurig Dr Pepper leverage",
+     "url": "https://www.tikr.com/blog/keurig-dr-pepper-fell-29-from-its-high-is-2026-the-turning-point"
+    },
+    {
+     "title": "stockanalysis ELV statistics",
+     "url": "https://stockanalysis.com/stocks/elv/statistics/"
+    }
+   ]
+  },
+  {
+   "agent": "lens",
+   "title": "เช็กลิสต์: ตัวเลข HRMY และ PG แย่กว่าที่ทีมเขียนไว้สัปดาห์ก่อน ผู้บริหาร VST ขายตามแผน TOST เป้าเฉลี่ยลดเล็กน้อย",
+   "points": [
+    "TSM: เป้าเฉลี่ย 21 คนยังเป็น $584.39 EPS ปี 2027 คาด NT$149.17 (+34.9%) แทบเท่าเดิม มูลค่า Lynch $23.45 × 25 = $586.4 เป้าจึงคงที่ $584.39 Lynch ratio ~1.49 (P/E ล่วงหน้า 23.4) เงินสดสุทธิ ยอดขาย ส.ค. +53% ก.ย. +55% ยอด ต.ค. ออกราว 10 พ.ย.",
+    "VST: Scott Hudson ขาย 44,444 หุ้น (8 ก.ย.) และ 22,222 หุ้น (6 ต.ค.) ทั้งสองแบบฟอร์ม 4 ติ๊กช่องแผนขายล่วงหน้า 10b5-1 และยังถืออยู่ 308,915 หุ้น จึงไม่นับเป็น 'ผู้บริหารเริ่มขายหุ้น' แต่นักวิเคราะห์ลดเป้าเป็นแถว 21–28 ต.ค. (CIBC $201→181, Scotiabank $207→189, Wells Fargo $212→198) เป้าเฉลี่ย $202.43 (MarketBeat 20 คน) หนี้ต่อทุน ~3.57 ไม่ผ่านกฎหนี้",
+    "TOST: คดี FTC + 8 รัฐไม่ระบุยอดเงินที่เรียก ค่าธรรมเนียม $0.99 เก็บแค่ ก.ย. 2021–ก.ค. 2023 สิ่งที่เสี่ยงจริงคือค่ายกเลิกสัญญาก่อนกำหนดและบริการเสริม ซึ่งงบไม่ได้แยกออกมา ไตรมาส 2 ARR +25% ร้านใหม่สุทธิ ~9,500 ไม่มีหนี้ เงินสด $1.71B ตาม L001 EBITDA ปรับปรุงไตรมาส 2 มีเงินคืนภาษีนำเข้า ~$10M ตัดแล้วโต ~31% Lynch ratio ~0.97 (โต 25% ตัวที่ต่ำกว่า ÷ P/E 25.8) เป้าเฉลี่ยลดเป็น $38.22 (TickFlow 28 คน)",
+    "PG (แก้ตัวเลขสัปดาห์ก่อน): 27.7 คือค่าเฉลี่ย P/E 10 ปี ไม่ใช่ค่ากลาง ค่ากลางจาก P/E สิ้นปีงบ 10 ปี (wisesheets) คือ 23.8 ส่วน P/E ย้อนหลังแบบ GAAP ~24.3 จึงไม่ผ่านกฎหุ้นแข็งแกร่ง หนี้ผ่าน (S&P AA- / Moody's Aa3 ตามเอกสารหุ้นกู้ 26 ต.ค. 2026) แต่คาดการณ์ EPS core ปีงบ 2027 โตแค่ 0–3% มาร์จิ้นขั้นต้น −150 bps เป้า (ต่ำสุด $157.78 TickFlow; มูลค่า Lynch $6.89 × 23.8 = $163.98) ต่ำกว่าราคา",
+    "HRMY (แก้ตัวเลขสัปดาห์ก่อน): EPS ปี 2027 $7.00 ที่ใช้ครั้งก่อนหาแหล่งยืนยันรอบนี้ไม่ได้ ตัวที่ต่ำกว่าที่หาได้คือ EPS ปีหน้า $4.17 (+10.96%, valueinvesting.io) ตาม L005 ใช้ตัวต่ำ Lynch ratio ~0.88 ไม่ถึง 1 มาร์จิ้นขั้นต้นลดจาก ~81% เป็น 75.8% (ค่าลิขสิทธิ์) เงินสดสุทธิ ~$808M เป้าเฉลี่ยต่ำสุด $45.25 (17 คน)",
+    "ADMA: Lynch ratio ~1.13 (EPS ปี 2027 +18.4% ÷ P/E ~16.3) หนี้ต่อทุน 0.50 เท่าเพดานพอดีและเป็นหนี้ธนาคาร โตต่ำกว่า 20% ที่เป็นเกณฑ์หุ้นโตเร็ว UNH: หนี้ต่อทุน 0.70 หนี้สุทธิต่อ EBITDA 1.68 แต่ยังยืนยันอันดับเครดิตปัจจุบันไม่ได้ และมี P/E ย้อนหลังแค่ 5 ปี (23.26 เทียบค่ากลาง 24.8) จึงยังตัดสินตามกฎไม่ได้",
+    "PEP อยู่ stage 4 ซื้อไม่ได้ ไม่ได้ตรวจตัวเลขใหม่ และคำสั่งตั้งซื้อ $123.87 หมดอายุวันนี้ (ปิด $137.34)"
+   ],
+   "sources": [
+    {
+     "title": "stockanalysis TSM forecast",
+     "url": "https://www.stockanalysis.com/stocks/tsm/forecast/"
+    },
+    {
+     "title": "TSMC monthly revenue 2026",
+     "url": "https://investor.tsmc.com/english/monthly-revenue/2026"
+    },
+    {
+     "title": "VST Form 4 Hudson 6 Oct 2026 (SEC)",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001692819/000172855326000008/wk-form4_1791416355.xml"
+    },
+    {
+     "title": "VST Form 4 Hudson 8 Sep 2026 (SEC)",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001692819/000172855326000006/wk-form4_1789072599.xml"
+    },
+    {
+     "title": "Vistra 10-Q Q2 2026 (SEC)",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001692819/000169281926000019/vistra-20260630.htm"
+    },
+    {
+     "title": "MarketBeat VST price target",
+     "url": "https://www.marketbeat.com/stocks/NYSE/VST/price-target/"
+    },
+    {
+     "title": "FTC press release: Toast",
+     "url": "https://ftc.gov/news-events/news/press-releases/2026/10/ftc-states-take-action-against-toast-inc-over-hidden-unauthorized-fees-deceptive-subscription"
+    },
+    {
+     "title": "Toast Q2 2026 results (SEC 8-K)",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001650164/000165016426000162/tost-20260630xexhibit991.htm"
+    },
+    {
+     "title": "TickFlow TOST forecast",
+     "url": "https://tickflow.io/stock/TOST/forecast"
+    },
+    {
+     "title": "P&G Q1 FY27 results (SEC 8-K)",
+     "url": "https://www.sec.gov/Archives/edgar/data/0000080424/000008042426000250/fy2627q1jas8-kexhibit991.htm"
+    },
+    {
+     "title": "P&G FWP 26 Oct 2026 (ratings)",
+     "url": "https://www.sec.gov/Archives/edgar/data/0000080424/000162828026067324/pg-usdfwpoct2026xnew.htm"
+    },
+    {
+     "title": "wisesheets PG P/E history",
+     "url": "https://wisesheets.io/pe-ratio/PG"
+    },
+    {
+     "title": "TickFlow PG forecast",
+     "url": "https://tickflow.io/stock/PG/forecast"
+    },
+    {
+     "title": "Harmony Q2 2026 results (SEC 8-K)",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001802665/000110465926090086/hrmy-20260804xex99d1.htm"
+    },
+    {
+     "title": "valueinvesting HRMY estimates",
+     "url": "https://valueinvesting.io/HRMY/estimates"
+    },
+    {
+     "title": "stockanalysis ADMA statistics",
+     "url": "https://stockanalysis.com/stocks/adma/statistics/"
+    },
+    {
+     "title": "stockanalysis UNH ratios",
+     "url": "https://stockanalysis.com/stocks/unh/financials/ratios/"
+    }
+   ]
+  },
+  {
+   "agent": "tempo",
+   "title": "สัปดาห์งบและเลือกตั้ง: TSM ทำจุดต่ำใหม่ 50 วันด้วยวอลุ่มสูง VST ใกล้จุดทบทวน ตัวเลือกใหม่ยืดตัวใกล้จุดสูง ไม่มีคำสั่งไหนต้องรีบ",
+   "stance": "ระวัง เลือกจังหวะ",
+   "points": [
+    "TSM (stage 3): ปิด $406.13 วันที่ 30 ต.ค. −5.95% ด้วยวอลุ่ม 2.1 เท่า เป็นราคาปิดต่ำสุดใหม่รอบ 50 วัน ใต้เส้น 30 สัปดาห์ ($419.39) และใต้เส้น 50 วัน (~$435) MACD ใต้เส้นสัญญาณตั้งแต่ 9 ต.ค. หลังทำจุดสูง $485.80 (L007) แรงสัมพัทธ์ 1 เดือนเทียบ SPY −10% เป็นธงเตือนให้ Lens/Story ดูเรื่อง ห้ามเติม",
+    "VST (stage 1): MACD ตัดลง 19 ต.ค. หลังวิ่งถึง $166.72 (L007) และ 22 ต.ค. −9.8% ด้วยวอลุ่ม 2.1 เท่า ราคา $138.37 อยู่บนฐาน $135.66–137.9 จุดทบทวน $132.9 ห่างแค่ 4.1% น้อยกว่าการแกว่ง 1 วัน (ATR ~5.4%) ไม่ผ่าน L003 งบ 6 พ.ย. อาจทำให้ปิดต่ำกว่าได้ง่าย",
+    "TOST (stage 2): พักตัวในกรอบ $29.85–33.42 เหนือเส้น 30 สัปดาห์ที่ชี้ขึ้น ATR ~3.9% จุดทบทวน $28.2 ห่าง ~11% งบ 3 พ.ย. หลังตลาดปิด",
+    "L006: PG ทำจุดสูง $165.59 (22 ต.ค.) แต่ RSI 74 ต่ำกว่าจุดเดิม 75 ADMA ทำราคาปิดสูงใหม่ $11.75 (29 ต.ค.) แต่ RSI 72 ต่ำกว่า 73 และยืดเหนือเส้น 30 สัปดาห์ที่ยังชี้ลงถึง 22% KO ใกล้จุดสูง $95.34 RSI ไม่ทำจุดสูงใหม่ ทั้งสามตัวห้ามไล่ราคา ถ้าจะซื้อให้รอย่อ (PG ~$158.3, ADMA ~$10.95, KO ~$91.7)",
+    "PEP อยู่ stage 4 (ใต้เส้น 30 สัปดาห์ $141.46 ที่ชี้ลง) ซื้อไม่ได้ จะพิจารณาใหม่เมื่อปิดยืนเหนือเส้น 30 สัปดาห์และเส้นแบนลง UNH อ่านเองว่า stage 1 (เส้นแบน ราคาเหนือ ~4%) ยืนยัน stage 2 ถ้าปิดทะลุ $425 ด้วยวอลุ่มสูง HRMY stage 2 แต่อยู่ใต้เส้น 50 วัน",
+    "ปฏิทิน: อ. 3 พ.ย. เลือกตั้งกลางเทอม / TOST งบ 3 พ.ย. หลังปิด / HRMY 4 พ.ย. ก่อนเปิด / ADMA 4 พ.ย. หลังปิด / VST 6 พ.ย. / จ้างงาน ศ. 6 พ.ย. 8:30 น. นิวยอร์ก ไม่มีคำสั่งไหนจำเป็นต้องเติมที่ราคาปิดจันทร์ 2 พ.ย. หมายเหตุ: หน้าประวัติราคาของ stockanalysis เปิดไม่ได้รอบนี้ จึงใช้ราคารายวันจาก TipRanks/Stockscan ซึ่งตรงกับ state.json ทุกตัว"
+   ],
+   "sources": [
+    {
+     "title": "TipRanks TSM historical prices",
+     "url": "https://www.tipranks.com/stocks/tsm/historical-prices"
+    },
+    {
+     "title": "TipRanks VST historical prices",
+     "url": "https://www.tipranks.com/stocks/vst/historical-prices"
+    },
+    {
+     "title": "Stockscan TOST price history",
+     "url": "https://stockscan.io/stocks/TOST/price-history"
+    },
+    {
+     "title": "TipRanks HRMY historical prices",
+     "url": "https://www.tipranks.com/stocks/hrmy/historical-prices"
+    },
+    {
+     "title": "TipRanks PG historical prices",
+     "url": "https://www.tipranks.com/stocks/pg/historical-prices"
+    },
+    {
+     "title": "Stockscan ADMA price history",
+     "url": "https://stockscan.io/stocks/ADMA/price-history"
+    },
+    {
+     "title": "TipRanks PEP historical prices",
+     "url": "https://www.tipranks.com/stocks/pep/historical-prices"
+    },
+    {
+     "title": "TipRanks UNH historical prices",
+     "url": "https://www.tipranks.com/stocks/unh/historical-prices"
+    },
+    {
+     "title": "TipRanks KO historical prices",
+     "url": "https://www.tipranks.com/stocks/ko/historical-prices"
+    },
+    {
+     "title": "Toast Q3 2026 release date",
+     "url": "https://finviz.com/news/404853/toast-announces-release-date-of-third-quarter-2026-financial-results"
+    },
+    {
+     "title": "Harmony Q3 2026 on Nov 4",
+     "url": "https://finviz.com/news/404537/harmony-biosciences-to-report-third-quarter-2026-financial-results-on-november-4-2026"
+    },
+    {
+     "title": "Vistra Q3 results on Nov 6",
+     "url": "https://finviz.com/news/396792/vistra-to-report-third-quarter-results-on-nov-6-2026"
+    }
+   ]
+  },
+  {
+   "agent": "story",
+   "title": "เรื่องของทั้ง 3 ตัวยังไม่พัง แต่ TOST มีคดี FTC และ VST เป้าถูกลดเป็นแถว ไม่มีการซื้อให้ค้านรอบนี้ แต่ค้านไอเดียที่เข้าใกล้ไว้ก่อน",
+   "points": [
+    "TSM: ทบทวนตาม L007 และ stage 3 ราคาลงตามหุ้นชิปทั้งกลุ่มที่ร่วงจากความกังวลเงินลงทุน AI หลังงบ Alphabet/Amazon และ Intel ไม่ใช่ข่าวบริษัท เป้าเฉลี่ยไม่เปลี่ยน EPS ปีหน้าไม่ลด ไม่มี 'ขายเมื่อ' ข้อไหนเกิด เรื่องยังอยู่",
+    "VST: ข้อสงสัยจากเช็กกลางสัปดาห์ตอบแล้ว ผู้บริหารขายตามแผน 10b5-1 จึงไม่ใช่ sellIf แต่เป้านักวิเคราะห์ถูกลดหลายราย และการเลือกตั้งกรรมการกำกับสาธารณูปโภค 3 พ.ย. อาจเปลี่ยนภาพราคาไฟ เรื่องยังไม่พัง ตัวตัดสินคืองบ 6 พ.ย. (เป้า EBITDA หนี้หลังซื้อ Cogentrix)",
+    "TOST: คดี FTC + 8 รัฐ (29 ต.ค.) กล่าวหาค่าธรรมเนียมซ่อน การต่ออายุอัตโนมัติที่ยกเลิกยาก และโฆษณาบริการ 24/7 เกินจริง เมืองซานฟรานซิสโกฟ้องแยกอีกคดี Toast สู้คดี ยังไม่ใช่ sellIf (ร้านใหม่สุทธิ ARR) แต่ถ้าต้องเลิกค่ายกเลิกสัญญา 'ร้านเปลี่ยนเจ้ายาก' ในเรื่องเราจะอ่อนลง งบ 3 พ.ย. ต้องดูร้านใหม่สุทธิ ≥6,000 และสิ่งที่ผู้บริหารพูดเรื่องคดี",
+    "ค้าน HRMY ล่วงหน้า: (1) คดี AET ยังไม่ตัดสิน ถ้าแพ้ยาสามัญเข้าเร็ว ทั้งที่ยอดขายเกือบทั้งหมดมาจาก WAKIX (2) มาร์จิ้นขั้นต้นลด 81% → 75.8% (3) การเติบโต EPS ปีหน้าที่ยืนยันได้แค่ ~11% ทำให้ P/E ต่ำอาจไม่ใช่ของถูก",
+    "ค้าน ADMA ล่วงหน้า: (1) ยอดขายรวมโต 2% (2) หนี้ต่อทุนชนเพดาน 0.50 เป็นวงเงินกู้ธนาคาร (3) เป้าเฉลี่ยมาจาก 4 คนตั้งแต่ ส.ค. (4) งบ 4 พ.ย. หลังตลาดปิด ซึ่งคำสั่งที่วางวันนี้ยกเลิกตามผลงบไม่ทัน"
+   ],
+   "sources": [
+    {
+     "title": "FTC press release: Toast",
+     "url": "https://ftc.gov/news-events/news/press-releases/2026/10/ftc-states-take-action-against-toast-inc-over-hidden-unauthorized-fees-deceptive-subscription"
+    },
+    {
+     "title": "NRN: Toast sued by the FTC over hidden fees and 24/7 support claims",
+     "url": "https://www.nrn.com/restaurant-technology/toast-is-sued-by-the-ftc-over-alleged-hidden-fees-24-7-support-claims"
+    },
+    {
+     "title": "SF City Attorney sues Toast",
+     "url": "https://www.sf.gov/vi-vn/news-city-attorney-chiu-sues-toast-for-trapping-restaurants-in-subscriptions-riddled-with-unauthorized-fees"
+    },
+    {
+     "title": "American Banker: why the FTC and 8 states are suing Toast",
+     "url": "https://www.americanbanker.com/payments/news/why-the-ftc-and-8-states-are-suing-payments-fintech-toast"
+    },
+    {
+     "title": "TheNextWeb: TSMC record revenue, stock falls on AI capex fears",
+     "url": "https://thenextweb.com/news/tsmc-record-revenue-stock-falls-ai-capex-fears"
+    },
+    {
+     "title": "Heygotrade: TSM falls as chip stocks slide",
+     "url": "https://www.heygotrade.com/en/news/tsmc-tsm-stock-news-october-30-2026/"
+    },
+    {
+     "title": "VST Form 4 Hudson 6 Oct 2026 (SEC)",
+     "url": "https://www.sec.gov/Archives/edgar/data/0001692819/000172855326000008/wk-form4_1791416355.xml"
+    },
+    {
+     "title": "GuruFocus: HRMY patent litigation",
+     "url": "https://www.gurufocus.com/news/9137788/harmony-biosciences-hrmy-shares-drop-amid-patent-litigation-in-delaware"
+    }
+   ]
+  },
+  {
+   "agent": "guard",
+   "title": "ไม่มีคำสั่ง พอร์ตอยู่ในกติกาทุกข้อ เงินสด 43.9% มีเหตุผล",
+   "points": [
+    "หลังประชุม (ราคา state.json ปิด 30 ต.ค. มูลค่า $9,823.87): ถือ 3 ตัว TSM 20.0% VST 18.8% TOST 17.3% เงินสด 43.9% ไม่มีตัวไหนเกิน 25% เทค 37.3% (เพดาน 40% ห่าง 2.7 จุด) พลังงาน 18.8% สุขภาพ 0% สินค้าจำเป็น 0%",
+    "L004 สัดส่วนหมวด (ฐานทั้งพอร์ตรวมเงินสด): หุ้นโตเร็ว 37.3% (เพดาน 70%) วัฏจักร 18.8% เงินสด 43.9% (เพดาน 50%) เกิน 30% เพราะไม่มีตัวใหม่ที่ผ่านกฎซื้อครบและไม่มีเหตุการณ์ใหญ่รออยู่ก่อนคำสั่งจะเติม",
+    "ระยะ Weinstein: ไม่มีหุ้นที่ถืออยู่ใน stage 4 TSM อยู่ stage 3 จึงห้ามเติมจนกว่าจะเห็นเหตุผลที่เรื่องเร่งขึ้น PEP อยู่ stage 4 คำสั่งซื้อเดิมหมดอายุวันนี้ ห้ามตั้งใหม่",
+    "ตรวจตัวเลขเอง: ADMA ผ่านคุ้มเสี่ยงบนกระดาษ (เป้า $17 จุดทบทวน $9.13 = 1:2.45) แต่จะไม่อนุมัติคำสั่งก่อนงบ 4 พ.ย. หลังตลาดปิด เพราะเช็กกลางสัปดาห์ (พุธก่อนตลาดเปิด) จะยังไม่เห็นงบ จึงยกเลิกตามผลงบไม่ได้ (กติกา: อย่าวางคำสั่งที่ข่าวก่อนรอบเติมอาจทำให้เรื่องพัง, L003) และเป้าเฉลี่ยมาจาก 4 คนตั้งแต่ ส.ค.",
+    "HRMY ไม่ผ่าน Lynch ratio ≥1 เมื่อใช้การเติบโตตัวต่ำที่หาได้ (~0.88, L005) PG ไม่ผ่าน P/E เทียบค่ากลาง 10 ปี (24.3 > 23.8) และเป้าต่ำกว่าราคา UNH คุ้มแค่ 1:1.4 และยังยืนยันอันดับเครดิตไม่ได้ VST ห้ามเติม (หนี้ไม่ผ่าน และคุ้มเสี่ยง 1:11.4 หลอกตาเพราะใกล้จุดทบทวน)",
+    "รับรองการถือทั้ง 3 ตัว ไม่มีคำสั่งใดที่ต้องตรวจเรื่องเวลา (ไม่มีคำสั่งช้า ไม่มีราคาผิดใน priceChecks)"
+   ],
+   "sources": [
+    {
+     "title": "Let Claude Trade: state.json",
+     "url": "https://let-claude-trade.dreamnattapat.workers.dev/dream/state.json"
+    },
+    {
+     "title": "stockanalysis ADMA forecast",
+     "url": "https://stockanalysis.com/stocks/adma/forecast/"
+    },
+    {
+     "title": "valueinvesting HRMY estimates",
+     "url": "https://valueinvesting.io/HRMY/estimates"
+    }
+   ]
+  },
+  {
+   "agent": "captain",
+   "title": "สัปดาห์งบและเลือกตั้ง: ถือ 3 ตัว ไม่มีคำสั่ง ถือเงินสดรอผลงบ",
+   "points": [
+    "คุ้มเสี่ยงรายสัปดาห์ที่ราคา state.json: TSM (584.39 − 406.13) ÷ (406.13 − 371.35) = 1:5.1 / VST (200.97 − 138.37) ÷ (138.37 − 132.9) = 1:11.4 (ห่างจุดทบทวน 4.1% ตัวเลขหลอกตา) / TOST (38.22 − 31.68) ÷ (31.68 − 28.2) = 1:1.9 (เป้าลดตามเป้าเฉลี่ยใหม่ ไม่ใช่เหตุให้ลดตามกติกาใหม่)",
+    "ถือทั้ง 3 ตัว: ไม่มี sellIf ข้อไหนเกิด TSM ลงตามกลุ่มชิป VST ข้อสงสัยเรื่องผู้บริหารขายหุ้นตอบแล้ว (10b5-1) TOST คดี FTC เป็นความเสี่ยงที่ต้องตามแต่ยังไม่ทำให้เรื่องพัง ทั้งสามตัวมีงบหรือข่าวใหญ่ในสัปดาห์นี้ ให้เช็กกลางสัปดาห์ 4 พ.ย. อ่านงบ TOST",
+    "ไม่ซื้อใหม่: ตัวที่ผ่านคุ้มเสี่ยงบนกระดาษ (HRMY, ADMA) ติดงบ 4 พ.ย. และ HRMY ไม่ผ่าน Lynch ratio เมื่อใช้ตัวเลขที่ซื่อตรง ตัวตั้งรับ (PG, UNH, KO) วิ่งขึ้นไปแล้วตาม L006/L008 PEP อยู่ stage 4 ถือเงินสด 43.9% ตามที่ Atlas แนะนำ 35–45%",
+    "ยอมรับข้อผิดพลาด: สัปดาห์ก่อนเราเขียน HRMY Lynch ratio 2.2–2.8 จาก EPS ปี 2027 $7.00 และ PG ค่ากลาง P/E 27.7 ซึ่ง Lens ตรวจแล้วตัวแรกหาแหล่งยืนยันไม่ได้ ตัวหลังเป็นค่าเฉลี่ย รายการอยากได้จึงคิดใหม่ทั้งหมด"
+   ]
+  }
+ ],
+ "decisions": [
+  {
+   "ticker": "TSM",
+   "action": "hold",
+   "category": "fast-grower",
+   "theme": "tech",
+   "stage": 3,
+   "about": "โรงงานรับจ้างผลิตชิปที่ใหญ่ที่สุดในโลก ผลิตชิป AI ให้ Nvidia, Apple และ AMD",
+   "why": "ถือ ไม่เพิ่ม เรื่องยังแข็ง (เป้าเฉลี่ยและกำไรปีหน้าไม่เปลี่ยน) ราคาลงตามหุ้นชิปทั้งกลุ่ม คุ้มเสี่ยง 1:5.1 แต่อยู่ stage 3 ใต้เส้น 50 วัน และเทคใกล้ 40% จึงไม่เติม",
+   "story": "ผู้ผลิตชิปขั้นสูงเกือบรายเดียวของโลก ยอดขาย ม.ค.–ก.ย. 2026 +41% (ส.ค. +53% ก.ย. +55%) EPS ปี 2027 คาดโต 34.9% Lynch ratio ~1.49 เงินสดสุทธิ สิ่งที่ต้องเกิดคือการลงทุน AI ทั่วโลกต้องยังโต",
+   "sellIf": "ลดเป้ารายได้ อัตรากำไรขั้นต้นต่ำกว่า 60% ยอดขายรายเดือนโตต่ำกว่า 15% ติดกัน 3 เดือน Lynch ratio ต่ำกว่า ~0.7 โดยการเติบโตไม่เร่งขึ้น หรือมีเหตุทางทหารในช่องแคบไต้หวัน",
+   "priceUsd": 406.13,
+   "targetUsd": 584.39,
+   "stopUsd": 371.35,
+   "targetWhy": "ตัวที่ต่ำกว่าระหว่างเป้าเฉลี่ย 21 คน $584.39 (stockanalysis) กับมูลค่า Lynch EPS ปี 2027 $23.45 (NT$149.17 ÷ 31.8 × 5) × 25 = $586.4 กำไรปีหน้าแทบไม่ขยับ จึงคงเป้า",
+   "stopWhy": "คงจุดทบทวน $371.35 (ไม่ย้ายลงตามจุดต่ำใหม่เพื่อไม่ให้คุ้มเสี่ยงสวยขึ้นเอง) ห่างราคา 8.6% หรือราว 2.4 เท่าของ ATR (~3.6%) ถ้าปิดต่ำกว่าให้ทบทวนเรื่อง ไม่ใช่ขายอัตโนมัติ",
+   "review": "ทบทวนตาม stage 3, L007 และธงเตือนของ Tempo (ราคาปิดต่ำสุดใหม่ 50 วันด้วยวอลุ่ม 2.1 เท่าวันที่ 30 ต.ค.): หุ้นชิปทั้งกลุ่มร่วงจากความกังวลเงินลงทุน AI หลังงบ Alphabet/Amazon และ Intel ไม่มีข่าวร้ายของบริษัท เป้าเฉลี่ยคงที่ EPS ปีหน้าขยับขึ้นเล็กน้อย (148.88 → 149.17) ไม่มี sellIf เกิด จึงถือ แต่ไม่เติมระหว่าง stage 3",
+   "lessons": [
+    "L003",
+    "L004",
+    "L007"
+   ]
+  },
+  {
+   "ticker": "VST",
+   "action": "hold",
+   "category": "cyclical",
+   "theme": "energy",
+   "stage": 1,
+   "about": "ผู้ผลิตไฟฟ้ารายใหญ่ในสหรัฐฯ จากก๊าซและนิวเคลียร์ ขายไฟให้ทั้งบ้านเรือนและศูนย์ข้อมูล",
+   "why": "ถือ ห้ามเติม เรื่องยังไม่พัง ข้อสงสัยเรื่องผู้บริหารขายหุ้นตอบแล้ว (ขายตามแผน 10b5-1) แต่นักวิเคราะห์ลดเป้าหลายราย หนี้ไม่ผ่านกฎใหม่ และราคาห่างจุดทบทวนแค่ 4.1% ก่อนงบ 6 พ.ย.",
+   "story": "ความต้องการไฟจากศูนย์ข้อมูลทำให้ผลิตไฟได้ราคาดี มีสัญญาขายไฟนิวเคลียร์ระยะยาว และซื้อหุ้นคืน ($702M ครึ่งปีแรก) เป็นหุ้นวัฏจักรที่กำไรตามราคาไฟ จุดอ่อนคือหนี้สุทธิ ~$19.2B (หนี้ต่อทุน ~3.57) และจะเพิ่มหลังซื้อ Cogentrix",
+   "sellIf": "หนี้สุทธิต่อ EBITDA เกิน 4 เท่าหลังซื้อ Cogentrix ลดเป้า EBITDA ในงบ 6 พ.ย. ผู้บริหารระดับสูงขายหุ้นนอกแผนล่วงหน้า หรือกำไรดูใกล้จุดสูงสุดของวัฏจักร (กำไรปีหน้าคาดลด ราคาไฟล่วงหน้าลง)",
+   "priceUsd": 138.37,
+   "targetUsd": 200.97,
+   "stopUsd": 132.9,
+   "targetWhy": "คงเป้า $200.97 (EPS ปี 2027 $10.37 × P/E 19.38 จากรายงาน 26 ต.ค.) ซึ่งต่ำกว่าเป้าเฉลี่ยใหม่ $202.43 (MarketBeat 20 คน) เป็นหุ้นวัฏจักร P/E หลอกตาได้ การเติบโตที่หาได้รอบนี้ต่างกันมาก (11.5–29.4%) จึงยังไม่ขยับจนเห็นเป้า EBITDA ในงบ 6 พ.ย.",
+   "stopWhy": "คงจุดทบทวน $132.9 (ราคาปิดต่ำสุดรอบ 50 วัน $135.66 − 2%) ไม่ย้ายลงก่อนงบ เพื่อให้ตัวเลขคุ้มเสี่ยงไม่สวยเกินจริง ห่างราคา 4.1% น้อยกว่าการแกว่ง 1 วัน (~5.4%) จึงมีโอกาสแตะสูง",
+   "review": "ทบทวน: (1) ห่างจุดทบทวน 4.1% คุ้มเสี่ยง 1:11.4 หลอกตา ห้ามใช้เป็นเหตุผลเติม (2) L007: MACD ตัดลง 19 ต.ค. หลังวิ่งถึง $166.72 และ 22 ต.ค. −9.8% ด้วยวอลุ่มสูง ไม่พบข่าวร้ายของบริษัท (3) ผู้บริหารฝ่ายค้าปลีกขายตามแผน 10b5-1 ทั้งสองครั้งและยังถือ 308,915 หุ้น จึงไม่ใช่ sellIf (4) เป้านักวิเคราะห์ถูกลด (CIBC $181, Scotiabank $189, Wells Fargo $198) เป็นสัญญาณให้ระวังแต่ยังไม่ใช่เรื่องพัง (5) หนี้ไม่ผ่านกฎหนี้ใหม่ ซื้อก่อน 26 ต.ค. จึงไม่ขายเพราะข้อนี้ แต่ห้ามเติม สรุป: ถือ ถ้างบ 6 พ.ย. ลดเป้า EBITDA หรือหนี้หลังดีลเกิน 4 เท่า ประชุม 9 พ.ย. ขาย",
+   "lessons": [
+    "L003",
+    "L005",
+    "L007"
+   ]
+  },
+  {
+   "ticker": "TOST",
+   "action": "hold",
+   "category": "fast-grower",
+   "theme": "tech",
+   "stage": 2,
+   "about": "ระบบขายหน้าร้าน (POS) และระบบรับชำระเงินสำหรับร้านอาหาร ใช้รับออร์เดอร์ เก็บเงิน และจัดการพนักงาน",
+   "why": "ถือ ไม่เพิ่ม ไม่ลด คดี FTC + 8 รัฐเป็นความเสี่ยงที่ต้องตาม แต่ยังไม่ใช่ sellIf ธุรกิจล่าสุดยังโต (ARR +25% ร้านใหม่สุทธิ ~9,500) งบ 3 พ.ย. คือตัวตัดสิน",
+   "story": "ร้านอาหารใหม่เข้ามาใช้ราว 9,500 ร้านต่อไตรมาส จ่ายค่าบริการรายเดือนและค่ารับชำระเงิน ไม่มีหนี้ เงินสด $1.71B ซื้อหุ้นคืน (หุ้นลด 2.5%) สิ่งที่ต้องเกิดคือเพิ่มร้านได้ปีละราว 20% และขยายกำไร",
+   "sellIf": "ร้านใหม่สุทธิต่ำกว่า 6,000 ร้านต่อไตรมาสติดกัน 2 ไตรมาส ARR โตต่ำกว่า 15% การเติบโตกำไรชะลอจน Lynch ratio ต่ำกว่า ~0.7 หรือคดี FTC บังคับให้เปลี่ยนสัญญาจนร้านย้ายออกจำนวนมาก (ร้านที่ใช้อยู่ลดลง)",
+   "priceUsd": 31.68,
+   "targetUsd": 38.22,
+   "stopUsd": 28.2,
+   "targetWhy": "เป้าเฉลี่ยนักวิเคราะห์ลดเป็น $38.22 (TickFlow 28 คน ต่ำกว่า MarketBeat $39.11) ต่ำกว่ามูลค่า Lynch EPS ปี 2027 $1.66 × 25 = $41.5 จะขยับขึ้นตามกำไรถ้างบ 3 พ.ย. ยืนยันการเติบโต",
+   "stopWhy": "คงจุดทบทวน $28.2 (ต่ำกว่าราคาปิดต่ำสุดรอบ 50 วัน $28.99 ราว 2.7%) ห่างราคา 11% หรือราว 2.8 เท่าของ ATR (~3.9%)",
+   "review": "ทบทวนคดี FTC (29 ต.ค.) และคุ้มเสี่ยงที่ลดเป็น 1:1.9: คดีไม่ระบุยอดเงิน ค่า $0.99 เลิกเก็บตั้งแต่ ก.ค. 2023 ความเสี่ยงจริงคือค่ายกเลิกสัญญาก่อนกำหนดและบริการเสริม ซึ่งอาจทำให้ 'ร้านเปลี่ยนเจ้ายาก' อ่อนลง Toast สู้คดี ยังไม่ใช่ sellIf ตาม L001 การเติบโต EBITDA ที่ตัดเงินคืนภาษีนำเข้าคือ ~31% Lynch ratio ~0.97 ยังเหนือเกณฑ์ขาย 0.7 คุ้มเสี่ยงต่ำลงเพราะเป้าเฉลี่ยลด ไม่ใช่เหตุให้ลดตามกติกา ถ้างบ 3 พ.ย. ร้านใหม่สุทธิต่ำกว่า 6,000 หรือเตือนเรื่องคดีแรง เช็กกลางสัปดาห์ 4 พ.ย. ทบทวนการขาย",
+   "lessons": [
+    "L001",
+    "L005"
+   ]
+  },
+  {
+   "ticker": "HRMY",
+   "action": "watch",
+   "category": "fast-grower",
+   "theme": "health",
+   "stage": 2,
+   "about": "ขายยา WAKIX รักษาโรคลมหลับ (ง่วงนอนผิดปกติ) และกำลังพัฒนายาตัวใหม่",
+   "why": "ไม่ซื้อ: เมื่อใช้การเติบโต EPS ปีหน้าตัวต่ำที่ยืนยันได้ (~11%) Lynch ratio ~0.88 ไม่ถึง 1 (L005) คดีสิทธิบัตรกับ AET ยังไม่ตัดสิน และงบ 4 พ.ย. ราคาที่คุ้ม 1:2 = (45.25 + 2 × 34.88) ÷ 3 ≈ $38.34 แต่ต้องผ่าน Lynch ratio ด้วย (ต้องการ EPS โตราว 12%+ ที่ P/E ปัจจุบัน) กลับมาดูหลังงบและผลคดี",
+   "priceUsd": 38.76,
+   "targetUsd": 45.25,
+   "stopUsd": 34.88,
+   "targetWhy": "ตัวที่ต่ำกว่าระหว่างเป้าเฉลี่ยต่ำสุดที่หาได้ $45.25 (valueinvesting 17 คน) กับมูลค่า Lynch $4.17 × 10.96 = $45.7",
+   "stopWhy": "ราคา −10% = $34.88 ต่ำกว่าราคาปิดต่ำสุด 50 วัน $36.03 − 2% = $35.31",
+   "lessons": [
+    "L005",
+    "L003"
+   ]
+  },
+  {
+   "ticker": "ADMA",
+   "action": "watch",
+   "category": "fast-grower",
+   "theme": "health",
+   "stage": 1,
+   "about": "ผลิตยาภูมิคุ้มกันจากพลาสมาเลือดให้ผู้ป่วยภูมิคุ้มกันบกพร่อง",
+   "why": "ตัวเลขผ่านบนกระดาษ (Lynch ratio ~1.13 คุ้มเสี่ยง 1:2.45 หนี้ต่อทุน 0.50 พอดีเพดาน) แต่ไม่ซื้อรอบนี้: งบ 4 พ.ย. หลังตลาดปิดยกเลิกคำสั่งตามผลไม่ทัน (L003) ราคาทำจุดสูงใหม่ขณะ RSI ไม่ยืนยัน และยืดเหนือเส้น 30 สัปดาห์ที่ยังชี้ลง 22% (L006) เป้าจาก 4 คนตั้งแต่ ส.ค. ราคาที่คุ้ม 1:2 = (17 + 2 × 9.13) ÷ 3 ≈ $11.75 (ผ่านแล้ว ติดที่จังหวะ) ประชุม 9 พ.ย. ดูงบแล้วพิจารณาคำสั่งตั้งราคาแถวแนวรับ $10.95",
+   "priceUsd": 11.41,
+   "targetUsd": 17.0,
+   "stopUsd": 9.13,
+   "targetWhy": "เป้าเฉลี่ยนักวิเคราะห์ 4 คน $17.00 (stockanalysis อัปเดต ส.ค.) ต่ำกว่ามูลค่า Lynch $0.94 × 18.4 = $17.3",
+   "stopWhy": "เพดาน 20% ใต้ราคา = $9.13 (ราคาปิดต่ำสุด 50 วัน $8.61 − 2% ลึกเกิน 20%)",
+   "lessons": [
+    "L003",
+    "L006"
+   ]
+  },
+  {
+   "ticker": "PG",
+   "action": "watch",
+   "category": "stalwart",
+   "theme": "staples",
+   "stage": 2,
+   "about": "ผู้ผลิตของใช้ในบ้าน (ผงซักฟอก Tide แปรงสีฟัน Oral-B แชมพู Head & Shoulders) รายใหญ่ของโลก",
+   "why": "ไม่ผ่านกฎหุ้นแข็งแกร่ง: P/E ย้อนหลัง ~24.3 สูงกว่าค่ากลาง 10 ปี 23.8 (แก้จากค่าเฉลี่ย 27.7 ที่เขียนสัปดาห์ก่อน) เป้าต่ำกว่าราคา และราคาทำจุดสูงหลังงบขณะ RSI ไม่ยืนยัน (L006) หนี้ผ่าน (AA-/Aa3) ราคาที่คุ้ม 1:2 ตามสูตร = (157.78 + 2 × 139.79) ÷ 3 ≈ $145.79 (แทน $133.84 เดิมที่มาจากเป้าเก่า) ซึ่งที่ราคานั้น P/E ~22 ก็ผ่านเกณฑ์ค่ากลางด้วย",
+   "priceUsd": 161.57,
+   "targetUsd": 157.78,
+   "stopUsd": 139.79,
+   "targetWhy": "ตัวที่ต่ำกว่าระหว่างเป้าเฉลี่ยต่ำสุดที่หาได้ $157.78 (TickFlow 13 คน อาจเก่า) กับมูลค่า Lynch EPS ปีงบ 2027 ขั้นต่ำ $6.89 × ค่ากลาง P/E 10 ปี 23.8 = $163.98",
+   "stopWhy": "ราคาปิดต่ำสุด 50 วัน $142.64 − 2% = $139.79 ต่ำกว่าราคา −10% ($145.41)",
+   "lessons": [
+    "L006",
+    "L008",
+    "L005"
+   ]
+  },
+  {
+   "ticker": "UNH",
+   "action": "watch",
+   "category": "stalwart",
+   "theme": "health",
+   "stage": 1,
+   "about": "บริษัทประกันสุขภาพและบริการสุขภาพที่ใหญ่ที่สุดในสหรัฐฯ",
+   "why": "งบไตรมาส 3 ดีกว่าคาดและขึ้นเป้ากำไรทั้งปี แต่ราคาขึ้นมาแล้วราว 24% ในปี (L008 ไม่ใช่ตัวที่ยังไม่ถูกซื้อ) คุ้มเสี่ยงแค่ 1:1.4 หนี้ต่อทุน 0.70 ต้องผ่านด้วยหนี้สุทธิต่อ EBITDA (1.68) กับเครดิต A- ขึ้นไปซึ่งยังยืนยันไม่ได้ และมี P/E ย้อนหลังแค่ 5 ปี ราคาที่คุ้ม 1:2 = (476.64 + 2 × 357.9) ÷ 3 ≈ $397.48",
+   "priceUsd": 406.97,
+   "targetUsd": 476.64,
+   "stopUsd": 357.9,
+   "targetWhy": "เป้าเฉลี่ยนักวิเคราะห์ 26 คน $476.64 (stockanalysis) ยังคิดมูลค่า Lynch ด้วยค่ากลาง P/E 10 ปีไม่ได้ (มีข้อมูล 5 ปี)",
+   "stopWhy": "ราคาปิดต่ำสุด 50 วัน $365.20 − 2% = $357.90 ต่ำกว่าราคา −10% ($366.27)",
+   "lessons": [
+    "L008"
+   ]
+  },
+  {
+   "ticker": "PEP",
+   "action": "watch",
+   "category": "stalwart",
+   "theme": "staples",
+   "stage": 4,
+   "about": "ผู้ผลิตเครื่องดื่ม (เป๊ปซี่) และขนมขบเคี้ยว (เลย์) รายใหญ่ของโลก",
+   "why": "คำสั่งตั้งซื้อที่ $123.87 หมดอายุวันนี้โดยไม่ได้ซื้อ (ปิด $137.34) ซึ่งเป็นแผนที่ทำงานตามที่ตั้งใจ (L006) ตอนนี้อยู่ stage 4 (ใต้เส้น 30 สัปดาห์ $141.46 ที่ชี้ลง) จึงซื้อไม่ได้ตามหลักข้อ 6 จะกลับมาดูเมื่อปิดยืนเหนือเส้น 30 สัปดาห์และเส้นแบนลง พร้อมตรวจตัวเลขใหม่ (เป้าเฉลี่ยเดิมอาจเก่า)",
+   "priceUsd": 137.34,
+   "lessons": [
+    "L006",
+    "L008"
+   ]
+  },
+  {
+   "ticker": "SLB",
+   "action": "watch",
+   "category": "cyclical",
+   "theme": "energy",
+   "about": "บริษัทบริการแหล่งน้ำมันที่ใหญ่ที่สุดในโลก รับจ้างเจาะ สำรวจ และวางระบบให้บริษัทน้ำมัน",
+   "why": "ผู้ได้ประโยชน์จากน้ำมันแพงที่ยังไม่วิ่ง (L008) กำไรปี 2026 ตกแล้วปี 2027 คาดฟื้น 26.9% แบบหุ้นวัฏจักรที่ Lynch ชอบ หนี้ต่อทุน 0.47 ผ่าน แต่ที่ราคาตอนนี้คุ้มแค่ราว 1:1.2 (เป้าเฉลี่ย 30 คน $62.17 จุดทบทวน ~$47.00) ราคาที่คุ้ม 1:2 ราว $52.06 ยังไม่มี stage และราคาปิดล่าสุดยืนยันจากหน้าประวัติราคาไม่ได้ จึงยังไม่ใส่ราคา",
+   "lessons": [
+    "L008"
+   ]
+  }
+ ],
+ "nextWatch": [
+  "TOST งบ 3 พ.ย. หลังตลาดปิด: ร้านใหม่สุทธิ ≥6,000 ARR และสิ่งที่ผู้บริหารพูดเรื่องคดี FTC เช็กกลางสัปดาห์ 4 พ.ย. อ่านผล",
+  "VST: เลือกตั้งกรรมการสาธารณูปโภค 3 พ.ย. และงบ 6 พ.ย. (เป้า EBITDA หนี้หลัง Cogentrix) ถ้าปิดต่ำกว่า $132.9 ต้องทบทวนเรื่อง",
+  "HRMY (4 พ.ย. ก่อนเปิด ผลคดี AET) และ ADMA (4 พ.ย. หลังปิด) ประชุม 9 พ.ย. ดูงบแล้วพิจารณาคำสั่งตั้งราคา (ADMA แถว $10.95)",
+  "รายการอยากได้: PG ~$145.79 UNH ~$397.48 (ต้องยืนยันเครดิต) SLB ~$52 PEP เมื่อพ้น stage 4 TSM ยอดขาย ต.ค. ราว 10 พ.ย. และจ้างงาน 6 พ.ย."
+ ],
+ "model": "claude-opus-5-5"
+}
