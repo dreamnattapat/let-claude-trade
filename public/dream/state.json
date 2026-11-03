@@ -1,11 +1,11 @@
 {
- "updatedAt": "2026-11-01T10:18:44.995Z",
- "closedThrough": "2026-10-31",
- "valueUsd": 9823.87,
+ "updatedAt": "2026-11-03T01:42:41.904Z",
+ "closedThrough": "2026-11-02",
+ "valueUsd": 9830.66,
  "cashUsd": 4312.87,
- "returnPct": -1.761,
- "spyReturnPct": -1.804,
- "leadPct": 0.042,
+ "returnPct": -1.693,
+ "spyReturnPct": -2.274,
+ "leadPct": 0.581,
  "stages": {
   "TSM": {
    "stage": 3,
@@ -52,40 +52,22 @@
    "relStrengthPct": -13.24,
    "weekOf": "2026-10-30"
   },
-  "APP": {
-   "stage": 4,
-   "closeUsd": 228.5,
-   "ma30wUsd": 397.92,
-   "vsMaPct": -42.58,
-   "maSlopePct": -5.06,
-   "relStrengthPct": -52.85,
+  "PG": {
+   "stage": 2,
+   "closeUsd": 161.57,
+   "ma30wUsd": 148.02,
+   "vsMaPct": 9.15,
+   "maSlopePct": 1.19,
+   "relStrengthPct": 3.11,
    "weekOf": "2026-10-30"
   },
-  "HALO": {
+  "UNH": {
    "stage": 2,
-   "closeUsd": 130.91,
-   "ma30wUsd": 89.09,
-   "vsMaPct": 46.94,
-   "maSlopePct": 9.67,
-   "relStrengthPct": 55.42,
-   "weekOf": "2026-10-30"
-  },
-  "EXEL": {
-   "stage": 2,
-   "closeUsd": 69.39,
-   "ma30wUsd": 54.19,
-   "vsMaPct": 28.04,
-   "maSlopePct": 5.73,
-   "relStrengthPct": 33.85,
-   "weekOf": "2026-10-30"
-  },
-  "EOG": {
-   "stage": 2,
-   "closeUsd": 165.54,
-   "ma30wUsd": 141.52,
-   "vsMaPct": 16.98,
-   "maSlopePct": 1.68,
-   "relStrengthPct": 20.18,
+   "closeUsd": 406.97,
+   "ma30wUsd": 391.42,
+   "vsMaPct": 3.97,
+   "maSlopePct": 4.56,
+   "relStrengthPct": 8.8,
    "weekOf": "2026-10-30"
   },
   "PEP": {
@@ -97,45 +79,45 @@
    "relStrengthPct": -11.09,
    "weekOf": "2026-10-30"
   },
-  "PG": {
-   "stage": 2,
-   "closeUsd": 161.57,
-   "ma30wUsd": 148.02,
-   "vsMaPct": 9.15,
-   "maSlopePct": 1.19,
-   "relStrengthPct": 3.11,
+  "SLB": {
+   "stage": 3,
+   "closeUsd": 53.74,
+   "ma30wUsd": 52.4,
+   "vsMaPct": 2.57,
+   "maSlopePct": 0.7,
+   "relStrengthPct": 4.43,
    "weekOf": "2026-10-30"
   }
  },
- "themeReturnPct": 1.852,
+ "themeReturnPct": 0.598,
  "dividendsUsd": 0,
  "holdings": [
   {
    "ticker": "TSM",
    "units": 4.847192,
    "avgCostUsd": 412.61,
-   "priceUsd": 406.13,
-   "valueUsd": 1968.59,
-   "unrealizedPct": -1.57,
-   "weightPct": 20.04
+   "priceUsd": 398.63,
+   "valueUsd": 1932.24,
+   "unrealizedPct": -3.39,
+   "weightPct": 19.66
   },
   {
    "ticker": "VST",
    "units": 13.328869,
    "avgCostUsd": 150.0502,
-   "priceUsd": 138.37,
-   "valueUsd": 1844.32,
-   "unrealizedPct": -7.78,
-   "weightPct": 18.77
+   "priceUsd": 134.61,
+   "valueUsd": 1794.2,
+   "unrealizedPct": -10.29,
+   "weightPct": 18.25
   },
   {
    "ticker": "TOST",
    "units": 53.601339,
    "avgCostUsd": 29.85,
-   "priceUsd": 31.68,
-   "valueUsd": 1698.09,
-   "unrealizedPct": 6.13,
-   "weightPct": 17.29
+   "priceUsd": 33.42,
+   "valueUsd": 1791.36,
+   "unrealizedPct": 11.96,
+   "weightPct": 18.22
   }
  ],
  "orders": [
@@ -417,12 +399,12 @@
    }
   },
   {
-   "date": "2026-11-01",
-   "valueUsd": 9823.87,
-   "spyUsd": 9819.65,
-   "themesUsd": 10185.18,
+   "date": "2026-11-03",
+   "valueUsd": 9830.66,
+   "spyUsd": 9772.61,
+   "themesUsd": 10059.75,
    "extraUsd": {
-    "VGT": 9520.55
+    "VGT": 9265.77
    }
   }
  ],
