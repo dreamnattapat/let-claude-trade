@@ -1,0 +1,672 @@
+{
+ "date": "2026-11-14",
+ "headline": "สัปดาห์ที่ 5: พอร์ต +2.31% แพ้ SPY (+2.59%) และตะกร้า 5 ธีม (+3.50%) เพราะถือเงินสดมาก ทบทวน TSM/VST ถูกทาง แต่พลาดความเสี่ยงเลือกตั้งเท็กซัสตอนเติม VST",
+ "summary": "ผ่านไปแค่ราว 22 จากราว 126 รอบซื้อขาย คะแนนตอนนี้ส่วนใหญ่คือโชค ไม่ใช่หลักฐานว่าวิธีดีหรือแย่: ตั้งแต่เริ่ม −1.23% ดีกว่า SPY (−1.98%) 0.75 จุด แต่แพ้ตะกร้า 5 ธีม (+0.75%) และสัปดาห์นี้ (ปิด 6→13 พ.ย.) +2.31% แพ้ SPY (+2.59%) และตะกร้า (+3.50%) เพราะถือเงินสด 43.7% ในสัปดาห์ที่ตลาดฟื้น สิ่งที่ถูก: ประชุม 9 พ.ย. ทบทวน TSM/VST ที่หลุดจุดทบทวนด้วยตัวเลข ไม่ขายตามราคา แล้วยอดขาย ต.ค. ของ TSM โต 59.7% และทั้งคู่ฟื้น ~6% สิ่งที่ผิด: ผู้ตรวจ blind ชี้ว่าทีมเติม VST ก่อนการเลือกตั้งเท็กซัส 3 พ.ย. ซึ่งมีวันกำหนดแล้ว โดยรายงาน 13 และ 19 ต.ค. ไม่พูดถึงเลย (ยืนยัน L003) และ KRMN ถูกปฏิเสธด้วยประโยคเดียวแบบเดียวกับ LLY แล้วรายได้โต 66% (บทเรียนใหม่ L010) คุ้มเสี่ยงที่ราคาล่าสุดใน state: TSM $398.73 1:2.2 (เหนือจุดทบทวน 18%) VST $133.01 1:3.0 (เหนือ 20%) TOST $34.68 1:0.6 (ที่ราคาปิด 13 พ.ย. $33.52 ราว 1:1) ต่ำกว่า 1:2 เพราะวิ่งเข้าใกล้เป้าที่ยังเป็นค่าก่อนงบ ไม่ใช่เหตุให้ลด แต่ประชุม 16 พ.ย. ควรขยับเป้าตามกำไร ไม่มีตัวไหนห่างจุดทบทวนน้อยกว่า 3% กติกาครบ: ถือ 3 ตัว ตัวใหญ่สุด 19.6% เทค 38.4% (ใกล้เพดาน 40%) หุ้นโตเร็ว 38.4% หุ้นที่พึ่งงบลงทุน AI (TSM+VST) 37.5% เงินสด 43.7% (~35.6% ถ้า UNH $380 ได้ซื้อ) ไม่มีราคาในรายงานผิดจากตลาด ไม่มีคำสั่งช้า สัปดาห์นี้ไม่มีคำสั่งเติม บทเรียนเจ้าของ: L007 ยืนยัน (TSM หลัง MACD ตัดลง ทบทวนข่าวแล้วไม่ร้ายแรง ถือต่อถูก) L006 ทดสอบแล้วยังสรุปไม่ได้ (ADMA และ PG ที่เจอสัญญาณ 9 พ.ย. เพิ่งผ่าน 3 รอบ ยังไม่ย่อ แต่สั้นเกินจะนับ) จึงไม่เปลี่ยน L008 ทดสอบแล้วหลักฐานยังปน (PEP ที่ยังลดอยู่ชนะ PG ที่จุดสูงตั้งแต่ 26 ต.ค. +10.7 vs +7.6 จุดเทียบ SPY แต่ตั้งแต่ 2 พ.ย. PG ชนะเล็กน้อย) จึงไม่เปลี่ยน หมายเหตุข้อมูลถึงเจ้าของ: ใน state.json ราคา TOST/VST ในรายการถือ ($34.68/$133.01) ไม่ตรงกับ outcomes ($33.52/$134.51) และจุด 14 พ.ย. ใน points มี SPY เท่ากับวันก่อนพอดี อาจเป็นราคาไม่ครบ คะแนนสัปดาห์จึงอาจคลาดเล็กน้อย",
+ "score": {
+  "dreamPct": -1.226,
+  "spyPct": -1.979,
+  "weekDreamPct": 2.31,
+  "weekSpyPct": 2.59
+ },
+ "reviews": [
+  {
+   "ticker": "TOST",
+   "reportDate": "2026-10-13",
+   "action": "buy",
+   "returnPct": 12.29,
+   "vsSpyPct": 14.27,
+   "verdict": "right",
+   "blindVerdict": "right",
+   "note": "ครบ 22 รอบ +12.3% ชนะ SPY 14.3 จุด งบ 3 พ.ย. ผ่านเกณฑ์ขายทุกข้อ (ร้านใหม่สุทธิ 8,500 ARR +24% ยกเป้า EBITDA ครั้งที่ 3 เป็น ~$840M) ตรงกับ blind ข้อติ: ขนาดวันซื้อทำให้เทคและหุ้นโตเร็วเกินเพดาน (L004) และ EPS ไตรมาส 3 ต่ำกว่าคาด CFO ลาออกสิ้นปี จึงเป็น right ที่มีรอยด่าง ไม่ใช่หลักฐานว่าวิธีดี"
+  },
+  {
+   "ticker": "VST",
+   "reportDate": "2026-10-13",
+   "action": "buy",
+   "returnPct": -11.38,
+   "vsSpyPct": -9.41,
+   "verdict": "wrong",
+   "blindVerdict": "unlucky",
+   "note": "คงเดิม: เป้าใช้ P/E 20 ที่ไม่มีที่มา (L005) −11.4% blind ให้ unlucky เพราะเห็นว่าหุ้นร่วงจากผลเลือกตั้งเท็กซัส 3 พ.ย. ซึ่งดูเหมือนเหตุที่ไม่มีใครรู้ แต่การเลือกตั้งมีวันกำหนดแล้วและนโยบายศูนย์ข้อมูลเป็นประเด็นหาเสียง (รายงาน 13 และ 19 ต.ค. ไม่พูดถึงเท็กซัสเลยสักคำ) ช่องว่างนี้คือที่ทีมหลอกตัวเอง: ข่าวที่กำหนดวันไว้แล้วไม่ใช่ความโชคร้าย งบ 6 พ.ย. ดี (EBITDA ไตรมาส 3 $2.378B ไกด์ปี 2027 $7.7–8.5B) เรื่องธุรกิจยังไม่พัง"
+  },
+  {
+   "ticker": "RKLB",
+   "reportDate": "2026-10-13",
+   "action": "buy",
+   "returnPct": 8.26,
+   "vsSpyPct": 10.24,
+   "verdict": "wrong",
+   "blindVerdict": "right",
+   "note": "ตัวเลข +8.3% คือถ้าถือถึงวันนี้ แต่ทีมขายจริงที่ $50.90 (−14%) เพราะจุดตัดขาดทุนห่างแค่ 10% ในหุ้นที่แกว่งวันละ 5–8% (ที่มา L003) blind ให้ right เพราะเห็นแค่ผลลัพธ์สมมุติและงบไตรมาส 3 ที่ดี (รายได้ $268M +73% backlog $3.57B) ข้อบกพร่องตอนซื้ออยู่ที่จุดตัดขาดทุน ไม่ใช่ตัวบริษัท คงเดิม"
+  },
+  {
+   "ticker": "TSM",
+   "reportDate": "2026-10-13",
+   "action": "buy",
+   "returnPct": -3.36,
+   "vsSpyPct": -2.2,
+   "verdict": "too-early",
+   "blindVerdict": "unlucky",
+   "note": "ครบ 20 รอบพอดี −3.4% (แพ้ SPY 2.2 จุด) ระยะห่างแค่นี้ยังเป็นสัญญาณรบกวนสำหรับหุ้นที่ตั้งใจถือหลายปี เรื่องแข็งขึ้น: ยอดขาย ต.ค. NT$586.9B +59.7% สูงสุดของปี ยังไม่เรียก unlucky เพราะผลยังไม่ได้แย่จริง และขนาดวันซื้อทำให้เทคเกินเพดาน (L004)"
+  },
+  {
+   "ticker": "EXEL",
+   "reportDate": "2026-10-13",
+   "action": "watch",
+   "returnPct": 13.13,
+   "vsSpyPct": 15.11,
+   "verdict": "unlucky",
+   "blindVerdict": "unlucky",
+   "note": "ไม่ซื้อเพราะราคาสูงกว่าเป้าเฉลี่ยนักวิเคราะห์ ซึ่งตามกติกาทำให้ไม่ผ่าน 1:2 แล้วหุ้น +13.1% (ชนะ SPY 15.1 จุด) ทำตามกติกาแต่พลาด ตรงกับ blind พลาดหุ้นที่ขึ้นไม่ทำให้เสียเงิน"
+  },
+  {
+   "ticker": "HALO",
+   "reportDate": "2026-10-13",
+   "action": "watch",
+   "returnPct": -14.17,
+   "vsSpyPct": -12.19,
+   "verdict": "right",
+   "blindVerdict": "right",
+   "note": "ไม่ซื้อเพราะราคาเกินเป้าเฉลี่ย งบไตรมาส 3 ยอดขายดีแต่ขาดทุนไม่คาดจากค่าใช้จ่ายซื้อกิจการ −14.2% (แพ้ SPY 12.2 จุด) ตรงกับ blind"
+  },
+  {
+   "ticker": "EOG",
+   "reportDate": "2026-10-13",
+   "action": "watch",
+   "returnPct": 2.68,
+   "vsSpyPct": 4.66,
+   "verdict": "right",
+   "blindVerdict": "right",
+   "note": "หุ้นวัฏจักรที่วิ่งมาแล้ว (1:0.7) +2.7% ใน 22 รอบ ชนะ SPY 4.7 จุด แต่ไม่มาก การไม่ซื้อเสียโอกาสน้อย เหตุผลเรื่องกำไรปีหน้าลดยังจริง ตรงกับ blind"
+  },
+  {
+   "ticker": "APP",
+   "reportDate": "2026-10-13",
+   "action": "watch",
+   "returnPct": 50.15,
+   "vsSpyPct": 52.13,
+   "verdict": "unlucky",
+   "blindVerdict": "wrong",
+   "note": "คงเดิม: เป็นตัวสำรองอันดับ 1 แต่โควตาเทค 40% เต็มตามกติกา +50.2% หลังงบไตรมาส 3 (รายได้ +55%) blind ให้ wrong เพราะไม่รู้เรื่องเพดาน แต่ที่เพดานเต็มก็เพราะซื้อ TSM+TOST ใหญ่เกิน (L004) ข้อบกพร่องจริงอยู่ที่การจัดขนาด ไม่ใช่การปฏิเสธ APP"
+  },
+  {
+   "ticker": "POWL",
+   "reportDate": "2026-10-13",
+   "action": "watch",
+   "returnPct": -15.81,
+   "vsSpyPct": -13.84,
+   "verdict": "right",
+   "blindVerdict": "right",
+   "note": "ไม่ซื้อเพราะราคาสูงกว่ามูลค่า Lynch −15.8% (แพ้ SPY 13.8 จุด) ตามการขายหุ้นพลังงานศูนย์ข้อมูล ตรงกับ blind"
+  },
+  {
+   "ticker": "PL",
+   "reportDate": "2026-10-13",
+   "action": "watch",
+   "returnPct": -1.63,
+   "vsSpyPct": 0.35,
+   "verdict": "right",
+   "blindVerdict": "right",
+   "note": "ครบ 22 รอบ −1.6% (เท่า SPY) ไม่ซื้อหุ้นอวกาศขาดทุนที่โควตา 10% ไม่พอ ตามกติกา และการไม่ซื้อไม่ทำให้เสียอะไร เปลี่ยนจาก too-early เป็น right ตรงกับ blind"
+  },
+  {
+   "ticker": "LLY",
+   "reportDate": "2026-10-13",
+   "action": "watch",
+   "returnPct": 19.42,
+   "vsSpyPct": 21.4,
+   "verdict": "wrong",
+   "blindVerdict": "wrong",
+   "note": "คงเดิม: ปฏิเสธด้วยประโยคเดียวโดยไม่คำนวณ Lynch ratio หรือคุ้มเสี่ยง +19.4% (ชนะ SPY 21.4 จุด) แตะมูลค่า $1 ล้านล้าน ตรงกับ blind เป็นที่มาของบทเรียนใหม่ L010 คู่กับ KRMN"
+  },
+  {
+   "ticker": "DUOL",
+   "reportDate": "2026-10-13",
+   "action": "watch",
+   "returnPct": 12.66,
+   "vsSpyPct": 14.64,
+   "verdict": "unlucky",
+   "blindVerdict": "unlucky",
+   "note": "ไม่ซื้อเพราะยอดจองโตช้ากว่ารายได้ งบไตรมาส 3: รายได้ดีกว่าคาด ผู้ใช้รายวัน +29% แต่ EPS ต่ำกว่าคาดและสมาชิกจ่ายเงินยังตามไม่ทัน (finviz) เหตุผลของทีมยังจริงบางส่วน แต่หุ้น +12.7% (ชนะ SPY 14.6 จุด) ตรงกับ blind"
+  },
+  {
+   "ticker": "TMDX",
+   "reportDate": "2026-10-13",
+   "action": "watch",
+   "returnPct": 21.82,
+   "vsSpyPct": 23.8,
+   "verdict": "unlucky",
+   "blindVerdict": "unlucky",
+   "note": "รอดูงบเพราะกำไรครึ่งปีแรกลด งบไตรมาส 3 รายได้เร่งเป็น +41% แต่มาร์จิ้นแบนและกำไรลด (panabee/finviz) เหตุผลเรื่องกำไรยังจริง หุ้นขึ้นตามรายได้ +21.8% ตรงกับ blind"
+  },
+  {
+   "ticker": "BWXT",
+   "reportDate": "2026-10-13",
+   "action": "watch",
+   "returnPct": -8.53,
+   "vsSpyPct": -6.55,
+   "verdict": "right",
+   "blindVerdict": "right",
+   "note": "กำไรโต 5% ที่ P/E ~28 แพงไป −8.5% (แพ้ SPY 6.6 จุด) ตามการขายหุ้นนิวเคลียร์/AI ครบ 22 รอบ เหตุผลด้านมูลค่ายังถูก เปลี่ยนจาก too-early ตรงกับ blind"
+  },
+  {
+   "ticker": "FSLR",
+   "reportDate": "2026-10-13",
+   "action": "watch",
+   "returnPct": -4.29,
+   "vsSpyPct": -2.32,
+   "verdict": "right",
+   "blindVerdict": "right",
+   "note": "คงเดิม: ปฏิเสธเพราะกำไรพึ่งเครดิตภาษีและสินค้าคงคลังโต บริษัทลดคาดการณ์ 29 ต.ค. −4.3% (แพ้ SPY 2.3 จุด) ตรงกับ blind"
+  },
+  {
+   "ticker": "FLY",
+   "reportDate": "2026-10-13",
+   "action": "watch",
+   "returnPct": 48.71,
+   "vsSpyPct": 50.69,
+   "verdict": "unlucky",
+   "blindVerdict": "unlucky",
+   "note": "ปฏิเสธเพราะเผาเงิน ~$106M ต่อไตรมาสและเพิ่งเพิ่มทุน +48.7% หลังงบดีกว่าคาด ดีลเครื่องยนต์ $1.3B กับ AST SpaceMobile และกระแส SpaceX ยื่น IPO (fool, financialmodelingprep) ดีลนี้ไม่มีใครรู้ล่วงหน้า และ Lynch เลี่ยงหุ้นร้อนที่เผาเงินอยู่แล้ว ตรงกับ blind"
+  },
+  {
+   "ticker": "KRMN",
+   "reportDate": "2026-10-13",
+   "action": "watch",
+   "returnPct": 34.37,
+   "vsSpyPct": 36.35,
+   "verdict": "wrong",
+   "blindVerdict": "unlucky",
+   "note": "blind ให้ unlucky แต่เมื่ออ่านเหตุผล: ปฏิเสธด้วยประโยคเดียว (กลาโหมเยอะ P/E ~42) โดยไม่เทียบ P/E กับการเติบโต ทั้งที่งบไตรมาส 3 รายได้ +66% backlog เพิ่มเท่าตัวเป็น $1.7B (panabee) +34.4% (ชนะ SPY 36.4 จุด) ข้อบกพร่องเดียวกับ LLY: ไม่ได้ทำการบ้านก่อนปฏิเสธ ซัพพลายเออร์อวกาศอยู่ในธีมได้ จึงเป็น wrong ไม่ใช่ unlucky"
+  },
+  {
+   "ticker": "RKLB",
+   "reportDate": "2026-10-19",
+   "action": "sell",
+   "returnPct": 25.87,
+   "vsSpyPct": 27.78,
+   "verdict": "too-early",
+   "blindVerdict": "wrong",
+   "note": "blind ให้ wrong: ขายที่ $50.90 ขณะเรื่องยังดี แล้วงบไตรมาส 3 ทำสถิติ หุ้น $64.07 (+25.9% ชนะ SPY 27.8 จุด) ทีมเห็นด้วยว่าผลออกมาแย่ แต่การขายเป็นจุดตัดขาดทุนอัตโนมัติที่กติกาตอนนั้นบังคับ และเจ้าของเลิกกติกานี้แล้วตั้งแต่ 26 ต.ค. เพราะกรณีนี้ ยัง 18 รอบ (ต่ำกว่า 20) จึงยังไม่ตัดสิน สัปดาห์หน้าน่าจะเป็น wrong ของกติกาเก่า ไม่ใช่บทเรียนใหม่"
+  },
+  {
+   "ticker": "TOST",
+   "reportDate": "2026-10-19",
+   "action": "sell",
+   "returnPct": 2.66,
+   "vsSpyPct": 4.57,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "ลด 20% เพื่อแก้การเกินเพดานเทค/หุ้นโตเร็ว (L004) +2.7% หลังขาย ชนะ SPY 4.6 จุด เสียโอกาสเล็กน้อย 18 รอบ ตรงกับ blind"
+  },
+  {
+   "ticker": "TSM",
+   "reportDate": "2026-10-19",
+   "action": "hold",
+   "returnPct": -6.2,
+   "vsSpyPct": -4.29,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "ถือ −6.2% ใน 18 รอบ ยอดขาย ต.ค. +59.7% ไม่มี sellIf เกิด ตรงกับ blind"
+  },
+  {
+   "ticker": "VST",
+   "reportDate": "2026-10-19",
+   "action": "buy",
+   "returnPct": -10.52,
+   "vsSpyPct": -8.61,
+   "verdict": "wrong",
+   "blindVerdict": "wrong",
+   "note": "ไม้แรก: blind และทีมได้ wrong ตรงกันแต่คนละเหตุผล ทีม: P/E 20 ไม่มีที่มา ทำให้คุ้มเสี่ยงจริงแค่ ~1:1.6 (L005) blind: เติมก่อนการเลือกตั้งเท็กซัส 3 พ.ย. ที่มีวันกำหนดแล้วและมีผู้สมัครหาเสียงพักศูนย์ข้อมูล รายงานไม่พูดถึงเลย (ยืนยัน L003 ข้อข่าวใหญ่ที่รู้อยู่แล้ว) −10.5%"
+  },
+  {
+   "ticker": "VST",
+   "reportDate": "2026-10-19",
+   "action": "buy",
+   "returnPct": -4.03,
+   "vsSpyPct": -3.29,
+   "verdict": "wrong",
+   "blindVerdict": "wrong",
+   "note": "ไม้ที่สอง เข้า $140.16 ห่างจุดทบทวนแค่ 5.2% (L003) และเข้าก่อนการเลือกตั้ง 3 พ.ย. 7 รอบ −4.0% ตรงกับ blind"
+  },
+  {
+   "ticker": "APP",
+   "reportDate": "2026-10-19",
+   "action": "watch",
+   "returnPct": 44.49,
+   "vsSpyPct": 46.4,
+   "verdict": "unlucky",
+   "blindVerdict": "wrong",
+   "note": "ติดเพดานเทคและหุ้นโตเร็ว (กติกา) +44.5% หลังงบ เหตุเดียวกับ 13 ต.ค.: เพดานเต็มเพราะขนาด TSM/TOST (L004) blind ไม่เห็นเพดาน"
+  },
+  {
+   "ticker": "AROC",
+   "reportDate": "2026-10-19",
+   "action": "watch",
+   "returnPct": -6.23,
+   "vsSpyPct": -4.32,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "ฝ่ายค้านยังไม่ได้รับคำตอบ (แรงม้าเช่าลด หนี้ $2.36B) −6.2% ใน 18 รอบ ยังไม่ได้ตรวจงบ ตรงกับ blind"
+  },
+  {
+   "ticker": "HALO",
+   "reportDate": "2026-10-19",
+   "action": "watch",
+   "returnPct": -19.38,
+   "vsSpyPct": -17.47,
+   "verdict": "right",
+   "blindVerdict": "right",
+   "note": "เรื่องเปลี่ยนแล้ว (ขาดทุนไม่คาดจากค่าซื้อกิจการ) −19.4% แพ้ SPY 17.5 จุด ตัดสินได้แม้ 18 รอบ ตรงกับ blind"
+  },
+  {
+   "ticker": "EXEL",
+   "reportDate": "2026-10-19",
+   "action": "watch",
+   "returnPct": 7.16,
+   "vsSpyPct": 9.07,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "ราคาเกินเป้าเฉลี่ย +7.2% ใน 18 รอบ ตัวเร่งหลักคือ มี.ค. 2027 ตรงกับ blind"
+  },
+  {
+   "ticker": "EOG",
+   "reportDate": "2026-10-19",
+   "action": "watch",
+   "returnPct": 0.26,
+   "vsSpyPct": 2.17,
+   "verdict": "right",
+   "blindVerdict": "too-early",
+   "note": "คงเดิม: หุ้นวัฏจักรที่กำไรปีหน้าคาดลด 11% +0.3% ใน 18 รอบ (ชนะ SPY 2.2 จุด) การไม่ซื้อแทบไม่เสียอะไรและเหตุผลยังจริง blind ให้ too-early เพราะนับรอบ"
+  },
+  {
+   "ticker": "POWL",
+   "reportDate": "2026-10-19",
+   "action": "watch",
+   "returnPct": -13.47,
+   "vsSpyPct": -11.56,
+   "verdict": "right",
+   "blindVerdict": "too-early",
+   "note": "คงเดิม: ปิดที่จุดต่ำสุด 50 วันด้วยวอลุ่มสูง คุ้มเสี่ยง 1:0.6 −13.5% (แพ้ SPY 11.6 จุด) blind ให้ too-early เพราะนับรอบ"
+  },
+  {
+   "ticker": "CHE",
+   "reportDate": "2026-10-19",
+   "action": "watch",
+   "returnPct": 6.23,
+   "vsSpyPct": 8.13,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "กำไรโต 7.9% ที่ P/E ~19 ไม่ผ่านมูลค่า Lynch +6.2% ใน 18 รอบ ตรงกับ blind"
+  },
+  {
+   "ticker": "TSM",
+   "reportDate": "2026-10-26",
+   "action": "hold",
+   "returnPct": -6.04,
+   "vsSpyPct": -4.6,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "ถือ ไม่เติม −6.0% ใน 14 รอบ ไม่มีข่าวบริษัทร้าย ตรงกับ blind"
+  },
+  {
+   "ticker": "VST",
+   "reportDate": "2026-10-26",
+   "action": "hold",
+   "returnPct": -5.09,
+   "vsSpyPct": -3.66,
+   "verdict": "too-early",
+   "blindVerdict": "unlucky",
+   "note": "ถือ ห้ามเติม −5.1% ใน 14 รอบ blind ให้ unlucky จากการเลือกตั้ง แต่การถือ (ไม่เติม) ยังตัดสินไม่ได้: งบ 6 พ.ย. ไม่ลดเป้า เรื่องธุรกิจยังอยู่ ความเสี่ยงนโยบายเท็กซัสยังไม่เข้า sellIf"
+  },
+  {
+   "ticker": "TOST",
+   "reportDate": "2026-10-26",
+   "action": "hold",
+   "returnPct": 4.33,
+   "vsSpyPct": 5.76,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "ถือ +4.3% ใน 14 รอบ งบผ่านเกณฑ์ ตรงกับ blind"
+  },
+  {
+   "ticker": "HRMY",
+   "reportDate": "2026-10-26",
+   "action": "watch",
+   "returnPct": -8.23,
+   "vsSpyPct": -6.79,
+   "verdict": "lucky",
+   "blindVerdict": "too-early",
+   "note": "คงเดิม: ไม่ซื้อถูกผล (−8.2%) แต่ตัวเลข Lynch ratio ในรายงานผิด (2.2–2.8 แก้เป็น ~0.88) blind ไม่เห็นตัวเลข"
+  },
+  {
+   "ticker": "ADMA",
+   "reportDate": "2026-10-26",
+   "action": "watch",
+   "returnPct": 19.66,
+   "vsSpyPct": 21.09,
+   "verdict": "unlucky",
+   "blindVerdict": "unlucky",
+   "note": "ไม่ซื้อเพราะหนี้ชนเพดานและยอดขายโตช้า (ยังจริง: ไตรมาส 3 +5%) แต่มาร์จิ้น 71% และขึ้นเป้า +19.7% ตรงกับ blind"
+  },
+  {
+   "ticker": "APP",
+   "reportDate": "2026-10-26",
+   "action": "watch",
+   "returnPct": 50.99,
+   "vsSpyPct": 52.42,
+   "verdict": "unlucky",
+   "blindVerdict": "wrong",
+   "note": "ไม่ผ่านกฎหนี้ใหม่ (หนี้ต่อทุน 1.11) ซึ่งบังคับ +51.0% blind ไม่เห็นกฎ คงเดิม"
+  },
+  {
+   "ticker": "HALO",
+   "reportDate": "2026-10-26",
+   "action": "watch",
+   "returnPct": -21.67,
+   "vsSpyPct": -20.23,
+   "verdict": "right",
+   "blindVerdict": "right",
+   "note": "ราคาเกินเป้าเฉลี่ย หนี้ไม่ผ่าน RSI 74 (L006) −21.7% และเรื่องเปลี่ยน (ขาดทุนจากค่าซื้อกิจการ) จึงตัดสินได้ก่อน 20 รอบ เปลี่ยนจาก too-early ตรงกับ blind"
+  },
+  {
+   "ticker": "EXEL",
+   "reportDate": "2026-10-26",
+   "action": "watch",
+   "returnPct": 5.97,
+   "vsSpyPct": 7.41,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "ราคาเกินเป้าเฉลี่ยและ RSI 76 (L006) +6.0% ใน 14 รอบ ไม่ย่อตามที่ L006 เตือน ตรงกับ blind"
+  },
+  {
+   "ticker": "EOG",
+   "reportDate": "2026-10-26",
+   "action": "watch",
+   "returnPct": -3.27,
+   "vsSpyPct": -1.84,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "กำไรปี 2027 คาดลด 9.9% −3.3% ใน 14 รอบ ตรงกับ blind"
+  },
+  {
+   "ticker": "PEP",
+   "reportDate": "2026-10-26",
+   "action": "buy",
+   "returnPct": 8.71,
+   "vsSpyPct": 10.66,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "คำสั่งตั้งซื้อ $123.87 หมดอายุ 2 พ.ย. ไม่ได้ซื้อ PEP +8.7% จาก 29 ต.ค. ราคาตั้งลึกเกินแต่เป็นราคาเดียวที่ผ่าน 1:2 ตามกติกา ไม่ใช่ข้อผิด 11 รอบ ตรงกับ blind"
+  },
+  {
+   "ticker": "PG",
+   "reportDate": "2026-10-26",
+   "action": "watch",
+   "returnPct": 6.18,
+   "vsSpyPct": 7.62,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "ตัวเลข P/E ค่ากลางผิด (แก้แล้ว 2 พ.ย.) ไม่ได้ซื้อ +6.2% ใน 14 รอบ ตรงกับ blind"
+  },
+  {
+   "ticker": "TSM",
+   "reportDate": "2026-11-02",
+   "action": "hold",
+   "returnPct": 0.03,
+   "vsSpyPct": -0.28,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "ถือ +0.03% ใน 9 รอบ หลุดจุดทบทวน 5 พ.ย. แล้วฟื้น ยอดขาย ต.ค. ยืนยันเรื่อง ตรงกับ blind"
+  },
+  {
+   "ticker": "VST",
+   "reportDate": "2026-11-02",
+   "action": "hold",
+   "returnPct": -0.07,
+   "vsSpyPct": -0.38,
+   "verdict": "too-early",
+   "blindVerdict": "right",
+   "note": "ถือ −0.1% ใน 9 รอบ blind ให้ right เพราะงบ 6 พ.ย. หนุน แต่ราคาแทบไม่ไปไหน และความเสี่ยงนโยบายเท็กซัสยังค้าง ยังเร็วเกินจะบอกว่าถูก"
+  },
+  {
+   "ticker": "TOST",
+   "reportDate": "2026-11-02",
+   "action": "hold",
+   "returnPct": 0.3,
+   "vsSpyPct": 0,
+   "verdict": "right",
+   "blindVerdict": "too-early",
+   "note": "คงเดิม: ถือโดยตั้งเกณฑ์ตัวเลขก่อนงบ แล้วงบผ่านทุกข้อ +0.3% blind ให้ too-early เพราะเห็นแค่ EPS พลาดและ CFO ลาออก ซึ่งไม่อยู่ใน sellIf"
+  },
+  {
+   "ticker": "HRMY",
+   "reportDate": "2026-11-02",
+   "action": "watch",
+   "returnPct": -10.84,
+   "vsSpyPct": -11.14,
+   "verdict": "right",
+   "blindVerdict": "too-early",
+   "note": "คงเดิม: ใช้การเติบโตที่ยืนยันได้ Lynch ratio ~0.88 ไม่ถึง 1 งบ 4 พ.ย. EPS ลด 7% −10.8% ใน 9 รอบ blind ไม่เห็นเหตุผล"
+  },
+  {
+   "ticker": "ADMA",
+   "reportDate": "2026-11-02",
+   "action": "watch",
+   "returnPct": 19.71,
+   "vsSpyPct": 19.41,
+   "verdict": "unlucky",
+   "blindVerdict": "unlucky",
+   "note": "ไม่ซื้อเพราะงบหลังปิดยกเลิกคำสั่งไม่ทัน (L003) และ RSI ไม่ยืนยัน (L006) งบดี +19.7% ตรงกับ blind"
+  },
+  {
+   "ticker": "PG",
+   "reportDate": "2026-11-02",
+   "action": "watch",
+   "returnPct": 3.82,
+   "vsSpyPct": 3.51,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "ไม่ผ่านเกณฑ์ P/E ค่ากลาง +3.8% ใน 9 รอบ ตรงกับ blind"
+  },
+  {
+   "ticker": "UNH",
+   "reportDate": "2026-11-02",
+   "action": "watch",
+   "returnPct": 1.75,
+   "vsSpyPct": 1.45,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "คุ้มเสี่ยง 1:1.4 เครดิตยังยืนยันไม่ได้ +1.8% ใน 9 รอบ ตรงกับ blind"
+  },
+  {
+   "ticker": "PEP",
+   "reportDate": "2026-11-02",
+   "action": "watch",
+   "returnPct": 3.57,
+   "vsSpyPct": 3.27,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "ไม่ซื้อเพราะ stage 4 +3.6% ใน 9 รอบ ตรงกับ blind"
+  },
+  {
+   "ticker": "SLB",
+   "reportDate": "2026-11-02",
+   "action": "watch",
+   "returnPct": -1.22,
+   "vsSpyPct": -1.53,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "คุ้มเสี่ยง ~1:1.2 −1.2% ใน 9 รอบ ตรงกับ blind"
+  },
+  {
+   "ticker": "TSM",
+   "reportDate": "2026-11-04",
+   "action": "hold",
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "เช็ก 4 พ.ย. ให้ ok สองวันต่อมาหลุดจุดทบทวนในวันที่ Nasdaq −5.5% แล้วฟื้นเป็น $398.73 การไม่ขายตามราคาถูกกติกา ตรงกับ blind"
+  },
+  {
+   "ticker": "VST",
+   "reportDate": "2026-11-04",
+   "action": "watch",
+   "verdict": "too-early",
+   "blindVerdict": "right",
+   "note": "สถานะ watch รองบ 6 พ.ย. blind ให้ right เพราะหุ้นฟื้นจากจุดต่ำ ~$110.89 เป็น ~$134.51 หลังงบ แต่เช็กวันนั้นไม่ได้พูดถึงผลเลือกตั้งที่ออกคืนนั้น และราคายังไม่ไกลจากวันเช็กมาก จึงยังเร็วไป"
+  },
+  {
+   "ticker": "TOST",
+   "reportDate": "2026-11-04",
+   "action": "hold",
+   "verdict": "right",
+   "blindVerdict": "too-early",
+   "note": "คงเดิม: อ่านงบ 3 พ.ย. เทียบ sellIf ทีละข้อด้วยตัวเลข ไม่ขายเพราะราคาหลังปิด blind เห็นแค่ EPS พลาดกับ CFO ลาออก จึงให้ too-early"
+  },
+  {
+   "ticker": "TSM",
+   "reportDate": "2026-11-09",
+   "action": "hold",
+   "returnPct": 0.57,
+   "vsSpyPct": -0.03,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "เขียน review ครบ (หลุดจุดทบทวน stage 3 L007) ไม่มี sellIf ยอดขาย ต.ค. +59.7% ผ่านบททดสอบที่ตั้งไว้ +0.6% ใน 3 รอบ ข้อติ: เป้าลดจาก $584 เป็น $532 เพราะแหล่งข้อมูลหน้า ADR เพี้ยน ไม่ใช่ธุรกิจ ควรหาเป้าเฉลี่ย ADR ที่ยืนยันได้ ตรงกับ blind"
+  },
+  {
+   "ticker": "VST",
+   "reportDate": "2026-11-09",
+   "action": "hold",
+   "returnPct": 2.54,
+   "vsSpyPct": 1.95,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "เขียน review ครบ เพิ่ม sellIf ข้อกฎหมายเท็กซัส (ถูก: บทเรียนจากที่ไม่เคยพูดถึงมาก่อน) หนี้ ~3.2 เท่าเป็นค่าประมาณ (เช็ก 11 พ.ย. ได้ ~2.8 เท่า pro forma) +2.5% ใน 3 รอบ ตรงกับ blind"
+  },
+  {
+   "ticker": "TOST",
+   "reportDate": "2026-11-09",
+   "action": "hold",
+   "returnPct": -2.9,
+   "vsSpyPct": -3.49,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "ถือ ไม่เติม (เทค 38% ใกล้เพดาน) −2.9% ใน 3 รอบ เป้า $38.81 ยังเป็นค่าเฉลี่ยก่อนงบ ควรอัปเดตตามกำไรที่ยกขึ้น ตรงกับ blind"
+  },
+  {
+   "ticker": "UNH",
+   "reportDate": "2026-11-09",
+   "action": "buy",
+   "returnPct": 0.58,
+   "vsSpyPct": -0.02,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "คำสั่งตั้งซื้อ $380 ถึง 16 พ.ย. ยังไม่ได้ซื้อ (ราคา ~$407) คุ้มเสี่ยงที่ราคาตั้ง 1:2.6 จุดทบทวนห่าง 10% = 3.3 เท่าของการแกว่งต่อวัน (ผ่าน L003) ไม่พบข่าวใหม่ (ข่าว DOJ/Medicare Advantage ที่ค้นเจอเป็นของ มี.ค. 2026) ถ้าหมดอายุก็คือแผนทำงาน ตรงกับ blind"
+  },
+  {
+   "ticker": "ADMA",
+   "reportDate": "2026-11-09",
+   "action": "watch",
+   "returnPct": 4.5,
+   "vsSpyPct": 3.91,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "ไม่ไล่ราคาหลังกระโดด 27% (L006 L008) ราคาที่อยากได้ ~$11.40 +4.5% ใน 3 รอบ ตรงกับ blind"
+  },
+  {
+   "ticker": "PG",
+   "reportDate": "2026-11-09",
+   "action": "watch",
+   "returnPct": 0.68,
+   "vsSpyPct": 0.08,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "P/E สูงกว่าค่ากลาง 10 ปี ราคาที่คุ้ม 1:2 ~$148.57 +0.7% ใน 3 รอบ ตรงกับ blind"
+  },
+  {
+   "ticker": "PEP",
+   "reportDate": "2026-11-09",
+   "action": "watch",
+   "returnPct": 1.27,
+   "vsSpyPct": 0.68,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "หนี้ต่อทุน 2.31 ไม่ผ่าน และเครดิตยังไม่ได้ตรวจ +1.3% ใน 3 รอบ ตรงกับ blind"
+  },
+  {
+   "ticker": "SLB",
+   "reportDate": "2026-11-09",
+   "action": "watch",
+   "returnPct": 3.55,
+   "vsSpyPct": 2.95,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "หุ้นวัฏจักรใกล้มูลค่ากลางวัฏจักร stage 3 +3.6% ใน 3 รอบ ตรงกับ blind"
+  },
+  {
+   "ticker": "HRMY",
+   "reportDate": "2026-11-09",
+   "action": "watch",
+   "returnPct": 0.75,
+   "vsSpyPct": 0.15,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "EPS ลด คดีสิทธิบัตรตัดสิน ก.พ. 2027 +0.8% ใน 3 รอบ ตรงกับ blind"
+  },
+  {
+   "ticker": "CORT",
+   "reportDate": "2026-11-09",
+   "action": "watch",
+   "returnPct": -0.56,
+   "vsSpyPct": -1.15,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "ราคาและตัวเลขหลังงบยังยืนยันไม่ได้ (L005) FDA 17 ธ.ค. −0.6% ใน 3 รอบ ตรงกับ blind"
+  },
+  {
+   "ticker": "TSM",
+   "reportDate": "2026-11-11",
+   "action": "hold",
+   "returnPct": 0.57,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "เช็ก ok ที่ $396.48 อ่านยอดขาย ต.ค. เทียบเกณฑ์ขาย 15% ด้วยตัวเลข ปิด 13 พ.ย. $398.73 ตรงกับ blind"
+  },
+  {
+   "ticker": "VST",
+   "reportDate": "2026-11-11",
+   "action": "watch",
+   "returnPct": 2.54,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "เช็ก watch ที่ $131.18 แยกการพูดถึง moratorium ออกจากกฎหมายจริงตาม sellIf ถูกต้อง ปิด 13 พ.ย. $134.51 ตรงกับ blind"
+  },
+  {
+   "ticker": "TOST",
+   "reportDate": "2026-11-11",
+   "action": "hold",
+   "returnPct": -2.9,
+   "verdict": "too-early",
+   "blindVerdict": "too-early",
+   "note": "เช็ก ok ที่ $34.52 CFO ลาออกและคดี FTC รู้ก่อนประชุมแล้ว ปิด 13 พ.ย. $33.52 ตรงกับ blind"
+  }
+ ],
+ "lessonChanges": [
+  {
+   "id": "L003",
+   "change": "confirmed",
+   "note": "ครึ่งหลังของกฎ (ข่าวใหญ่ที่รู้อยู่แล้ว): VST เติม 19 ต.ค. (ซื้อ 20 และ 23 ต.ค.) ก่อนการเลือกตั้งเท็กซัส 3 พ.ย. ที่มีวันกำหนดแล้วและมีผู้สมัครหาเสียงพักการสร้างศูนย์ข้อมูล รายงาน 13 และ 19 ต.ค. ไม่พูดถึงเท็กซัสเลย ผลออกมาแล้วหุ้นร่วง 14–16% ในสัปดาห์ถึงจุดต่ำรอบ 52 สัปดาห์ (tikr) ผู้ตรวจ blind จับได้จากข่าวอย่างเดียว ขยายรายละเอียดให้รวมเหตุการณ์ที่กำหนดวันแล้วในช่วงหลายสัปดาห์หลังซื้อด้วย ไม่ใช่แค่ก่อนคำสั่งได้ซื้อ"
+  },
+  {
+   "id": "L007",
+   "change": "confirmed",
+   "note": "บทเรียนของเจ้าของ: TSM MACD ตัดลงตั้งแต่ 9 ต.ค. หลังวิ่งแรง ราคาลงตามจริงถึง $353.10 (5 พ.ย.) ทีมทบทวนข่าวตามบทเรียนในประชุม 9 พ.ย. และเช็ก 11 พ.ย. ไม่พบข่าวร้ายแรง (ยอดขาย ต.ค. +59.7%) จึงถือ แล้วราคาฟื้นเป็น $398.73 (+6.2% จาก 6 พ.ย.) กรณีนี้ยืนยันว่าสัญญาณเป็นเหตุให้ทบทวน ไม่ใช่ขาย และทางที่ถือต่อเมื่อไม่มีข่าวร้ายแรงได้ผลดีกว่าขาย คนละสัปดาห์กับการยืนยัน VST"
+  },
+  {
+   "id": "L010",
+   "change": "added",
+   "note": "จาก LLY (13 ต.ค. wrong: ปฏิเสธด้วยประโยคเดียว +19.4%) และ KRMN (13 ต.ค. wrong: ปฏิเสธเพราะ P/E ~42 โดยไม่เทียบกับการเติบโต แล้วรายได้ไตรมาส 3 +66% backlog $1.7B +34.4%) ทั้งสองกรณีไม่ได้คำนวณ Lynch ratio หรือราคาที่คุ้ม 1:2 ก่อนปฏิเสธ"
+  }
+ ],
+ "model": "claude-opus-5-5"
+}
