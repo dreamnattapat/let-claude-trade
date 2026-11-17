@@ -1,132 +1,150 @@
 {
- "updatedAt": "2026-11-14T01:39:26.352Z",
- "closedThrough": "2026-11-13",
- "valueUsd": 9877.36,
+ "updatedAt": "2026-11-17T04:06:53.025Z",
+ "closedThrough": "2026-11-16",
+ "valueUsd": 9733.99,
  "cashUsd": 4312.87,
- "returnPct": -1.226,
- "spyReturnPct": -1.979,
- "leadPct": 0.753,
+ "returnPct": -2.66,
+ "spyReturnPct": -3.853,
+ "leadPct": 1.193,
  "stages": {
-  "TSM": {
-   "stage": 3,
-   "closeUsd": 398.73,
-   "ma30wUsd": 420.49,
-   "vsMaPct": -5.18,
-   "maSlopePct": 1.54,
-   "relStrengthPct": 0.04,
-   "weekOf": "2026-11-13"
-  },
   "TOST": {
    "stage": 2,
-   "closeUsd": 33.52,
-   "ma30wUsd": 29.96,
-   "vsMaPct": 11.87,
-   "maSlopePct": 2.98,
-   "relStrengthPct": null,
-   "weekOf": "2026-11-12"
+   "closeUsd": 35,
+   "ma30wUsd": 30.2,
+   "vsMaPct": 15.89,
+   "maSlopePct": 2.96,
+   "relStrengthPct": 12.14,
+   "weekOf": "2026-11-16"
+  },
+  "TSM": {
+   "stage": 3,
+   "closeUsd": 373.45,
+   "ma30wUsd": 419.53,
+   "vsMaPct": -10.98,
+   "maSlopePct": 0.57,
+   "relStrengthPct": -4.78,
+   "weekOf": "2026-11-16"
   },
   "VST": {
    "stage": 4,
-   "closeUsd": 134.51,
-   "ma30wUsd": 148.49,
-   "vsMaPct": -9.41,
-   "maSlopePct": -1.92,
-   "relStrengthPct": null,
-   "weekOf": "2026-11-12"
+   "closeUsd": 130.16,
+   "ma30wUsd": 147.3,
+   "vsMaPct": -11.64,
+   "maSlopePct": -2.37,
+   "relStrengthPct": -17.74,
+   "weekOf": "2026-11-16"
   },
   "UNH": {
    "stage": 2,
-   "closeUsd": 407.46,
-   "ma30wUsd": 397.17,
-   "vsMaPct": 2.59,
-   "maSlopePct": 4.03,
-   "relStrengthPct": 8.65,
-   "weekOf": "2026-11-13"
+   "closeUsd": 412.02,
+   "ma30wUsd": 399.08,
+   "vsMaPct": 3.24,
+   "maSlopePct": 3.1,
+   "relStrengthPct": 11.69,
+   "weekOf": "2026-11-16"
   },
   "ADMA": {
    "stage": 2,
-   "closeUsd": 13.24,
-   "ma30wUsd": 9.53,
-   "vsMaPct": 38.95,
-   "maSlopePct": 3.22,
-   "relStrengthPct": null,
-   "weekOf": "2026-11-12"
-  },
-  "PG": {
-   "stage": 2,
-   "closeUsd": 169.8,
-   "ma30wUsd": 149.46,
-   "vsMaPct": 13.61,
-   "maSlopePct": 1.81,
-   "relStrengthPct": 8.45,
-   "weekOf": "2026-11-13"
-  },
-  "PEP": {
-   "stage": 1,
-   "closeUsd": 145.44,
-   "ma30wUsd": 140.53,
-   "vsMaPct": 3.5,
-   "maSlopePct": -1.52,
-   "relStrengthPct": -5.28,
-   "weekOf": "2026-11-13"
-  },
-  "SLB": {
-   "stage": 3,
-   "closeUsd": 51.67,
-   "ma30wUsd": 52.3,
-   "vsMaPct": -1.2,
-   "maSlopePct": 0.06,
-   "relStrengthPct": -0.17,
-   "weekOf": "2026-11-13"
-  },
-  "HRMY": {
-   "stage": 3,
-   "closeUsd": 33.8,
-   "ma30wUsd": 36,
-   "vsMaPct": -6.1,
-   "maSlopePct": 2.72,
-   "relStrengthPct": null,
-   "weekOf": "2026-11-12"
+   "closeUsd": 13.47,
+   "ma30wUsd": 9.62,
+   "vsMaPct": 40.06,
+   "maSlopePct": 3.64,
+   "relStrengthPct": 6.64,
+   "weekOf": "2026-11-16"
   },
   "CORT": {
    "stage": 3,
-   "closeUsd": 72.94,
-   "ma30wUsd": 90.45,
-   "vsMaPct": -19.36,
-   "maSlopePct": 5.63,
-   "relStrengthPct": -3.84,
-   "weekOf": "2026-11-13"
+   "closeUsd": 69.22,
+   "ma30wUsd": 91.22,
+   "vsMaPct": -24.12,
+   "maSlopePct": 4.56,
+   "relStrengthPct": -6.54,
+   "weekOf": "2026-11-16"
+  },
+  "PEP": {
+   "stage": 1,
+   "closeUsd": 146.43,
+   "ma30wUsd": 140.23,
+   "vsMaPct": 4.42,
+   "maSlopePct": -1.33,
+   "relStrengthPct": -2.55,
+   "weekOf": "2026-11-16"
+  },
+  "PG": {
+   "stage": 2,
+   "closeUsd": 173.02,
+   "ma30wUsd": 150.29,
+   "vsMaPct": 15.13,
+   "maSlopePct": 1.95,
+   "relStrengthPct": 12.61,
+   "weekOf": "2026-11-16"
+  },
+  "SLB": {
+   "stage": 3,
+   "closeUsd": 50.08,
+   "ma30wUsd": 52.09,
+   "vsMaPct": -3.87,
+   "maSlopePct": -0.3,
+   "relStrengthPct": -1.71,
+   "weekOf": "2026-11-16"
+  },
+  "NVO": {
+   "stage": 1,
+   "closeUsd": 41.6,
+   "ma30wUsd": 44.13,
+   "vsMaPct": -5.74,
+   "maSlopePct": 0.56,
+   "relStrengthPct": -10.56,
+   "weekOf": "2026-11-16"
+  },
+  "DG": {
+   "stage": 2,
+   "closeUsd": 136.18,
+   "ma30wUsd": 121.86,
+   "vsMaPct": 11.75,
+   "maSlopePct": 1.49,
+   "relStrengthPct": 3.76,
+   "weekOf": "2026-11-16"
+  },
+  "CNQ": {
+   "stage": 2,
+   "closeUsd": 48.17,
+   "ma30wUsd": 47.51,
+   "vsMaPct": 1.38,
+   "maSlopePct": 1.53,
+   "relStrengthPct": 6.16,
+   "weekOf": "2026-11-16"
   }
  },
- "themeReturnPct": 0.751,
+ "themeReturnPct": -0.837,
  "dividendsUsd": 0,
  "holdings": [
-  {
-   "ticker": "TSM",
-   "units": 4.847192,
-   "avgCostUsd": 412.61,
-   "priceUsd": 398.73,
-   "valueUsd": 1932.72,
-   "unrealizedPct": -3.36,
-   "weightPct": 19.57
-  },
   {
    "ticker": "TOST",
    "units": 53.601339,
    "avgCostUsd": 29.85,
-   "priceUsd": 34.68,
-   "valueUsd": 1858.89,
-   "unrealizedPct": 16.18,
-   "weightPct": 18.82
+   "priceUsd": 35,
+   "valueUsd": 1876.05,
+   "unrealizedPct": 17.25,
+   "weightPct": 19.27
+  },
+  {
+   "ticker": "TSM",
+   "units": 4.847192,
+   "avgCostUsd": 412.61,
+   "priceUsd": 373.45,
+   "valueUsd": 1810.18,
+   "unrealizedPct": -9.49,
+   "weightPct": 18.6
   },
   {
    "ticker": "VST",
    "units": 13.328869,
    "avgCostUsd": 150.0502,
-   "priceUsd": 133.01,
-   "valueUsd": 1772.87,
-   "unrealizedPct": -11.36,
-   "weightPct": 17.95
+   "priceUsd": 130.16,
+   "valueUsd": 1734.89,
+   "unrealizedPct": -13.26,
+   "weightPct": 17.82
   }
  ],
  "orders": [
@@ -289,6 +307,19 @@
    "usd": 800,
    "limitUsd": 380,
    "until": "2026-11-16",
+   "status": "expired",
+   "note": "ราคาไม่ลงถึง $380 ภายใน 2026-11-16"
+  },
+  {
+   "id": "2026-11-16-1",
+   "session": "2026-11-17",
+   "effectiveSession": "2026-11-17",
+   "postedAt": "2026-11-16T11:30:42.000Z",
+   "ticker": "UNH",
+   "side": "buy",
+   "usd": 800,
+   "limitUsd": 385,
+   "until": "2026-11-23",
    "status": "pending"
   }
  ],
@@ -503,24 +534,42 @@
   },
   {
    "date": "2026-11-13",
-   "valueUsd": 9835.17,
-   "spyUsd": 9802.11,
-   "themesUsd": 10096.75,
-   "extraUsd": {
-    "VGT": 9050.06
-   }
-  },
-  {
-   "date": "2026-11-14",
    "valueUsd": 9877.36,
    "spyUsd": 9802.11,
    "themesUsd": 10075.11,
    "extraUsd": {
     "VGT": 9050.06
    }
+  },
+  {
+   "date": "2026-11-16",
+   "valueUsd": 9733.99,
+   "spyUsd": 9614.74,
+   "themesUsd": 9916.34,
+   "extraUsd": {
+    "VGT": 8776.56
+   }
+  },
+  {
+   "date": "2026-11-17",
+   "valueUsd": 9733.99,
+   "spyUsd": 9614.74,
+   "themesUsd": 9916.34,
+   "extraUsd": {
+    "VGT": 8776.56
+   }
   }
  ],
- "priceChecks": [],
+ "priceChecks": [
+  {
+   "reportDate": "2026-11-16",
+   "ticker": "ADMA",
+   "priceUsd": 13.24,
+   "closeDate": "2026-11-13",
+   "closeUsd": 13.68,
+   "diffPct": -3.22
+  }
+ ],
  "outcomes": [
   {
    "reportDate": "2026-10-13",
@@ -528,12 +577,12 @@
    "action": "buy",
    "fromDate": "2026-10-14",
    "fromPrice": 29.85,
-   "toDate": "2026-11-13",
-   "toPrice": 33.52,
-   "returnPct": 12.29,
-   "spyReturnPct": -1.98,
-   "vsSpyPct": 14.27,
-   "sessions": 22
+   "toDate": "2026-11-16",
+   "toPrice": 35,
+   "returnPct": 17.25,
+   "spyReturnPct": -3.85,
+   "vsSpyPct": 21.11,
+   "sessions": 23
   },
   {
    "reportDate": "2026-10-13",
@@ -541,12 +590,12 @@
    "action": "buy",
    "fromDate": "2026-10-14",
    "fromPrice": 151.79,
-   "toDate": "2026-11-13",
-   "toPrice": 134.51,
-   "returnPct": -11.38,
-   "spyReturnPct": -1.98,
-   "vsSpyPct": -9.41,
-   "sessions": 22
+   "toDate": "2026-11-16",
+   "toPrice": 130.16,
+   "returnPct": -14.25,
+   "spyReturnPct": -3.85,
+   "vsSpyPct": -10.4,
+   "sessions": 23
   },
   {
    "reportDate": "2026-10-13",
@@ -554,12 +603,12 @@
    "action": "buy",
    "fromDate": "2026-10-14",
    "fromPrice": 59.18,
-   "toDate": "2026-11-13",
-   "toPrice": 64.07,
-   "returnPct": 8.26,
-   "spyReturnPct": -1.98,
-   "vsSpyPct": 10.24,
-   "sessions": 22
+   "toDate": "2026-11-16",
+   "toPrice": 57.37,
+   "returnPct": -3.06,
+   "spyReturnPct": -3.85,
+   "vsSpyPct": 0.79,
+   "sessions": 23
   },
   {
    "reportDate": "2026-10-13",
@@ -567,12 +616,12 @@
    "action": "buy",
    "fromDate": "2026-10-16",
    "fromPrice": 412.61,
-   "toDate": "2026-11-13",
-   "toPrice": 398.73,
-   "returnPct": -3.36,
-   "spyReturnPct": -1.16,
-   "vsSpyPct": -2.2,
-   "sessions": 20
+   "toDate": "2026-11-16",
+   "toPrice": 373.45,
+   "returnPct": -9.49,
+   "spyReturnPct": -3.05,
+   "vsSpyPct": -6.44,
+   "sessions": 21
   },
   {
    "reportDate": "2026-10-13",
@@ -580,12 +629,12 @@
    "action": "watch",
    "fromDate": "2026-10-14",
    "fromPrice": 60.99,
-   "toDate": "2026-11-13",
-   "toPrice": 69,
-   "returnPct": 13.13,
-   "spyReturnPct": -1.98,
-   "vsSpyPct": 15.11,
-   "sessions": 22
+   "toDate": "2026-11-16",
+   "toPrice": 67.1,
+   "returnPct": 10.02,
+   "spyReturnPct": -3.85,
+   "vsSpyPct": 13.87,
+   "sessions": 23
   },
   {
    "reportDate": "2026-10-13",
@@ -593,12 +642,12 @@
    "action": "watch",
    "fromDate": "2026-10-14",
    "fromPrice": 116.82,
-   "toDate": "2026-11-13",
-   "toPrice": 100.27,
-   "returnPct": -14.17,
-   "spyReturnPct": -1.98,
-   "vsSpyPct": -12.19,
-   "sessions": 22
+   "toDate": "2026-11-16",
+   "toPrice": 96.5,
+   "returnPct": -17.39,
+   "spyReturnPct": -3.85,
+   "vsSpyPct": -13.54,
+   "sessions": 23
   },
   {
    "reportDate": "2026-10-13",
@@ -606,12 +655,12 @@
    "action": "watch",
    "fromDate": "2026-10-14",
    "fromPrice": 154.19,
-   "toDate": "2026-11-13",
-   "toPrice": 158.32,
-   "returnPct": 2.68,
-   "spyReturnPct": -1.98,
-   "vsSpyPct": 4.66,
-   "sessions": 22
+   "toDate": "2026-11-16",
+   "toPrice": 155.47,
+   "returnPct": 0.83,
+   "spyReturnPct": -3.85,
+   "vsSpyPct": 4.68,
+   "sessions": 23
   },
   {
    "reportDate": "2026-10-13",
@@ -619,12 +668,12 @@
    "action": "watch",
    "fromDate": "2026-10-14",
    "fromPrice": 262.19,
-   "toDate": "2026-11-13",
-   "toPrice": 393.68,
-   "returnPct": 50.15,
-   "spyReturnPct": -1.98,
-   "vsSpyPct": 52.13,
-   "sessions": 22
+   "toDate": "2026-11-16",
+   "toPrice": 415.22,
+   "returnPct": 58.37,
+   "spyReturnPct": -3.85,
+   "vsSpyPct": 62.22,
+   "sessions": 23
   },
   {
    "reportDate": "2026-10-13",
@@ -632,12 +681,12 @@
    "action": "watch",
    "fromDate": "2026-10-14",
    "fromPrice": 169.53,
-   "toDate": "2026-11-13",
-   "toPrice": 142.72,
-   "returnPct": -15.81,
-   "spyReturnPct": -1.98,
-   "vsSpyPct": -13.84,
-   "sessions": 22
+   "toDate": "2026-11-16",
+   "toPrice": 151.2,
+   "returnPct": -10.81,
+   "spyReturnPct": -3.85,
+   "vsSpyPct": -6.96,
+   "sessions": 23
   },
   {
    "reportDate": "2026-10-13",
@@ -645,12 +694,12 @@
    "action": "watch",
    "fromDate": "2026-10-14",
    "fromPrice": 14.13,
-   "toDate": "2026-11-13",
-   "toPrice": 13.9,
-   "returnPct": -1.63,
-   "spyReturnPct": -1.98,
-   "vsSpyPct": 0.35,
-   "sessions": 22
+   "toDate": "2026-11-16",
+   "toPrice": 12.72,
+   "returnPct": -9.98,
+   "spyReturnPct": -3.85,
+   "vsSpyPct": -6.13,
+   "sessions": 23
   },
   {
    "reportDate": "2026-10-13",
@@ -658,12 +707,12 @@
    "action": "watch",
    "fromDate": "2026-10-14",
    "fromPrice": 1208.74,
-   "toDate": "2026-11-13",
-   "toPrice": 1443.5,
-   "returnPct": 19.42,
-   "spyReturnPct": -1.98,
-   "vsSpyPct": 21.4,
-   "sessions": 22
+   "toDate": "2026-11-16",
+   "toPrice": 1431.67,
+   "returnPct": 18.44,
+   "spyReturnPct": -3.85,
+   "vsSpyPct": 22.3,
+   "sessions": 23
   },
   {
    "reportDate": "2026-10-13",
@@ -671,12 +720,12 @@
    "action": "watch",
    "fromDate": "2026-10-14",
    "fromPrice": 139.73,
-   "toDate": "2026-11-13",
-   "toPrice": 157.42,
-   "returnPct": 12.66,
-   "spyReturnPct": -1.98,
-   "vsSpyPct": 14.64,
-   "sessions": 22
+   "toDate": "2026-11-16",
+   "toPrice": 168.75,
+   "returnPct": 20.77,
+   "spyReturnPct": -3.85,
+   "vsSpyPct": 24.62,
+   "sessions": 23
   },
   {
    "reportDate": "2026-10-13",
@@ -684,12 +733,12 @@
    "action": "watch",
    "fromDate": "2026-10-14",
    "fromPrice": 75.52,
-   "toDate": "2026-11-13",
-   "toPrice": 92,
-   "returnPct": 21.82,
-   "spyReturnPct": -1.98,
-   "vsSpyPct": 23.8,
-   "sessions": 22
+   "toDate": "2026-11-16",
+   "toPrice": 92.21,
+   "returnPct": 22.1,
+   "spyReturnPct": -3.85,
+   "vsSpyPct": 25.95,
+   "sessions": 23
   },
   {
    "reportDate": "2026-10-13",
@@ -697,12 +746,12 @@
    "action": "watch",
    "fromDate": "2026-10-14",
    "fromPrice": 134.44,
-   "toDate": "2026-11-13",
-   "toPrice": 122.97,
-   "returnPct": -8.53,
-   "spyReturnPct": -1.98,
-   "vsSpyPct": -6.55,
-   "sessions": 22
+   "toDate": "2026-11-16",
+   "toPrice": 117.09,
+   "returnPct": -12.91,
+   "spyReturnPct": -3.85,
+   "vsSpyPct": -9.05,
+   "sessions": 23
   },
   {
    "reportDate": "2026-10-13",
@@ -710,12 +759,12 @@
    "action": "watch",
    "fromDate": "2026-10-14",
    "fromPrice": 179.08,
-   "toDate": "2026-11-13",
-   "toPrice": 171.39,
-   "returnPct": -4.29,
-   "spyReturnPct": -1.98,
-   "vsSpyPct": -2.32,
-   "sessions": 22
+   "toDate": "2026-11-16",
+   "toPrice": 162.45,
+   "returnPct": -9.29,
+   "spyReturnPct": -3.85,
+   "vsSpyPct": -5.43,
+   "sessions": 23
   },
   {
    "reportDate": "2026-10-13",
@@ -723,12 +772,12 @@
    "action": "watch",
    "fromDate": "2026-10-14",
    "fromPrice": 17.02,
-   "toDate": "2026-11-13",
-   "toPrice": 25.31,
-   "returnPct": 48.71,
-   "spyReturnPct": -1.98,
-   "vsSpyPct": 50.69,
-   "sessions": 22
+   "toDate": "2026-11-16",
+   "toPrice": 22.48,
+   "returnPct": 32.08,
+   "spyReturnPct": -3.85,
+   "vsSpyPct": 35.93,
+   "sessions": 23
   },
   {
    "reportDate": "2026-10-13",
@@ -736,12 +785,12 @@
    "action": "watch",
    "fromDate": "2026-10-14",
    "fromPrice": 30.14,
-   "toDate": "2026-11-13",
-   "toPrice": 40.5,
-   "returnPct": 34.37,
-   "spyReturnPct": -1.98,
-   "vsSpyPct": 36.35,
-   "sessions": 22
+   "toDate": "2026-11-16",
+   "toPrice": 37.49,
+   "returnPct": 24.39,
+   "spyReturnPct": -3.85,
+   "vsSpyPct": 28.24,
+   "sessions": 23
   },
   {
    "reportDate": "2026-10-19",
@@ -749,12 +798,12 @@
    "action": "sell",
    "fromDate": "2026-10-20",
    "fromPrice": 50.9,
-   "toDate": "2026-11-13",
-   "toPrice": 64.07,
-   "returnPct": 25.87,
-   "spyReturnPct": -1.91,
-   "vsSpyPct": 27.78,
-   "sessions": 18
+   "toDate": "2026-11-16",
+   "toPrice": 57.37,
+   "returnPct": 12.71,
+   "spyReturnPct": -3.78,
+   "vsSpyPct": 16.5,
+   "sessions": 19
   },
   {
    "reportDate": "2026-10-19",
@@ -762,12 +811,12 @@
    "action": "sell",
    "fromDate": "2026-10-20",
    "fromPrice": 32.65,
-   "toDate": "2026-11-13",
-   "toPrice": 33.52,
-   "returnPct": 2.66,
-   "spyReturnPct": -1.91,
-   "vsSpyPct": 4.57,
-   "sessions": 18
+   "toDate": "2026-11-16",
+   "toPrice": 35,
+   "returnPct": 7.2,
+   "spyReturnPct": -3.78,
+   "vsSpyPct": 10.98,
+   "sessions": 19
   },
   {
    "reportDate": "2026-10-19",
@@ -775,12 +824,12 @@
    "action": "hold",
    "fromDate": "2026-10-20",
    "fromPrice": 425.08,
-   "toDate": "2026-11-13",
-   "toPrice": 398.73,
-   "returnPct": -6.2,
-   "spyReturnPct": -1.91,
-   "vsSpyPct": -4.29,
-   "sessions": 18
+   "toDate": "2026-11-16",
+   "toPrice": 373.45,
+   "returnPct": -12.15,
+   "spyReturnPct": -3.78,
+   "vsSpyPct": -8.36,
+   "sessions": 19
   },
   {
    "reportDate": "2026-10-19",
@@ -788,12 +837,12 @@
    "action": "buy",
    "fromDate": "2026-10-20",
    "fromPrice": 150.32,
-   "toDate": "2026-11-13",
-   "toPrice": 134.51,
-   "returnPct": -10.52,
-   "spyReturnPct": -1.91,
-   "vsSpyPct": -8.61,
-   "sessions": 18
+   "toDate": "2026-11-16",
+   "toPrice": 130.16,
+   "returnPct": -13.41,
+   "spyReturnPct": -3.78,
+   "vsSpyPct": -9.63,
+   "sessions": 19
   },
   {
    "reportDate": "2026-10-19",
@@ -801,12 +850,12 @@
    "action": "buy",
    "fromDate": "2026-10-23",
    "fromPrice": 140.16,
-   "toDate": "2026-11-13",
-   "toPrice": 134.51,
-   "returnPct": -4.03,
-   "spyReturnPct": -0.74,
-   "vsSpyPct": -3.29,
-   "sessions": 15
+   "toDate": "2026-11-16",
+   "toPrice": 130.16,
+   "returnPct": -7.13,
+   "spyReturnPct": -2.63,
+   "vsSpyPct": -4.5,
+   "sessions": 16
   },
   {
    "reportDate": "2026-10-19",
@@ -814,12 +863,12 @@
    "action": "watch",
    "fromDate": "2026-10-20",
    "fromPrice": 272.46,
-   "toDate": "2026-11-13",
-   "toPrice": 393.68,
-   "returnPct": 44.49,
-   "spyReturnPct": -1.91,
-   "vsSpyPct": 46.4,
-   "sessions": 18
+   "toDate": "2026-11-16",
+   "toPrice": 415.22,
+   "returnPct": 52.4,
+   "spyReturnPct": -3.78,
+   "vsSpyPct": 56.18,
+   "sessions": 19
   },
   {
    "reportDate": "2026-10-19",
@@ -827,12 +876,12 @@
    "action": "watch",
    "fromDate": "2026-10-20",
    "fromPrice": 29.21,
-   "toDate": "2026-11-13",
-   "toPrice": 27.39,
-   "returnPct": -6.23,
-   "spyReturnPct": -1.91,
-   "vsSpyPct": -4.32,
-   "sessions": 18
+   "toDate": "2026-11-16",
+   "toPrice": 26.96,
+   "returnPct": -7.7,
+   "spyReturnPct": -3.78,
+   "vsSpyPct": -3.92,
+   "sessions": 19
   },
   {
    "reportDate": "2026-10-19",
@@ -840,12 +889,12 @@
    "action": "watch",
    "fromDate": "2026-10-20",
    "fromPrice": 124.37,
-   "toDate": "2026-11-13",
-   "toPrice": 100.27,
-   "returnPct": -19.38,
-   "spyReturnPct": -1.91,
-   "vsSpyPct": -17.47,
-   "sessions": 18
+   "toDate": "2026-11-16",
+   "toPrice": 96.5,
+   "returnPct": -22.41,
+   "spyReturnPct": -3.78,
+   "vsSpyPct": -18.63,
+   "sessions": 19
   },
   {
    "reportDate": "2026-10-19",
@@ -853,12 +902,12 @@
    "action": "watch",
    "fromDate": "2026-10-20",
    "fromPrice": 64.39,
-   "toDate": "2026-11-13",
-   "toPrice": 69,
-   "returnPct": 7.16,
-   "spyReturnPct": -1.91,
-   "vsSpyPct": 9.07,
-   "sessions": 18
+   "toDate": "2026-11-16",
+   "toPrice": 67.1,
+   "returnPct": 4.21,
+   "spyReturnPct": -3.78,
+   "vsSpyPct": 7.99,
+   "sessions": 19
   },
   {
    "reportDate": "2026-10-19",
@@ -866,12 +915,12 @@
    "action": "watch",
    "fromDate": "2026-10-20",
    "fromPrice": 157.91,
-   "toDate": "2026-11-13",
-   "toPrice": 158.32,
-   "returnPct": 0.26,
-   "spyReturnPct": -1.91,
-   "vsSpyPct": 2.17,
-   "sessions": 18
+   "toDate": "2026-11-16",
+   "toPrice": 155.47,
+   "returnPct": -1.55,
+   "spyReturnPct": -3.78,
+   "vsSpyPct": 2.24,
+   "sessions": 19
   },
   {
    "reportDate": "2026-10-19",
@@ -879,12 +928,12 @@
    "action": "watch",
    "fromDate": "2026-10-20",
    "fromPrice": 164.94,
-   "toDate": "2026-11-13",
-   "toPrice": 142.72,
-   "returnPct": -13.47,
-   "spyReturnPct": -1.91,
-   "vsSpyPct": -11.56,
-   "sessions": 18
+   "toDate": "2026-11-16",
+   "toPrice": 151.2,
+   "returnPct": -8.33,
+   "spyReturnPct": -3.78,
+   "vsSpyPct": -4.55,
+   "sessions": 19
   },
   {
    "reportDate": "2026-10-19",
@@ -892,12 +941,12 @@
    "action": "watch",
    "fromDate": "2026-10-20",
    "fromPrice": 516.07,
-   "toDate": "2026-11-13",
-   "toPrice": 548.2,
-   "returnPct": 6.23,
-   "spyReturnPct": -1.91,
-   "vsSpyPct": 8.13,
-   "sessions": 18
+   "toDate": "2026-11-16",
+   "toPrice": 549.45,
+   "returnPct": 6.47,
+   "spyReturnPct": -3.78,
+   "vsSpyPct": 10.25,
+   "sessions": 19
   },
   {
    "reportDate": "2026-10-26",
@@ -905,12 +954,12 @@
    "action": "hold",
    "fromDate": "2026-10-26",
    "fromPrice": 424.37,
-   "toDate": "2026-11-13",
-   "toPrice": 398.73,
-   "returnPct": -6.04,
-   "spyReturnPct": -1.44,
-   "vsSpyPct": -4.6,
-   "sessions": 14
+   "toDate": "2026-11-16",
+   "toPrice": 373.45,
+   "returnPct": -12,
+   "spyReturnPct": -3.32,
+   "vsSpyPct": -8.68,
+   "sessions": 15
   },
   {
    "reportDate": "2026-10-26",
@@ -918,12 +967,12 @@
    "action": "hold",
    "fromDate": "2026-10-26",
    "fromPrice": 141.73,
-   "toDate": "2026-11-13",
-   "toPrice": 134.51,
-   "returnPct": -5.09,
-   "spyReturnPct": -1.44,
-   "vsSpyPct": -3.66,
-   "sessions": 14
+   "toDate": "2026-11-16",
+   "toPrice": 130.16,
+   "returnPct": -8.16,
+   "spyReturnPct": -3.32,
+   "vsSpyPct": -4.84,
+   "sessions": 15
   },
   {
    "reportDate": "2026-10-26",
@@ -931,12 +980,12 @@
    "action": "hold",
    "fromDate": "2026-10-26",
    "fromPrice": 32.13,
-   "toDate": "2026-11-13",
-   "toPrice": 33.52,
-   "returnPct": 4.33,
-   "spyReturnPct": -1.44,
-   "vsSpyPct": 5.76,
-   "sessions": 14
+   "toDate": "2026-11-16",
+   "toPrice": 35,
+   "returnPct": 8.93,
+   "spyReturnPct": -3.32,
+   "vsSpyPct": 12.25,
+   "sessions": 15
   },
   {
    "reportDate": "2026-10-26",
@@ -944,12 +993,12 @@
    "action": "watch",
    "fromDate": "2026-10-26",
    "fromPrice": 36.83,
-   "toDate": "2026-11-13",
-   "toPrice": 33.8,
-   "returnPct": -8.23,
-   "spyReturnPct": -1.44,
-   "vsSpyPct": -6.79,
-   "sessions": 14
+   "toDate": "2026-11-16",
+   "toPrice": 32.96,
+   "returnPct": -10.51,
+   "spyReturnPct": -3.32,
+   "vsSpyPct": -7.19,
+   "sessions": 15
   },
   {
    "reportDate": "2026-10-26",
@@ -957,12 +1006,12 @@
    "action": "watch",
    "fromDate": "2026-10-26",
    "fromPrice": 11.065,
-   "toDate": "2026-11-13",
-   "toPrice": 13.24,
-   "returnPct": 19.66,
-   "spyReturnPct": -1.44,
-   "vsSpyPct": 21.09,
-   "sessions": 14
+   "toDate": "2026-11-16",
+   "toPrice": 13.47,
+   "returnPct": 21.74,
+   "spyReturnPct": -3.32,
+   "vsSpyPct": 25.06,
+   "sessions": 15
   },
   {
    "reportDate": "2026-10-26",
@@ -970,12 +1019,12 @@
    "action": "watch",
    "fromDate": "2026-10-26",
    "fromPrice": 260.74,
-   "toDate": "2026-11-13",
-   "toPrice": 393.68,
-   "returnPct": 50.99,
-   "spyReturnPct": -1.44,
-   "vsSpyPct": 52.42,
-   "sessions": 14
+   "toDate": "2026-11-16",
+   "toPrice": 415.22,
+   "returnPct": 59.25,
+   "spyReturnPct": -3.32,
+   "vsSpyPct": 62.57,
+   "sessions": 15
   },
   {
    "reportDate": "2026-10-26",
@@ -983,12 +1032,12 @@
    "action": "watch",
    "fromDate": "2026-10-26",
    "fromPrice": 128.01,
-   "toDate": "2026-11-13",
-   "toPrice": 100.27,
-   "returnPct": -21.67,
-   "spyReturnPct": -1.44,
-   "vsSpyPct": -20.23,
-   "sessions": 14
+   "toDate": "2026-11-16",
+   "toPrice": 96.5,
+   "returnPct": -24.62,
+   "spyReturnPct": -3.32,
+   "vsSpyPct": -21.29,
+   "sessions": 15
   },
   {
    "reportDate": "2026-10-26",
@@ -996,12 +1045,12 @@
    "action": "watch",
    "fromDate": "2026-10-26",
    "fromPrice": 65.11,
-   "toDate": "2026-11-13",
-   "toPrice": 69,
-   "returnPct": 5.97,
-   "spyReturnPct": -1.44,
-   "vsSpyPct": 7.41,
-   "sessions": 14
+   "toDate": "2026-11-16",
+   "toPrice": 67.1,
+   "returnPct": 3.06,
+   "spyReturnPct": -3.32,
+   "vsSpyPct": 6.38,
+   "sessions": 15
   },
   {
    "reportDate": "2026-10-26",
@@ -1009,12 +1058,12 @@
    "action": "watch",
    "fromDate": "2026-10-26",
    "fromPrice": 163.68,
-   "toDate": "2026-11-13",
-   "toPrice": 158.32,
-   "returnPct": -3.27,
-   "spyReturnPct": -1.44,
-   "vsSpyPct": -1.84,
-   "sessions": 14
+   "toDate": "2026-11-16",
+   "toPrice": 155.47,
+   "returnPct": -5.02,
+   "spyReturnPct": -3.32,
+   "vsSpyPct": -1.69,
+   "sessions": 15
   },
   {
    "reportDate": "2026-10-26",
@@ -1022,12 +1071,12 @@
    "action": "buy",
    "fromDate": "2026-10-29",
    "fromPrice": 133.79,
-   "toDate": "2026-11-13",
-   "toPrice": 145.44,
-   "returnPct": 8.71,
-   "spyReturnPct": -1.95,
-   "vsSpyPct": 10.66,
-   "sessions": 11
+   "toDate": "2026-11-16",
+   "toPrice": 146.43,
+   "returnPct": 9.45,
+   "spyReturnPct": -3.82,
+   "vsSpyPct": 13.27,
+   "sessions": 12
   },
   {
    "reportDate": "2026-10-26",
@@ -1035,12 +1084,12 @@
    "action": "watch",
    "fromDate": "2026-10-26",
    "fromPrice": 159.92,
-   "toDate": "2026-11-13",
-   "toPrice": 169.8,
-   "returnPct": 6.18,
-   "spyReturnPct": -1.44,
-   "vsSpyPct": 7.62,
-   "sessions": 14
+   "toDate": "2026-11-16",
+   "toPrice": 173.02,
+   "returnPct": 8.19,
+   "spyReturnPct": -3.32,
+   "vsSpyPct": 11.51,
+   "sessions": 15
   },
   {
    "reportDate": "2026-11-02",
@@ -1048,12 +1097,12 @@
    "action": "hold",
    "fromDate": "2026-11-02",
    "fromPrice": 398.63,
-   "toDate": "2026-11-13",
-   "toPrice": 398.73,
-   "returnPct": 0.03,
-   "spyReturnPct": 0.3,
-   "vsSpyPct": -0.28,
-   "sessions": 9
+   "toDate": "2026-11-16",
+   "toPrice": 373.45,
+   "returnPct": -6.32,
+   "spyReturnPct": -1.62,
+   "vsSpyPct": -4.7,
+   "sessions": 10
   },
   {
    "reportDate": "2026-11-02",
@@ -1061,12 +1110,12 @@
    "action": "hold",
    "fromDate": "2026-11-02",
    "fromPrice": 134.61,
-   "toDate": "2026-11-13",
-   "toPrice": 134.51,
-   "returnPct": -0.07,
-   "spyReturnPct": 0.3,
-   "vsSpyPct": -0.38,
-   "sessions": 9
+   "toDate": "2026-11-16",
+   "toPrice": 130.16,
+   "returnPct": -3.31,
+   "spyReturnPct": -1.62,
+   "vsSpyPct": -1.69,
+   "sessions": 10
   },
   {
    "reportDate": "2026-11-02",
@@ -1074,12 +1123,12 @@
    "action": "hold",
    "fromDate": "2026-11-02",
    "fromPrice": 33.42,
-   "toDate": "2026-11-13",
-   "toPrice": 33.52,
-   "returnPct": 0.3,
-   "spyReturnPct": 0.3,
-   "vsSpyPct": 0,
-   "sessions": 9
+   "toDate": "2026-11-16",
+   "toPrice": 35,
+   "returnPct": 4.73,
+   "spyReturnPct": -1.62,
+   "vsSpyPct": 6.34,
+   "sessions": 10
   },
   {
    "reportDate": "2026-11-02",
@@ -1087,12 +1136,12 @@
    "action": "watch",
    "fromDate": "2026-11-02",
    "fromPrice": 37.91,
-   "toDate": "2026-11-13",
-   "toPrice": 33.8,
-   "returnPct": -10.84,
-   "spyReturnPct": 0.3,
-   "vsSpyPct": -11.14,
-   "sessions": 9
+   "toDate": "2026-11-16",
+   "toPrice": 32.96,
+   "returnPct": -13.06,
+   "spyReturnPct": -1.62,
+   "vsSpyPct": -11.44,
+   "sessions": 10
   },
   {
    "reportDate": "2026-11-02",
@@ -1100,12 +1149,12 @@
    "action": "watch",
    "fromDate": "2026-11-02",
    "fromPrice": 11.06,
-   "toDate": "2026-11-13",
-   "toPrice": 13.24,
-   "returnPct": 19.71,
-   "spyReturnPct": 0.3,
-   "vsSpyPct": 19.41,
-   "sessions": 9
+   "toDate": "2026-11-16",
+   "toPrice": 13.47,
+   "returnPct": 21.79,
+   "spyReturnPct": -1.62,
+   "vsSpyPct": 23.41,
+   "sessions": 10
   },
   {
    "reportDate": "2026-11-02",
@@ -1113,12 +1162,12 @@
    "action": "watch",
    "fromDate": "2026-11-02",
    "fromPrice": 163.56,
-   "toDate": "2026-11-13",
-   "toPrice": 169.8,
-   "returnPct": 3.82,
-   "spyReturnPct": 0.3,
-   "vsSpyPct": 3.51,
-   "sessions": 9
+   "toDate": "2026-11-16",
+   "toPrice": 173.02,
+   "returnPct": 5.78,
+   "spyReturnPct": -1.62,
+   "vsSpyPct": 7.4,
+   "sessions": 10
   },
   {
    "reportDate": "2026-11-02",
@@ -1126,12 +1175,12 @@
    "action": "watch",
    "fromDate": "2026-11-02",
    "fromPrice": 400.44,
-   "toDate": "2026-11-13",
-   "toPrice": 407.46,
-   "returnPct": 1.75,
-   "spyReturnPct": 0.3,
-   "vsSpyPct": 1.45,
-   "sessions": 9
+   "toDate": "2026-11-16",
+   "toPrice": 412.02,
+   "returnPct": 2.89,
+   "spyReturnPct": -1.62,
+   "vsSpyPct": 4.51,
+   "sessions": 10
   },
   {
    "reportDate": "2026-11-02",
@@ -1139,12 +1188,12 @@
    "action": "watch",
    "fromDate": "2026-11-02",
    "fromPrice": 140.42,
-   "toDate": "2026-11-13",
-   "toPrice": 145.44,
-   "returnPct": 3.57,
-   "spyReturnPct": 0.3,
-   "vsSpyPct": 3.27,
-   "sessions": 9
+   "toDate": "2026-11-16",
+   "toPrice": 146.43,
+   "returnPct": 4.28,
+   "spyReturnPct": -1.62,
+   "vsSpyPct": 5.9,
+   "sessions": 10
   },
   {
    "reportDate": "2026-11-02",
@@ -1152,12 +1201,12 @@
    "action": "watch",
    "fromDate": "2026-11-02",
    "fromPrice": 52.31,
-   "toDate": "2026-11-13",
-   "toPrice": 51.67,
-   "returnPct": -1.22,
-   "spyReturnPct": 0.3,
-   "vsSpyPct": -1.53,
-   "sessions": 9
+   "toDate": "2026-11-16",
+   "toPrice": 50.08,
+   "returnPct": -4.26,
+   "spyReturnPct": -1.62,
+   "vsSpyPct": -2.65,
+   "sessions": 10
   },
   {
    "reportDate": "2026-11-09",
@@ -1165,12 +1214,12 @@
    "action": "hold",
    "fromDate": "2026-11-10",
    "fromPrice": 396.48,
-   "toDate": "2026-11-13",
-   "toPrice": 398.73,
-   "returnPct": 0.57,
-   "spyReturnPct": 0.59,
-   "vsSpyPct": -0.03,
-   "sessions": 3
+   "toDate": "2026-11-16",
+   "toPrice": 373.45,
+   "returnPct": -5.81,
+   "spyReturnPct": -1.33,
+   "vsSpyPct": -4.48,
+   "sessions": 4
   },
   {
    "reportDate": "2026-11-09",
@@ -1178,12 +1227,12 @@
    "action": "hold",
    "fromDate": "2026-11-10",
    "fromPrice": 131.18,
-   "toDate": "2026-11-13",
-   "toPrice": 134.51,
-   "returnPct": 2.54,
-   "spyReturnPct": 0.59,
-   "vsSpyPct": 1.95,
-   "sessions": 3
+   "toDate": "2026-11-16",
+   "toPrice": 130.16,
+   "returnPct": -0.78,
+   "spyReturnPct": -1.33,
+   "vsSpyPct": 0.55,
+   "sessions": 4
   },
   {
    "reportDate": "2026-11-09",
@@ -1191,12 +1240,12 @@
    "action": "hold",
    "fromDate": "2026-11-10",
    "fromPrice": 34.52,
-   "toDate": "2026-11-13",
-   "toPrice": 33.52,
-   "returnPct": -2.9,
-   "spyReturnPct": 0.59,
-   "vsSpyPct": -3.49,
-   "sessions": 3
+   "toDate": "2026-11-16",
+   "toPrice": 35,
+   "returnPct": 1.39,
+   "spyReturnPct": -1.33,
+   "vsSpyPct": 2.72,
+   "sessions": 4
   },
   {
    "reportDate": "2026-11-09",
@@ -1204,12 +1253,12 @@
    "action": "buy",
    "fromDate": "2026-11-10",
    "fromPrice": 405.12,
-   "toDate": "2026-11-13",
-   "toPrice": 407.46,
-   "returnPct": 0.58,
-   "spyReturnPct": 0.59,
-   "vsSpyPct": -0.02,
-   "sessions": 3
+   "toDate": "2026-11-16",
+   "toPrice": 412.02,
+   "returnPct": 1.7,
+   "spyReturnPct": -1.33,
+   "vsSpyPct": 3.03,
+   "sessions": 4
   },
   {
    "reportDate": "2026-11-09",
@@ -1217,12 +1266,12 @@
    "action": "watch",
    "fromDate": "2026-11-10",
    "fromPrice": 12.67,
-   "toDate": "2026-11-13",
-   "toPrice": 13.24,
-   "returnPct": 4.5,
-   "spyReturnPct": 0.59,
-   "vsSpyPct": 3.91,
-   "sessions": 3
+   "toDate": "2026-11-16",
+   "toPrice": 13.47,
+   "returnPct": 6.31,
+   "spyReturnPct": -1.33,
+   "vsSpyPct": 7.64,
+   "sessions": 4
   },
   {
    "reportDate": "2026-11-09",
@@ -1230,12 +1279,12 @@
    "action": "watch",
    "fromDate": "2026-11-10",
    "fromPrice": 168.66,
-   "toDate": "2026-11-13",
-   "toPrice": 169.8,
-   "returnPct": 0.68,
-   "spyReturnPct": 0.59,
-   "vsSpyPct": 0.08,
-   "sessions": 3
+   "toDate": "2026-11-16",
+   "toPrice": 173.02,
+   "returnPct": 2.59,
+   "spyReturnPct": -1.33,
+   "vsSpyPct": 3.91,
+   "sessions": 4
   },
   {
    "reportDate": "2026-11-09",
@@ -1243,12 +1292,12 @@
    "action": "watch",
    "fromDate": "2026-11-10",
    "fromPrice": 143.61,
-   "toDate": "2026-11-13",
-   "toPrice": 145.44,
-   "returnPct": 1.27,
-   "spyReturnPct": 0.59,
-   "vsSpyPct": 0.68,
-   "sessions": 3
+   "toDate": "2026-11-16",
+   "toPrice": 146.43,
+   "returnPct": 1.96,
+   "spyReturnPct": -1.33,
+   "vsSpyPct": 3.29,
+   "sessions": 4
   },
   {
    "reportDate": "2026-11-09",
@@ -1256,12 +1305,12 @@
    "action": "watch",
    "fromDate": "2026-11-10",
    "fromPrice": 49.9,
-   "toDate": "2026-11-13",
-   "toPrice": 51.67,
-   "returnPct": 3.55,
-   "spyReturnPct": 0.59,
-   "vsSpyPct": 2.95,
-   "sessions": 3
+   "toDate": "2026-11-16",
+   "toPrice": 50.08,
+   "returnPct": 0.36,
+   "spyReturnPct": -1.33,
+   "vsSpyPct": 1.69,
+   "sessions": 4
   },
   {
    "reportDate": "2026-11-09",
@@ -1269,12 +1318,12 @@
    "action": "watch",
    "fromDate": "2026-11-10",
    "fromPrice": 33.55,
-   "toDate": "2026-11-13",
-   "toPrice": 33.8,
-   "returnPct": 0.75,
-   "spyReturnPct": 0.59,
-   "vsSpyPct": 0.15,
-   "sessions": 3
+   "toDate": "2026-11-16",
+   "toPrice": 32.96,
+   "returnPct": -1.76,
+   "spyReturnPct": -1.33,
+   "vsSpyPct": -0.43,
+   "sessions": 4
   },
   {
    "reportDate": "2026-11-09",
@@ -1282,12 +1331,155 @@
    "action": "watch",
    "fromDate": "2026-11-10",
    "fromPrice": 73.35,
-   "toDate": "2026-11-13",
-   "toPrice": 72.94,
-   "returnPct": -0.56,
-   "spyReturnPct": 0.59,
-   "vsSpyPct": -1.15,
-   "sessions": 3
+   "toDate": "2026-11-16",
+   "toPrice": 69.22,
+   "returnPct": -5.63,
+   "spyReturnPct": -1.33,
+   "vsSpyPct": -4.3,
+   "sessions": 4
+  },
+  {
+   "reportDate": "2026-11-16",
+   "ticker": "TSM",
+   "action": "hold",
+   "fromDate": "2026-11-16",
+   "fromPrice": 373.45,
+   "toDate": "2026-11-16",
+   "toPrice": 373.45,
+   "returnPct": 0,
+   "spyReturnPct": 0,
+   "vsSpyPct": 0,
+   "sessions": 0
+  },
+  {
+   "reportDate": "2026-11-16",
+   "ticker": "VST",
+   "action": "hold",
+   "fromDate": "2026-11-16",
+   "fromPrice": 130.16,
+   "toDate": "2026-11-16",
+   "toPrice": 130.16,
+   "returnPct": 0,
+   "spyReturnPct": 0,
+   "vsSpyPct": 0,
+   "sessions": 0
+  },
+  {
+   "reportDate": "2026-11-16",
+   "ticker": "TOST",
+   "action": "hold",
+   "fromDate": "2026-11-16",
+   "fromPrice": 35,
+   "toDate": "2026-11-16",
+   "toPrice": 35,
+   "returnPct": 0,
+   "spyReturnPct": 0,
+   "vsSpyPct": 0,
+   "sessions": 0
+  },
+  {
+   "reportDate": "2026-11-16",
+   "ticker": "ADMA",
+   "action": "watch",
+   "fromDate": "2026-11-16",
+   "fromPrice": 13.47,
+   "toDate": "2026-11-16",
+   "toPrice": 13.47,
+   "returnPct": 0,
+   "spyReturnPct": 0,
+   "vsSpyPct": 0,
+   "sessions": 0
+  },
+  {
+   "reportDate": "2026-11-16",
+   "ticker": "CORT",
+   "action": "watch",
+   "fromDate": "2026-11-16",
+   "fromPrice": 69.22,
+   "toDate": "2026-11-16",
+   "toPrice": 69.22,
+   "returnPct": 0,
+   "spyReturnPct": 0,
+   "vsSpyPct": 0,
+   "sessions": 0
+  },
+  {
+   "reportDate": "2026-11-16",
+   "ticker": "PEP",
+   "action": "watch",
+   "fromDate": "2026-11-16",
+   "fromPrice": 146.43,
+   "toDate": "2026-11-16",
+   "toPrice": 146.43,
+   "returnPct": 0,
+   "spyReturnPct": 0,
+   "vsSpyPct": 0,
+   "sessions": 0
+  },
+  {
+   "reportDate": "2026-11-16",
+   "ticker": "PG",
+   "action": "watch",
+   "fromDate": "2026-11-16",
+   "fromPrice": 173.02,
+   "toDate": "2026-11-16",
+   "toPrice": 173.02,
+   "returnPct": 0,
+   "spyReturnPct": 0,
+   "vsSpyPct": 0,
+   "sessions": 0
+  },
+  {
+   "reportDate": "2026-11-16",
+   "ticker": "SLB",
+   "action": "watch",
+   "fromDate": "2026-11-16",
+   "fromPrice": 50.08,
+   "toDate": "2026-11-16",
+   "toPrice": 50.08,
+   "returnPct": 0,
+   "spyReturnPct": 0,
+   "vsSpyPct": 0,
+   "sessions": 0
+  },
+  {
+   "reportDate": "2026-11-16",
+   "ticker": "NVO",
+   "action": "watch",
+   "fromDate": "2026-11-16",
+   "fromPrice": 41.6,
+   "toDate": "2026-11-16",
+   "toPrice": 41.6,
+   "returnPct": 0,
+   "spyReturnPct": 0,
+   "vsSpyPct": 0,
+   "sessions": 0
+  },
+  {
+   "reportDate": "2026-11-16",
+   "ticker": "DG",
+   "action": "watch",
+   "fromDate": "2026-11-16",
+   "fromPrice": 136.18,
+   "toDate": "2026-11-16",
+   "toPrice": 136.18,
+   "returnPct": 0,
+   "spyReturnPct": 0,
+   "vsSpyPct": 0,
+   "sessions": 0
+  },
+  {
+   "reportDate": "2026-11-16",
+   "ticker": "CNQ",
+   "action": "watch",
+   "fromDate": "2026-11-16",
+   "fromPrice": 48.17,
+   "toDate": "2026-11-16",
+   "toPrice": 48.17,
+   "returnPct": 0,
+   "spyReturnPct": 0,
+   "vsSpyPct": 0,
+   "sessions": 0
   }
  ]
 }
