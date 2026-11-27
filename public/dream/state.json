@@ -1,6 +1,6 @@
 {
- "updatedAt": "2026-11-26T03:42:55.767Z",
- "closedThrough": "2026-11-25",
+ "updatedAt": "2026-11-27T03:43:52.389Z",
+ "closedThrough": "2026-11-26",
  "valueUsd": 9386.43,
  "cashUsd": 3511.59,
  "returnPct": -6.136,
@@ -657,7 +657,7 @@
    }
   },
   {
-   "date": "2026-11-26",
+   "date": "2026-11-27",
    "valueUsd": 9386.43,
    "spyUsd": 9312.63,
    "themesUsd": 9563.05,
